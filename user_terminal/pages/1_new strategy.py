@@ -15,5 +15,5 @@ if "logic" not in st.session_state:
         logic(name)
 
 else:
-    f"{st.session_state.logic['name']} has now been added"
+    f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
 
