@@ -7,8 +7,9 @@ def vote(item):
     if st.button("Submit"):
         st.rerun()
 
-if "vote" not in st.session_state:
-    if st.button("A"):
-        vote("A")
-    if st.button("B"):
-        vote("B")
+
+
+
+vote("A")
+
+
