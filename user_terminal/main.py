@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import random
-
+from code_editor import code_editor
 
 tab1, tab2, tab3 = st.tabs(["view", "new", "modify"])
 
@@ -52,5 +52,5 @@ with tab2:
         f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
 
 with tab3:
-   st.header("An owl")
-   st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+
+    response_dict = code_editor("your_code_string")
