@@ -1,4 +1,4 @@
 streamlit
 pandas
 numpy
-code_editor
+streamlit_code_editor
