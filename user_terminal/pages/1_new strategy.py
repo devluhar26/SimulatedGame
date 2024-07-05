@@ -1,10 +1,38 @@
 import streamlit as st
-
+import pandas as pd
+import numpy as np
+import random
 
 
 tab1, tab2, tab3 = st.tabs(["view", "new", "modify"])
 
 with tab1:
+
+
+    st.title("simulated trading game")
+    st.write("need to import table [docs.streamlit.io](https://docs.streamlit.io/).")
+
+    import streamlit as st
+    import pandas as pd
+
+    data = {
+        'strategy name': ['Strategy 1', 'Strategy 2', 'Strategy 3', 'Strategy 4', 'Strategy 5'],
+        'performance': [[random.randint(0, 5000) for _ in range(30)] for _ in range(5)],
+    }
+    ##change the array in line 14 for the strategies true performance
+
+    df = pd.DataFrame(data)
+    event = st.dataframe(
+        df,
+        on_select='rerun',
+        selection_mode='multi-row',
+        column_config={"performance": st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
+    )
+
+    st.button("modify")
+    st.button("delete", type="primary")
+
+with tab2:
     @st.experimental_dialog("Cast your vote")
     def logic(name):
         st.write(f"set the trading logic for {name}")
@@ -22,10 +50,6 @@ with tab1:
 
     else:
         f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
-
-with tab2:
-   st.header("A dog")
-   st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 
 with tab3:
    st.header("An owl")
