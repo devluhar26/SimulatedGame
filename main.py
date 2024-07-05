@@ -1,13 +1,13 @@
 import streamlit as st
 
-st.title("simulated trading game")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
+st.set_page_config(
+    page_title="Hello",
+    page_icon="👋",
 )
-import pandas as pd
 
-st.write("Here's our first attempt at using data to create a table:")
-st.write(pd.DataFrame({
-    'first column': [1, 2, 3, 4],
-    'second column': [10, 20, 30, 40]
-}))
+st.write("# Welcome to Streamlit! 👋")
+
+st.sidebar.success("Select a demo above.")
+
+st.markdown(
+    "Streamlit is an open-source app framework built specifically for")
