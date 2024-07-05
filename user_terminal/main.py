@@ -21,6 +21,6 @@ event = st.dataframe(
     on_select="ignore",
     selection_mode='multi-row',
     column_config={"performance":st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
-    hide_index=True,
+
 )
 
