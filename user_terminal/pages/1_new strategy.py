@@ -1,15 +1,12 @@
 import streamlit as st
 
 @st.experimental_dialog("Cast your vote")
-def vote(item):
-    st.write(f"Why is {item} your favorite?")
-    reason = st.text_input("Because...")
+def vote():
+    st.write(f"Why is your favorite?")
     if st.button("Submit"):
         st.rerun()
 
 
 
-
-vote("A")
 
 
