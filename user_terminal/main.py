@@ -23,3 +23,5 @@ event = st.dataframe(
     column_config={"performance":st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
 )
 
+st.button("modify")
+st.button("delete")
