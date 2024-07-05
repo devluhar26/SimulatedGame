@@ -53,4 +53,14 @@ with tab2:
 
 with tab3:
 
-    response_dict = code_editor("enter code here")
+    response_dict = code_editor(""
+                                ""
+                                ""
+                                ""
+                                ""
+                                ""
+                                ""
+                                ""
+                                ""
+                                ""
+                                "")
