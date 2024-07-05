@@ -9,11 +9,11 @@ def vote(item):
         st.rerun()
 
 if "vote" not in st.session_state:
-    st.write("Vote for your favorite")
-    if st.button("A"):
-        vote("A")
-    if st.button("B"):
-        vote("B")
+    st.title("Create a new trading strategy here")
+    name = st.text_input("enter bot name here")
+    if st.button("impliment"):
+        vote(name)
+
 else:
     f"You voted for {st.session_state.vote['item']} because {st.session_state.vote['reason']}"
 
