@@ -10,10 +10,10 @@ import pandas as pd
 
 
 data = {
-    'strategy name': ['United States', 'Canada', 'Germany', 'France', 'Japan'],
+    'strategy name': ['Strategy 1', 'Strategy 2', 'Strategy 3', 'Strategy 4', 'Strategy 5'],
     'performance':  [[random.randint(0, 5000) for _ in range(30)] for _ in range(5)],
 }
-
+##change the array in line 14 for the strategies true performance
 
 df = pd.DataFrame(data)
 event = st.dataframe(
@@ -21,5 +21,6 @@ event = st.dataframe(
     on_select='rerun',
     selection_mode='single-row',
     column_config={"performance":st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
+    hide_index=True,
 )
 
