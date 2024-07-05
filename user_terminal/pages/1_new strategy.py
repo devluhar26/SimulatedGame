@@ -1,11 +1,11 @@
 import streamlit as st
 
 @st.experimental_dialog("Cast your vote")
-def logic(item):
-    st.write(f"Why is {item} your favorite?")
-    reason = st.text_input("Because...")
-    if st.button("Submit"):
-        st.session_state.logic = {"item": item,}
+def logic(name):
+    st.write(f"set the trading logic for {name}")
+    ##add bot logic widgets here
+    if st.button("add"):
+        st.session_state.logic = {"name": name,}
         st.rerun()
 
 if "logic" not in st.session_state:
@@ -15,5 +15,5 @@ if "logic" not in st.session_state:
         logic(name)
 
 else:
-    f"You voted for {st.session_state.logic['item']} because "
+    f"{st.session_state.logic['name']} has now been added"
 
