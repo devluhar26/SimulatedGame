@@ -5,6 +5,7 @@ def logic(name):
     st.write(f"select the frequency and logic for {name}")
     ## add widgets to set logic and frequency here
     if st.button("add"):
+        st.session_state.logic = {"name": name}
         st.rerun()
 if "logic" not in st.session_state:
 
