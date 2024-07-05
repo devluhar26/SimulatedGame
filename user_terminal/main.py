@@ -24,4 +24,4 @@ event = st.dataframe(
 )
 
 st.button("modify")
-st.button("delete")
+st.button("delete", type="primary")
