@@ -53,14 +53,4 @@ with tab2:
 
 with tab3:
 
-    response_dict = code_editor(""
-                                ""
-                                ""
-                                ""
-                                ""
-                                ""
-                                ""
-                                ""
-                                ""
-                                ""
-                                "")
+    response_dict = code_editor("\n\n\n\n\n\n")
