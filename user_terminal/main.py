@@ -18,9 +18,8 @@ data = {
 df = pd.DataFrame(data)
 event = st.dataframe(
     df,
-    on_select="ignore",
-    selection_mode='multi-row',
+    on_select='rerun',
+    selection_mode='single-row',
     column_config={"performance":st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
-
 )
 
