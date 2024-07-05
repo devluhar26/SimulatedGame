@@ -4,8 +4,9 @@ import streamlit as st
 def vote():
     st.write(f"Why is your favorite?")
     if st.button("Submit"):
-        st.rerun()
-vote
+        pass
+if __name__ == "__main__":
+    vote()
 
 
 
