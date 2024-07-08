@@ -28,10 +28,10 @@ with open('user_terminal/pages/example_info_bar.json') as json_info_file:
     info_bar = json.load(json_info_file)
 
 # Load Code Editor CSS from file
-with open('user_terminal/pages/example_python_code.py') as css_file:
+with open('user_terminal/pages/example_code_editor_css.scss') as css_file:
     css_text = css_file.read()
 
-with open('streamlit-code-editor/examples/resources/example_python_code.py') as python_file:
+with open('user_terminal/pages/example_python_code.py') as python_file:
     demo_sample_python_code = python_file.read()
 
 # construct component props dictionary (->Code Editor)
