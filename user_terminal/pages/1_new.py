@@ -54,18 +54,18 @@ section div.block-container {
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 
-with open('resources/example_custom_buttons_set.json') as json_button_file:
+with open('user_terminal/pages/resources/example_custom_buttons_set.json') as json_button_file:
     custom_buttons = json.load(json_button_file)
 
-with open('resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
     custom_buttons_alt = json.load(json_button_file_alt)
 
 # Load Info bar CSS from JSON file
-with open('resources/example_info_bar.json') as json_info_file:
+with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
     info_bar = json.load(json_info_file)
 
 # Load Code Editor CSS from file
-with open('resources/code_editor.scss') as css_file:
+with open('user_terminal/pages/resources/code_editor.scss') as css_file:
     css_text = css_file.read()
 
 
