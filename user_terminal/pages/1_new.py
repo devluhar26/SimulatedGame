@@ -64,7 +64,7 @@ response_dict = code_editor("", height=height, lang=language, theme=theme, short
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
-    repo.create_file("test.py", "it works", "response_dict['text']", branch="main")
+    repo.create_file("test.py", "it works", response_dict['text'], branch="main")
 
 #####
 if st.button("impliment"):
