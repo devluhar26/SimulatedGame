@@ -25,14 +25,6 @@ section div.block-container {
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 
-@st.experimental_dialog("Create a new trading strategy")
-def logic(name):
-    st.write(f"set the trading logic for {name}")
-    ##add bot logic widgets here
-    if st.button("add"):
-        repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", response_dict['text'], branch="main", )
-
-        st.rerun()
 
 
 st.title("Create a new trading strategy here")
@@ -53,6 +45,14 @@ btns = custom_buttons_alt
 ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, props=ace_props)
 
+@st.experimental_dialog("Create a new trading strategy")
+def logic(name):
+    st.write(f"set the trading logic for {name}")
+    ##add bot logic widgets here
+    if st.button("add"):
+        repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", response_dict['text'], branch="main", )
+
+        st.rerun()
 
 #####
 if st.button("impliment"):
