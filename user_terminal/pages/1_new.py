@@ -12,13 +12,13 @@ def logic(name):
         st.rerun()
 
 
-
+code=""
 st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
-response_dict = code_editor("",height=80)
+response_dict = code_editor(code,height=80)
 
 if st.button("impliment"):
-    print(response_dict)
+        st.write(code)
     #logic(name)
 
 # else:
