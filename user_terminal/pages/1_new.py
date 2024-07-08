@@ -18,7 +18,7 @@ name = st.text_input("enter bot name here")
 response_dict = code_editor(code,height=80)
 
 if st.button("impliment"):
-        st.write(code)
+        st.write(response_dict)
     #logic(name)
 
 # else:
