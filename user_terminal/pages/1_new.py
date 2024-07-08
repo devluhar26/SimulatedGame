@@ -4,6 +4,9 @@ import numpy as np
 import random
 from code_editor import code_editor
 import json
+from github import Github
+g=Github("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")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name):
@@ -61,6 +64,7 @@ response_dict = code_editor("", height=height, lang=language, theme=theme, short
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
+    repo.create_file("test.py", "it works", "response_dict['text']", branch="main")
 
 #####
 if st.button("impliment"):
