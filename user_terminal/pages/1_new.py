@@ -51,13 +51,9 @@ btns = custom_buttons_alt
 ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, props=ace_props)
 
-if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
-    st.code(response_dict['text'], language=response_dict['lang'])
-
-    repo.create_file(str(random.randint(0, 5000))+".py", "it works", response_dict['text'], branch="main",)
 
 #####
 if st.button("impliment"):
-
+    repo.create_file(str(random.randint(0, 5000))+".py", "it works", response_dict['text'], branch="main",)
     logic(name)
 
