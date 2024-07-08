@@ -24,5 +24,5 @@ if "logic" not in st.session_state:
 else:
     f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
     if st.button("ok"):
-        st.session_state=None
+        st.write(st.session_state)
         st.rerun()
