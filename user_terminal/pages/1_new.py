@@ -5,8 +5,6 @@ import random
 from code_editor import code_editor
 import json
 from github import Github
-g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 html_style_string = '''<style>
 @media (min-width: 576px)
@@ -23,33 +21,6 @@ section div.block-container {
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 
-custom_buttons_alt = '''[{
-    "name": "Copy",
-    "feather": "Copy",
-    "hasText": true,
-    "alwaysOn": true,
-    "commands": ["copyAll", 
-                 ["infoMessage", 
-                  {
-                   "text":"Copied to clipboard!",
-                   "timeout": 2500, 
-                   "classToggle": "show"
-                  }
-                 ]
-                ],
-    "style": {"top": "-0.25rem", "right": "0.4rem"}
-  },{
-    "name": "Run",
-    "feather": "Play",
-    "primary": true,
-    "hasText": true,
-    "showWithIcon": true,
-    "commands": ["submit"],
-    "style": {"bottom": "0.44rem", "right": "0.4rem"}
-  }]'''
-
-
-
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name):
     st.write(f"set the trading logic for {name}")
@@ -60,6 +31,20 @@ def logic(name):
 
 st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
+###
+
+
+
+
+with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+    custom_buttons_alt = json.load(json_button_file_alt)
+
+# Load Info bar CSS from JSON file
+with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
+    info_bar = json.load(json_info_file)
+
+
+
 
 height = [19, 22]
 language = "python"
@@ -68,14 +53,19 @@ shortcuts = "vscode"
 focus = False
 btns = custom_buttons_alt
 
+
+
 # construct props dictionary (->Ace Editor)
+ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
 response_dict = code_editor("", height=height, lang=language, theme=theme, shortcuts=shortcuts,
-                            focus=focus, buttons=btns )
+                            focus=focus, buttons=btns, info=info_bar, props=ace_props)
+g=Github("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")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
 
-    repo.update_file("test.py", "it works", response_dict['text'], branch="main")
+    repo.create_file("test.py", "it works", response_dict['text'], branch="main")
 
 #####
 if st.button("impliment"):
