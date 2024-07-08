@@ -23,12 +23,31 @@ section div.block-container {
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 
-with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
-    custom_buttons_alt = json.load(json_button_file_alt)
+custom_buttons_alt = '''[{
+    "name": "Copy",
+    "feather": "Copy",
+    "hasText": true,
+    "alwaysOn": true,
+    "commands": ["copyAll", 
+                 ["infoMessage", 
+                  {
+                   "text":"Copied to clipboard!",
+                   "timeout": 2500, 
+                   "classToggle": "show"
+                  }
+                 ]
+                ],
+    "style": {"top": "-0.25rem", "right": "0.4rem"}
+  },{
+    "name": "Run",
+    "feather": "Play",
+    "primary": true,
+    "hasText": true,
+    "showWithIcon": true,
+    "commands": ["submit"],
+    "style": {"bottom": "0.44rem", "right": "0.4rem"}
+  }]'''
 
-# Load Info bar CSS from JSON file
-with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
-    info_bar = json.load(json_info_file)
 
 
 @st.experimental_dialog("Create a new trading strategy")
@@ -51,7 +70,7 @@ btns = custom_buttons_alt
 
 # construct props dictionary (->Ace Editor)
 response_dict = code_editor("", height=height, lang=language, theme=theme, shortcuts=shortcuts,
-                            focus=focus, buttons=btns, info=info_bar, )
+                            focus=focus, buttons=btns )
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
