@@ -15,15 +15,27 @@ def logic(name):
 code=""
 st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
+###
 import json
 import streamlit as st
 from code_editor import code_editor
 
+with open('streamlit-code-editor/examples/resources/example_custom_buttons_bar_alt.json') as json_button_file_alt:
+    custom_buttons_alt = json.load(json_button_file_alt)
 
+# Load Info bar CSS from JSON file
+with open('streamlit-code-editor/examples/resources/example_info_bar.json') as json_info_file:
+    info_bar = json.load(json_info_file)
 
-demo_sample_python_code = ""
+# Load Code Editor CSS from file
+with open('streamlit-code-editor/examples/resources/example_code_editor_css.scss') as css_file:
+    css_text = css_file.read()
+
+with open('streamlit-code-editor/examples/resources/example_python_code.py') as python_file:
+    demo_sample_python_code = python_file.read()
 
 # construct component props dictionary (->Code Editor)
+comp_props = {"css": css_text, "globalCSS": ":root {\n  --streamlit-dark-font-family: monospace;\n}"}
 
 mode_list = ["abap", "abc", "actionscript", "ada", "alda", "apache_conf", "apex", "applescript", "aql", "asciidoc",
              "asl", "assembly_x86", "autohotkey", "batchfile", "bibtex", "c9search", "c_cpp", "cirru", "clojure",
@@ -67,6 +79,7 @@ theme = "default"
 shortcuts = "vscode"
 focus = False
 wrap = True
+btns = custom_buttons_alt
 
 st.markdown(
     '<h1><a href="https://github.com/bouzidanas/streamlit.io/tree/master/streamlit-code-editor">Streamlit Code Editor</a> Demo</h1>',
@@ -95,7 +108,7 @@ with st.expander("Settings", expanded=True):
 with st.expander("Components"):
     c_buttons = st.checkbox("custom buttons (JSON)", False)
     if c_buttons:
-        response_dict_btns = code_editor("", lang="json", height=8,
+        response_dict_btns = code_editor(json.dumps(custom_buttons_alt, indent=2), lang="json", height=8,
                                          buttons=btn_settings_editor_btns)
 
         if response_dict_btns['type'] == "submit" and len(response_dict_btns['text']) != 0:
@@ -105,7 +118,7 @@ with st.expander("Components"):
 
     i_bar = st.checkbox("info bar (JSON)", False)
     if i_bar:
-        response_dict_info = code_editor("", lang="json", height=8,
+        response_dict_info = code_editor(json.dumps(info_bar, indent=2), lang="json", height=8,
                                          buttons=btn_settings_editor_btns)
 
         if response_dict_info['type'] == "submit" and len(response_dict_info['text']) != 0:
@@ -122,8 +135,8 @@ response_dict = code_editor(demo_sample_python_code, height=height, lang=languag
 
 if response_dict['type'] != "" and len(response_dict['id']) != 0:
     st.write(response_dict)
-
-
+######
+# st.write("You can find more examples in the [docs]()")
 if st.button("impliment"):
         st.write(response_dict)
     #logic(name)
