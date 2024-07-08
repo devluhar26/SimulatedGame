@@ -55,5 +55,5 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, pr
 #####
 if st.button("impliment"):
     repo.create_file(str(random.randint(0, 5000))+".py", "it works", response_dict['text'], branch="main")
-    logic(name,response_dict['text'])
+    logic(name)
 
