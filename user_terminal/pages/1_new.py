@@ -16,9 +16,10 @@ def logic(name):
 if "logic" not in st.session_state:
     st.title("Create a new trading strategy here")
     name = st.text_input("enter bot name here")
+    response_dict = code_editor("\n\n\n\n\n\n\n\n\n\n")
+
     if st.button("impliment"):
         logic(name)
-    response_dict = code_editor("\n\n\n\n\n\n\n\n\n\n")
 
 else:
     f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
