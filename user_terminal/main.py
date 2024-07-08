@@ -7,8 +7,17 @@ from code_editor import code_editor
 tab1, tab2, tab3 = st.tabs(["view", "something", "something 2"])
 
 with tab1:
+    import streamlit as st
+    import pandas as pd
+    import numpy as np
+
+    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+
+    st.line_chart(chart_data)
 
 
+
+with tab2:
     st.title("simulated trading game")
     st.write("need to import table [docs.streamlit.io](https://docs.streamlit.io/).")
 
@@ -31,9 +40,6 @@ with tab1:
 
     st.button("modify")
     st.button("delete", type="primary")
-
-with tab2:
-    pass
 with tab3:
     pass
 
