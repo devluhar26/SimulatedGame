@@ -92,12 +92,32 @@ with st.expander("Settings", expanded=True):
     focus = col_c.checkbox("focus", False)
     wrap = col_cb.checkbox("wrap", True)
 
+with st.expander("Components"):
+    c_buttons = st.checkbox("custom buttons (JSON)", False)
+    if c_buttons:
+        response_dict_btns = code_editor("", lang="json", height=8,
+                                         buttons=btn_settings_editor_btns)
+
+        if response_dict_btns['type'] == "submit" and len(response_dict_btns['text']) != 0:
+            btns = json.loads(response_dict_btns['text'])
+    else:
+        btns = []
+
+    i_bar = st.checkbox("info bar (JSON)", False)
+    if i_bar:
+        response_dict_info = code_editor("", lang="json", height=8,
+                                         buttons=btn_settings_editor_btns)
+
+        if response_dict_info['type'] == "submit" and len(response_dict_info['text']) != 0:
+            info_bar = json.loads(response_dict_info['text'])
+    else:
+        info_bar = {}
 
 st.write("### Output:")
 # construct props dictionary (->Ace Editor)
 ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
 response_dict = code_editor(demo_sample_python_code, height=height, lang=language, theme=theme, shortcuts=shortcuts,
-                            focus=focus , props=ace_props, response_mode="debounce",
+                            focus=focus, buttons=btns, info=info_bar, props=ace_props, response_mode="debounce",
                             options={"wrap": wrap})
 
 if response_dict['type'] != "" and len(response_dict['id']) != 0:
