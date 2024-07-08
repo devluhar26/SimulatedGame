@@ -19,7 +19,7 @@ response_dict = code_editor("\n\n\n\n\n\n\n\n\n\n")
 
 if st.button("impliment"):
     st.write(response_dict)
-    logic(name)
+    #logic(name)
 
 # else:
 #     f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
