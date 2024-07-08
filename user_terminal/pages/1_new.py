@@ -26,10 +26,11 @@ section div.block-container {
 st.markdown(html_style_string, unsafe_allow_html=True)
 
 @st.experimental_dialog("Create a new trading strategy")
-def logic(name):
+def logic(name,code):
     st.write(f"set the trading logic for {name}")
     ##add bot logic widgets here
     if st.button("add"):
+        repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", code, branch="main", )
         st.rerun()
 
 
@@ -53,11 +54,11 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, pr
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
-
+code=response_dict['text']
 
 #####
 if st.button("impliment"):
-    repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", response_dict['text'], branch="main", )
 
-    logic(name)
+
+    logic(name,code)
 
