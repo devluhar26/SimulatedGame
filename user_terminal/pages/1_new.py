@@ -54,11 +54,9 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, pr
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
-code=response_dict['text']
+    if st.button("impliment"):
 
+        logic(name,code)
 #####
-if st.button("impliment"):
-    response_dict['type'] = "submit"
 
-    logic(name,code)
 
