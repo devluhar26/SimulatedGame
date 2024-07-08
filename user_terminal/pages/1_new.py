@@ -15,9 +15,14 @@ def logic(name):
 code=""
 st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
-response_dict= code_editor("")
+response_dict = code_editor("demo_sample_python_code", height=[19, 22])
+
+if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
+    st.write("Response type: ", response_dict['type'])
+    st.code(response_dict['text'], language=response_dict['lang'])
+
 if st.button("impliment"):
-        st.write(response_dict)
+    pass
     #logic(name)
 
 # else:
