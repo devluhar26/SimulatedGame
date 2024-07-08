@@ -9,7 +9,12 @@ def logic(name):
     st.write(f"set the trading logic for {name}")
     ##add bot logic widgets here
     if st.button("add"):
-        st.experimental_dialog(f'{name} has now been added (this is when the strat are added to sql)')
+        st.rerun()
+        st.session_state.name = name
+        ok(name)
+@st.experimental_dialog(f'{st.session_state.name} has now been added (this is when the strat are added to sql)')
+def ok(name):
+    pass
 
 
 st.title("Create a new trading strategy here")
