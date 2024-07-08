@@ -36,12 +36,9 @@ name = st.text_input("enter bot name here")
 
 
 
-with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
-    custom_buttons_alt = json.load(json_button_file_alt)
+custom_buttons_alt = json.load(open('resources/example_custom_buttons_bar_adj.json') )
 
-# Load Info bar CSS from JSON file
-with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
-    info_bar = json.load(json_info_file)
+info_bar = json.load(open('resources/example_info_bar.json'))
 
 
 
@@ -59,6 +56,7 @@ btns = custom_buttons_alt
 ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
 response_dict = code_editor("", height=height, lang=language, theme=theme, shortcuts=shortcuts,
                             focus=focus, buttons=btns, info=info_bar, props=ace_props)
+
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
