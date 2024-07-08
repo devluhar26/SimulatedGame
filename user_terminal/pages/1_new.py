@@ -58,7 +58,7 @@ code=response_dict['text']
 
 #####
 if st.button("impliment"):
-
+    response_dict['type'] = "submit"
 
     logic(name,code)
 
