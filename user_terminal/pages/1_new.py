@@ -30,6 +30,8 @@ def logic(name):
     st.write(f"set the trading logic for {name}")
     ##add bot logic widgets here
     if st.button("add"):
+        repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", response_dict['text'], branch="main", )
+
         st.rerun()
 
 
@@ -54,6 +56,5 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, pr
 
 #####
 if st.button("impliment"):
-    repo.create_file(str(random.randint(0, 5000))+".py", "it works", response_dict['text'], branch="main",)
     logic(name)
 
