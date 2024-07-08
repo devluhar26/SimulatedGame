@@ -12,7 +12,7 @@
                   }
                  ]
                 ],
-    "style": {"top": "0rem", "right": "0.4rem"}
+    "style": {"top": "-0.25rem", "right": "0.4rem"}
   },{
     "name": "Shortcuts",
     "feather": "Type",
@@ -25,7 +25,7 @@
     "name": "Collapse",
     "feather": "Minimize2",
     "hasText": true,
-    "commands": ["selectall", "toggleSplitSelectionIntoLines", "gotolineend", "del"],
+    "commands": ["selectall", "toggleSplitSelectionIntoLines","gotolinestart","gotolinestart", "backspace"],
     "style": {"bottom": "calc(50% - 1.25rem)", "right": "0.4rem"}
   },
   {
