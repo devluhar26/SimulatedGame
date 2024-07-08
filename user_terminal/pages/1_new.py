@@ -16,9 +16,9 @@ def logic(name):
 st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
 response_dict = code_editor("\n\n\n\n\n\n\n\n\n\n")
-print(response_dict)
 
 if st.button("impliment"):
+    st.write(response_dict)
     logic(name)
 
 # else:
