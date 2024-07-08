@@ -4,7 +4,7 @@ import numpy as np
 import random
 from code_editor import code_editor
 
-tab1, tab2, tab3 = st.tabs(["view", "new", "modify"])
+tab1, tab2, tab3 = st.tabs(["view", "something", "something 2"])
 
 with tab1:
 
@@ -33,24 +33,9 @@ with tab1:
     st.button("delete", type="primary")
 
 with tab2:
-    @st.experimental_dialog("Cast your vote")
-    def logic(name):
-        st.write(f"set the trading logic for {name}")
-        ##add bot logic widgets here
-        if st.button("add"):
-            st.session_state.logic = {"name": name, }
-            st.rerun()
-
-
-    if "logic" not in st.session_state:
-        st.title("Create a new trading strategy here")
-        name = st.text_input("enter bot name here")
-        if st.button("impliment"):
-            logic(name)
-
-    else:
-        f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
-
+    pass
 with tab3:
+    pass
 
-    response_dict = code_editor("\n\n\n\n\n\n\n\n\n\n")
+#https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
+#
