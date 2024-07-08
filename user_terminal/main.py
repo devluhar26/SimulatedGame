@@ -4,7 +4,7 @@ import numpy as np
 import random
 from code_editor import code_editor
 
-tab1, tab2, tab3 = st.tabs(["view", "something", "something 2"])
+tab1, tab2, tab3 = st.tabs(["overview", "stratgies", "something 2"])
 
 with tab1:
     import streamlit as st
