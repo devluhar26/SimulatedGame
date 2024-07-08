@@ -37,9 +37,6 @@ st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
 ###
 
-
-
-
 with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
     custom_buttons_alt = json.load(json_button_file_alt)
 
@@ -47,22 +44,12 @@ with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') a
 with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
     info_bar = json.load(json_info_file)
 
-
-
-
 height = [19, 22]
-language = "python"
-theme = "default"
-shortcuts = "vscode"
-focus = False
 btns = custom_buttons_alt
-
-
 
 # construct props dictionary (->Ace Editor)
 ace_props = {"style": {"borderRadius": "0px 0px 8px 8px"}}
-response_dict = code_editor("", height=height, lang=language, theme=theme, shortcuts=shortcuts,
-                            focus=focus, buttons=btns, info=info_bar, props=ace_props)
+response_dict = code_editor("", height=height,   buttons=btns, info=info_bar, props=ace_props)
 
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
@@ -74,8 +61,3 @@ if st.button("impliment"):
     pass
     #logic(name)
 
-# else:
-#     f"{st.session_state.logic['name']} has now been added (this is when the strat are added to sql)"
-#     if st.button("ok"):
-#         st.write(st.session_state)
-#         st.rerun()
