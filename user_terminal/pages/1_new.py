@@ -58,6 +58,6 @@ if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
 
 #####
 if st.button("impliment"):
-    pass
-    #logic(name)
+
+    logic(name)
 
