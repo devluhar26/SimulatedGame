@@ -2,8 +2,8 @@ import sqlite3
 
 import streamlit as st
 
-if "role" not in st.session_state:
-    st.session_state.role = None
+if "user" not in st.session_state:
+    st.session_state.user = None
 
 connect_credentials = sqlite3.connect( "credentials.db" )
 
@@ -35,9 +35,6 @@ def login():
     if st.button("Log in"):
         checker(username,password)
         ##add a login checking system here
-
-
-
 
 def logout():
     st.session_state.user = None
