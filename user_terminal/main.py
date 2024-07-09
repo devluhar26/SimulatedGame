@@ -26,11 +26,11 @@ def retrieve_credentials():             #STATIC METHOD
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
-    st.write(credentials)
     if temp in credentials:
         st.session_state.user = username
         st.rerun()
-
+    else:
+        st.warning("Invalid Credentials")
 def login():
 
     st.header("Log in")
