@@ -4,8 +4,11 @@ import streamlit as st
 
 if "user" not in st.session_state:
     st.session_state.user = None
+import os.path
 
-connect_credentials = sqlite3.connect( "credentials.db" )
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "credentials.db")
+connect_credentials= sqlite3.connect(db_path)
 
 curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
