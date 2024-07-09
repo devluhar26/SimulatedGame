@@ -18,10 +18,10 @@ def retrieve_credentials():             #STATIC METHOD
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
-print(credentials)
 def checker(username,password):
     retrieve_credentials()
     temp=[username,password]
+    st.write(credentials)
     if temp in credentials:
         st.session_state.user = username
         st.rerun()
