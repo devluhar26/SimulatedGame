@@ -63,11 +63,11 @@ with tab3:
     with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
         info_bar = json.load(json_info_file)
 
-    height = [19, 10]
+    height = [20, 10]
     btns = custom_buttons_alt
     st.write("Program your strategy below then Hit Save")
 
-    response_dict = code_editor("", height=height, buttons=btns, info=info_bar)
+    response_dict = code_editor("strategy file path", height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
 

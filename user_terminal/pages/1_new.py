@@ -44,7 +44,7 @@ with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') a
 with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
     info_bar = json.load(json_info_file)
 
-height = [19, 22]
+height = [20, 22]
 btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
 
