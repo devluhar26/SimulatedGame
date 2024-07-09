@@ -56,7 +56,7 @@ if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     if st.button("impliment"):
         logic(name,code)
 else:
-    st.warning('This is a warning', icon="⚠️")
+    st.warning('Add your strategy and Hit run before saving', icon="⚠️")
 
 #####
 
