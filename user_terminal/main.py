@@ -33,6 +33,7 @@ def login():
     password = st.text_input("enter password")
 
     if st.button("Log in"):
+        checker(username,password)
         ##add a login checking system here
 
 
