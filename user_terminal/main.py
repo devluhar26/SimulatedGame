@@ -32,7 +32,7 @@ request_1 = st.Page(
 
 )
 request_2 = st.Page(
-    "page/2_new.py", title="title"
+    "page/2_new.py", title="New"
 )
 
 
