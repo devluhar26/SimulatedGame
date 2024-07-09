@@ -39,7 +39,7 @@ request_2 = st.Page(
 account_pages = [logout_page]
 request_pages = [request_1, request_2]
 
-st.title("Trading bot "+st.session_state.role)
+st.title("Welcome "+st.session_state.role)
 
 if st.session_state.role != None:
     pg = st.navigation({"Account": account_pages} | {"Tools": [request_1, request_2]})
