@@ -26,12 +26,12 @@ role = st.session_state.role
 logout_page = st.Page(logout, title="Log out")
 
 request_1 = st.Page(
-    "pages/1_overview.py",
+    "page/1_overview.py",
     title="overview",
 
 )
 request_2 = st.Page(
-    "pages/2_new.py", title="title"
+    "page/2_new.py", title="title"
 )
 
 

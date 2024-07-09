@@ -38,10 +38,10 @@ st.title("Create a new trading strategy here")
 name = st.text_input("enter bot name here")
 ###
 
-with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+with open('user_terminal/page/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
     custom_buttons_alt = json.load(json_button_file_alt)
 
-with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
+with open('user_terminal/page/resources/example_info_bar.json') as json_info_file:
     info_bar = json.load(json_info_file)
 
 height = [20, 22]
