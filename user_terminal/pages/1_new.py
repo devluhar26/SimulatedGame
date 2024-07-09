@@ -51,7 +51,6 @@ st.write("Program your strategy below then Hit Save")
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
-    st.code(response_dict['text'], language=response_dict['lang'])
     code=response_dict['text']
     logic(name,code)
 elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
