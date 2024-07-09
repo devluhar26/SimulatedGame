@@ -28,6 +28,7 @@ logout_page = st.Page(logout, title="Log out")
 request_1 = st.Page(
     "page/1_overview.py",
     title="overview",
+    default=(role == "Requester"),
 
 )
 request_2 = st.Page(
