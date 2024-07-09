@@ -5,7 +5,7 @@ import streamlit as st
 if "user" not in st.session_state:
     st.session_state.user = None
 
-conn = st.connection("credentials")
+conn = st.connection("credentials.db")
 df = conn.query("SELECT username,password FROM Credentials")
 print(df)
 # used to store all the usernames and passwords as a 2d array
