@@ -46,10 +46,10 @@ with open('user_terminal/pages/resources/example_info_bar.json') as json_info_fi
 
 height = [19, 22]
 btns = custom_buttons_alt
+st.write("Program your strategy below then Hit Save")
 
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
-st.write("Program your strategy below then Hit Save")
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
     st.code(response_dict['text'], language=response_dict['lang'])
     code=response_dict['text']
