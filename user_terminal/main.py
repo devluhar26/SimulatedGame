@@ -10,6 +10,7 @@ df = conn.query("SELECT username,password FROM Credentials")
 print(df)
 # used to store all the usernames and passwords as a 2d array
 credentials = []
+
 def retrieve_credentials():             #STATIC METHOD
     df = conn.query("SELECT username,password FROM Credentials")
     for data in df:
