@@ -58,5 +58,5 @@ elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
     st.warning('Add your strategy before Hitting Save', icon="⚠️")
 
 #####
-st.write(st.session_state.login)
+st.write(st.session_state)
 
