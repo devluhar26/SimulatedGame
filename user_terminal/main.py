@@ -24,7 +24,7 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 if "login" not in st.session_state:
     st.session_state.login=False
 
-@st.experimental_dialog("login")
+@st.experimental_dialog("login",width="large")
 def login():
     if st.button("login"):
         st.session_state.login=True
