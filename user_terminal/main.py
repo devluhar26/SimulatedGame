@@ -9,10 +9,10 @@ ROLES = [None, "Requester"]
 def login():
 
     st.header("Log in")
-    role = st.selectbox("Choose your role", ROLES)
+    roley = st.selectbox("Choose your role", ROLES)
 
     if st.button("Log in"):
-        st.session_state.role = role
+        st.session_state.role = roley
         st.rerun()
 
 
@@ -39,16 +39,13 @@ request_2 = st.Page(
 account_pages = [logout_page]
 request_pages = [request_1, request_2]
 
-st.title("Request manager")
+st.title("Trading bot")
 
-page_dict = {}
-st.write(st.session_state)
+
+
+
 if st.session_state.role != None:
-    page_dict["Request"] = [request_1, request_2]
-
-
-if len(page_dict) > 0:
-    pg = st.navigation({"Account": account_pages} | page_dict)
+    pg = st.navigation({"Account": account_pages} | [request_1, request_2])
 else:
     pg = st.navigation([st.Page(login)])
 
