@@ -5,16 +5,14 @@ import streamlit as st
 if "user" not in st.session_state:
     st.session_state.user = None
 
-connect_credentials = sqlite3.connect( "credentials.db" )
-
-curs_credentials = connect_credentials.cursor()
+conn = st.connection("credentials")
+df = conn.query("SELECT username,password FROM Credentials")
+print(df)
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    curs_credentials.execute("SELECT name FROM sqlite_master WHERE type='table'")
-    st.write( curs_credentials.fetchall())
-    curs_credentials.execute( "SELECT username,password FROM Credentials" )
-    for data in curs_credentials.fetchall():
+    df = conn.query("SELECT username,password FROM Credentials")
+    for data in df:
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
