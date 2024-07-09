@@ -22,7 +22,6 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 
 
-
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
