@@ -24,7 +24,7 @@ def logout():
 role = st.session_state.role
 
 logout_page = st.Page(logout, title="Log out")
-settings = st.Page("settings.py", title="Settings")
+
 request_1 = st.Page(
     "pages/1_overview.py",
     title="overview",
