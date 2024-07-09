@@ -41,7 +41,7 @@ admin_1 = st.Page(
     default=(role == "Admin"),
 )
 
-account_pages = [logout_page, settings]
+account_pages = [logout_page]
 request_pages = [request_1, request_2]
 admin_pages = [admin_1]
 
