@@ -67,9 +67,11 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Program your strategy below then Hit Save")
 
-    response_dict = code_editor("strategy file path", height=height, buttons=btns, info=info_bar)
+    response_dict = code_editor("####strategy file path#####", height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
 
+
+    st.write("#### add the trading logic widgets below####")
 #https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
 #
