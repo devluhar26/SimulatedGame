@@ -45,7 +45,7 @@ st.title("Trading bot")
 
 
 if st.session_state.role != None:
-    pg = st.navigation({"Account": account_pages} | [request_1, request_2])
+    pg = st.navigation({"Account": account_pages} | {"Tools": [request_1, request_2]})
 else:
     pg = st.navigation([st.Page(login)])
 
