@@ -12,6 +12,7 @@ def login():
     role = st.selectbox("Choose your role", ROLES)
 
     if st.button("Log in"):
+        mode=role
         st.session_state.role = role
         st.rerun()
 
@@ -43,8 +44,8 @@ st.title("Request manager")
 
 page_dict = {}
 st.write(st.session_state)
-if st.session_state.role in ["Requester"]:
-    page_dict["Request"] = request_pages
+if st.session_state.role in [mode]:
+    page_dict[mode] = request_pages
 
 
 if len(page_dict) > 0:
