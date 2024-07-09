@@ -61,7 +61,7 @@ request_pages = [request_1, request_2]
 
 st.title("Welcome "+str(st.session_state.user))
 
-if st.session_state.role != None:
+if st.session_state.user != None:
     pg = st.navigation({"Account": account_pages} | {"Tools": [request_1, request_2]})
 else:
     pg = st.navigation([st.Page(login)])
