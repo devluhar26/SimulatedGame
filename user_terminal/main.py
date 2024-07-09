@@ -1,93 +1,62 @@
-import sqlite3
 import streamlit as st
-import pandas as pd
-import numpy as np
-import random
-from code_editor import code_editor
-import json
 
-connect_credentials = sqlite3.connect( "credentials.db" )
+if "role" not in st.session_state:
+    st.session_state.role = None
 
-html_style_string = '''<style>
-@media (min-width: 576px)
-section div.block-container {
-  padding-left: 20rem;
-}
-section div.block-container {
-  padding-left: 4rem;
-  padding-right: 4rem;
-  max-width: 80rem;
-}  
+ROLES = [None, "Requester", "Admin"]
 
-</style>'''
-st.markdown(html_style_string, unsafe_allow_html=True)
-if "login" not in st.session_state:
-    st.session_state.login=False
 
-@st.experimental_dialog("login",width="large")
 def login():
-    if st.button("login"):
-        st.session_state.login=True
+
+    st.header("Log in")
+    role = st.selectbox("Choose your role", ROLES)
+
+    if st.button("Log in"):
+        st.session_state.role = role
         st.rerun()
-if st.session_state.login==False:
-    login()
+
+
+def logout():
+    st.session_state.role = None
+    st.rerun()
+
+
+role = st.session_state.role
+
+logout_page = st.Page(logout, title="Log out")
+settings = st.Page("settings.py", title="Settings")
+request_1 = st.Page(
+    "pages/1_overview.py",
+    title="overview",
+    default=(role == "Requester"),
+)
+request_2 = st.Page(
+    "pages/2_new.py", title="title"
+)
+
+admin_1 = st.Page(
+    "admin_terminal/main.py",
+    title="Admin 1",
+
+    default=(role == "Admin"),
+)
+
+account_pages = [logout_page, settings]
+request_pages = [request_1, request_2]
+admin_pages = [admin_1]
+
+st.title("Request manager")
+
+page_dict = {}
+if st.session_state.role in ["Requester", "Admin"]:
+    page_dict["Request"] = request_pages
+
+if st.session_state.role == "Admin":
+    page_dict["Admin"] = admin_pages
+
+if len(page_dict) > 0:
+    pg = st.navigation({"Account": account_pages} | page_dict)
 else:
-#
-    tab1, tab2, tab3 = st.tabs(["overview", "strategies", "modify strategy"])
+    pg = st.navigation([st.Page(login)])
 
-    with tab1:
-        import streamlit as st
-        import pandas as pd
-        import numpy as np
-
-        chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-
-        st.line_chart(chart_data)
-        st.write("add portfolio value here")
-
-
-    with tab2:
-        st.title("simulated trading game")
-        st.write("need to import table [docs.streamlit.io](https://docs.streamlit.io/).")
-
-        import streamlit as st
-        import pandas as pd
-
-        data = {
-            'strategy name': ['Strategy 1', 'Strategy 2', 'Strategy 3', 'Strategy 4', 'Strategy 5'],
-            'performance': [[random.randint(0, 5000) for _ in range(30)] for _ in range(5)],
-        }
-        ##change the array in line 14 for the strategies true performance
-
-        df = pd.DataFrame(data)
-        event = st.dataframe(
-            df,
-            on_select='rerun',
-            selection_mode='multi-row',
-            column_config={"performance": st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
-        )
-
-        st.button("modify")
-        st.button("delete", type="primary")
-    with tab3:
-        option = st.selectbox(
-            "Select the strategy you wish to modify",
-            data["strategy name"])
-        with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
-            custom_buttons_alt = json.load(json_button_file_alt)
-
-        with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
-            info_bar = json.load(json_info_file)
-
-        height = [20, 10]
-        btns = custom_buttons_alt
-        st.write("Adjust the strategy below then Hit Save")
-
-        response_dict = code_editor("####strategy file path#####", height=height, buttons=btns, info=info_bar)
-        if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
-            code = response_dict['text']
-
-
-        st.write(" #### add the trading logic widgets below####")
-    #https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
-    #
+pg.run()

@@ -25,18 +25,7 @@ section div.block-container {
 </style>'''
 
 st.markdown(html_style_string, unsafe_allow_html=True)
-if "login" not in st.session_state:
-    st.session_state.login=False
-
-@st.experimental_dialog("login",width="large")
-def login():
-    if st.button("login"):
-        st.session_state.login=True
-        st.rerun()
-if st.session_state.login==False:
-    login()
-else:
-    @st.experimental_dialog("Create a new trading strategy")
+@st.experimental_dialog("Create a new trading strategy")
     def logic(name,code):
         st.write(f"set the trading logic for {name}")
         ##add bot logic widgets here
@@ -68,4 +57,3 @@ else:
         st.warning('Add your strategy before Hitting Save', icon="⚠️")
 
     #####
-
