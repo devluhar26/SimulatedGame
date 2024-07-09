@@ -57,6 +57,9 @@ with tab2:
     st.button("modify")
     st.button("delete", type="primary")
 with tab3:
+    option = st.selectbox(
+        "Select the strategy you wish to modify",
+        data["strategy name"])
     with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
         custom_buttons_alt = json.load(json_button_file_alt)
 
