@@ -4,4 +4,4 @@ numpy
 streamlit_code_editor
 PyGithub
 streamlit-authenticator
-sqlite3
+sqlite
