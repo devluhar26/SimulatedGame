@@ -18,6 +18,7 @@
     "feather": "Save",
     "primary": true,
     "hasText": true,
+    "alwaysOn": true,
     "showWithIcon": true,
     "commands": ["submit"],
     "style": {"bottom": "0.44rem", "right": "0.4rem"}
