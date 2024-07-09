@@ -4,5 +4,3 @@ numpy
 streamlit_code_editor
 PyGithub
 streamlit-authenticator
---upgrade pip
-sqlite
