@@ -20,7 +20,7 @@ section div.block-container {
 st.markdown(html_style_string, unsafe_allow_html=True)
 
 #
-tab1, tab2, tab3 = st.tabs(["overview", "stratgies", "something 2"])
+tab1, tab2, tab3 = st.tabs(["overview", "strategies", "modify strategy"])
 
 with tab1:
     import streamlit as st
@@ -72,6 +72,6 @@ with tab3:
         code = response_dict['text']
 
 
-    st.write("#### add the trading logic widgets below####")
+    st.write(" #### add the trading logic widgets below####")
 #https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
 #
