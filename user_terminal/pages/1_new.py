@@ -25,6 +25,9 @@ section div.block-container {
 </style>'''
 
 st.markdown(html_style_string, unsafe_allow_html=True)
+if "login" not in st.session_state:
+    st.session_state.login=False
+
 if st.session_state.login==False:
     login()
 else:
