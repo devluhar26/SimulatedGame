@@ -3,7 +3,7 @@ import streamlit as st
 if "role" not in st.session_state:
     st.session_state.role = None
 
-ROLES = [None, "Requester", "Admin"]
+ROLES = [None, "Requester"]
 
 
 def login():
@@ -28,31 +28,23 @@ logout_page = st.Page(logout, title="Log out")
 request_1 = st.Page(
     "pages/1_overview.py",
     title="overview",
-    default=(role == "Requester"),
+
 )
 request_2 = st.Page(
     "pages/2_new.py", title="title"
 )
 
-admin_1 = st.Page(
-    "admin_terminal/main.py",
-    title="Admin 1",
-
-    default=(role == "Admin"),
-)
 
 account_pages = [logout_page]
 request_pages = [request_1, request_2]
-admin_pages = [admin_1]
 
 st.title("Request manager")
 
 page_dict = {}
-if st.session_state.role in ["Requester", "Admin"]:
+if st.session_state.role in ["Requester"]:
     page_dict["Request"] = request_pages
 
-if st.session_state.role == "Admin":
-    page_dict["Admin"] = admin_pages
+
 
 if len(page_dict) > 0:
     pg = st.navigation({"Account": account_pages} | page_dict)
