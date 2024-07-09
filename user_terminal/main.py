@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import random
 from code_editor import code_editor
+import json
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -56,7 +57,19 @@ with tab2:
     st.button("modify")
     st.button("delete", type="primary")
 with tab3:
-    pass
+    with open('user_terminal/pages/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+        custom_buttons_alt = json.load(json_button_file_alt)
+
+    with open('user_terminal/pages/resources/example_info_bar.json') as json_info_file:
+        info_bar = json.load(json_info_file)
+
+    height = [19, 10]
+    btns = custom_buttons_alt
+    st.write("Program your strategy below then Hit Save")
+
+    response_dict = code_editor("", height=height, buttons=btns, info=info_bar)
+    if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
+        code = response_dict['text']
 
 #https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
 #
