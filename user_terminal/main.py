@@ -43,8 +43,8 @@ st.title("Request manager")
 
 page_dict = {}
 st.write(st.session_state)
-
-page_dict["Request"] = [request_1, request_2]
+if st.session_state.role not in ["None"]:
+    page_dict["Request"] = [request_1, request_2]
 
 
 if len(page_dict) > 0:
