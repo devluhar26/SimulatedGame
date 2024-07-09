@@ -3,13 +3,13 @@ import streamlit as st
 if "role" not in st.session_state:
     st.session_state.role = None
 
-ROLES = [None, "Requester"]
+
 
 
 def login():
 
     st.header("Log in")
-    roley = st.selectbox("Choose your role", ROLES)
+    roley = st.text_input("enter username")
 
     if st.button("Log in"):
         st.session_state.role = roley
