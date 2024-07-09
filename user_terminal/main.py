@@ -12,12 +12,14 @@ curs_credentials = connect_credentials.cursor()
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
     curs_credentials.execute( "SELECT username,password FROM Credentials" )
-
     for data in curs_credentials.fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
+retrieve_credentials()
+
+
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
