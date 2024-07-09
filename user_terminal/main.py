@@ -42,8 +42,8 @@ st.title("Request manager")
 
 page_dict = {}
 st.write(st.session_state)
-#if st.session_state.role in ["Requester"]:
-page_dict["Request"] = request_pages
+if st.session_state.role in ["Requester"]:
+    page_dict["Request"] = request_pages
 
 
 st.write(page_dict)
