@@ -11,6 +11,8 @@ curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
+    curs_credentials.execute("SELECT TABLE_NAME")
+    st.write( curs_credentials.fetchall())
     curs_credentials.execute( "SELECT username,password FROM Credentials" )
     for data in curs_credentials.fetchall():
         temp = []  # creates 2d array for all credentials
