@@ -24,12 +24,12 @@ def retrieve_credentials():             #STATIC METHOD
 
 def add_credentials(username,password):
 
-    curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
-                             (username,password))
-    connect_credentials.commit()
-    connect_credentials.close()
-    retrieve_credentials()
-    st.write(credentials)
+    # curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
+    # connect_credentials.commit()
+    # connect_credentials.close()
+    #
+    # retrieve_credentials()
+    # st.write(credentials)
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
