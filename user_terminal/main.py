@@ -62,7 +62,7 @@ def logout():
     st.session_state.user = None
     st.rerun()
 
-
+def main():
 logout_page = st.Page(logout, title="Log out")
 request_1 = st.Page(
     "page/1_overview.py",
@@ -82,3 +82,5 @@ else:
     pg = st.navigation([st.Page(login)])
 
 pg.run()
+if __name__=="__main__":
+    main()
