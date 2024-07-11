@@ -12,7 +12,7 @@ def open_SQL():
     connect_credentials= sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
-    credentials = []
+credentials = []
 def retrieve_credentials():             #STATIC METHOD
     open_SQL.curs_credentials.execute( "SELECT * FROM Credentials" )
     for data in open_SQL.curs_credentials.fetchall():
