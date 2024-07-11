@@ -7,7 +7,7 @@ st.set_page_config(layout='wide')
 #GIT
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
-files=repo.get_contents("/user_terminal/credentials.db")
+
 
 if "user" not in st.session_state:
     st.session_state.user = None
@@ -30,7 +30,7 @@ def retrieve_credentials():             #STATIC METHOD
 def save_sql():
     with open("user_terminal/credentials.db", "r") as file:
         red=file.read()
-    repo.update_file("user_terminal/credentials.db", "it works",content=red, branch="main",sha= files.sha)
+    repo.update_file("user_terminal/credentials.db", "it works",content=red, branch="main")
 
 def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
