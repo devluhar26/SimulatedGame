@@ -9,6 +9,7 @@ import os.path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "credentials.db")
+print(db_path)
 connect_credentials= sqlite3.connect(db_path)
 curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
@@ -20,6 +21,8 @@ def retrieve_credentials():             #STATIC METHOD
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
+retrieve_credentials()
+st.write(credentials)
 def add_credentials(username,password):
 
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
