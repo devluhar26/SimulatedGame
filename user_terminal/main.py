@@ -1,9 +1,11 @@
 import sqlite3
 import os.path
+from github import Github
 
 import streamlit as st
 st.set_page_config(layout='wide')
-
+g=Github("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")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 if "user" not in st.session_state:
     st.session_state.user = None
 
@@ -24,10 +26,10 @@ def retrieve_credentials():             #STATIC METHOD
 
 def add_credentials(username,password):
 
-    # curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
-    # connect_credentials.commit()
-    # connect_credentials.close()
-    #
+    curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
+    connect_credentials.commit()
+    repo.update_file("credentials.py", "it works", branch="main", )
+    st.rerun()    #
     # retrieve_credentials()
     # st.write(credentials)
     st.success("you have registered")
