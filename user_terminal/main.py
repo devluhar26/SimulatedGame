@@ -27,19 +27,10 @@ def retrieve_credentials():             #STATIC METHOD
             temp.append( x )
         credentials.append( temp )  #3D array
 retrieve_credentials()
-# def save_sql():
-#     curs_credentials.execute("SELECT * FROM Credentials")
-#     curs_credentials.fetchall()
-#     print(*curs_credentials.fetchall())
-#     repo.create_file("user_terminal/credentialss.db", "it works",content=credentials, branch="main")
-# save_sql()
+
 def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
-    connect_credentials.commit()
-    save_sql()
-    st.rerun()    #
-    # retrieve_credentials()
-    # st.write(credentials)
+
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
