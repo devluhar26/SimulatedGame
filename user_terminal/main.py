@@ -29,7 +29,9 @@ def add_credentials(username,password):
 
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
     connect_credentials.commit()
-    repo.update_file("/user_terminal/credentials.db", "it works",content=connect_credentials.commit(), branch="main",sha= file.sha)
+    curs_credentials.execute( "SELECT * FROM Credentials" )
+
+    repo.update_file("/user_terminal/credentials.db", "it works",content=curs_credentials.fetchall(), branch="main",sha= file.sha)
     st.rerun()    #
     # retrieve_credentials()
     # st.write(credentials)
