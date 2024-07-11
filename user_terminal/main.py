@@ -26,6 +26,7 @@ def add_credentials(username,password):
     open_SQL.curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
                              (username,password))
     open_SQL.connect_credentials.commit()
+    open_SQL.connect_credentials.close()
     retrieve_credentials()
     st.write(open_SQL.credentials)
     st.success("you have registered")
