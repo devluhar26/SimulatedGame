@@ -4,12 +4,14 @@ from github import Github
 
 import streamlit as st
 st.set_page_config(layout='wide')
+#GIT
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 files=repo.get_contents("/user_terminal/credentials.db")
+
 if "user" not in st.session_state:
     st.session_state.user = None
-
+#SQL
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "credentials.db")
 connect_credentials= sqlite3.connect(db_path)
@@ -31,7 +33,6 @@ def save_sql():
     repo.update_file("user_terminal/credentials.db", "it works",content=red, branch="main",sha= files.sha)
 
 def add_credentials(username,password):
-
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
     connect_credentials.commit()
     save_sql()
