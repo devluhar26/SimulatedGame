@@ -23,7 +23,7 @@ def add_credentials(username,password):
     if username in [row[0] for row in credentials]:
         st.warning("this username already exist, try a different one")
         return
-    curs_credentials.execute("INSERT INTO  logins (Username,Password) VALUES (?,?)",
+    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username,password))
     connect_credentials.commit()
     connect_credentials.close()
