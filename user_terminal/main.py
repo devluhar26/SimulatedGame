@@ -81,6 +81,6 @@ def main():
     else:
         pg = st.navigation([st.Page(login)])
 
-pg.run()
+    pg.run()
 if __name__=="__main__":
     main()
