@@ -28,7 +28,7 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 
 def save_sql():
-    with open("credentials.db", "r") as file:
+    with open("user_terminal/credentials.db", "r") as file:
         red=file.read()
     repo.update_file("user_terminal/credentials.db", "it works",content=red, branch="main",sha= files.sha)
 
