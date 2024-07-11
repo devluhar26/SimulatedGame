@@ -52,6 +52,7 @@ def login():
             retrieve_credentials()
             if username in [row[0] for row in credentials]:
                 st.warning("this username already exist, try a different one")
+                return
             if username == "" or password == "":
                 st.warning("one or more of the fields are blank, please add some text")
             else:
