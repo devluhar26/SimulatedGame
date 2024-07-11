@@ -10,8 +10,9 @@ def open_SQL():
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(BASE_DIR, "credentials.db")
     connect_credentials= sqlite3.connect(db_path)
-    curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
+curs_credentials = open_SQL.connect_credentials.cursor()
+
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
     open_SQL.curs_credentials.execute( "SELECT * FROM Credentials" )
