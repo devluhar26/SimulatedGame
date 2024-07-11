@@ -9,7 +9,6 @@ import os.path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "credentials.db")
 connect_credentials= sqlite3.connect(db_path)
-
 curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
 credentials = []
@@ -20,11 +19,19 @@ def retrieve_credentials():             #STATIC METHOD
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
-
+def add_credentials(username,password):
+    if username in [row[0] for row in credentials]:
+        st.warning("this username already exist, try a different one")
+        return
+    curs_credentials.execute("INSERT INTO  logins (Username,Password) VALUES (?,?)",
+                             (username,password))
+    connect_credentials.commit()
+    connect_credentials.close()
 
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
+    ##add some more errors ie no input and try registering
     if temp in credentials:
         st.session_state.user = username
         st.rerun()
@@ -35,9 +42,17 @@ def login():
     st.header("Log in")
     username = st.text_input("enter username")
     password = st.text_input("enter password")
+    col1, col2 = st.columns([1, 1])  # Adjust column ratios as needed
 
-    if st.button("Log in"):
-        checker(username,password)
+    with col1:
+        if st.button("Log in",use_container_width=True):
+            checker(username, password)
+
+    with col2:
+        if st.button("Register", use_container_width=True):
+            add_credentials(username,password)
+
+
         ##add a login checking system here
 
 def logout():
@@ -45,10 +60,7 @@ def logout():
     st.rerun()
 
 
-role = st.session_state.user
-
 logout_page = st.Page(logout, title="Log out")
-
 request_1 = st.Page(
     "page/1_overview.py",
     title="overview",
@@ -59,14 +71,10 @@ request_2 = st.Page(
     "page/2_new.py", title="New"
 )
 
-
-account_pages = [logout_page]
-request_pages = [request_1, request_2]
-
 st.title("Blackelm")
 
 if st.session_state.user != None:
-    pg = st.navigation({"Account": account_pages} | {"Tools": [request_1, request_2]})
+    pg = st.navigation({"Account": [logout_page]} | {"Tools": [request_1, request_2]})
 else:
     pg = st.navigation([st.Page(login)])
 
