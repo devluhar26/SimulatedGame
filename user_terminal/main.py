@@ -45,7 +45,7 @@ def login():
     st.header("Log in")
     username = st.text_input("enter username")
     password = st.text_input("enter password")
-    col1, col2 = st.beta_columns([1, 1])  # Adjust column ratios as needed
+    col1, col2 = st.columns([1, 1])  # Adjust column ratios as needed
 
     with col1:
         if st.button("Log in",use_container_width=True):
@@ -63,23 +63,23 @@ def logout():
     st.rerun()
 
 def main():
-logout_page = st.Page(logout, title="Log out")
-request_1 = st.Page(
-    "page/1_overview.py",
-    title="overview",
-    default=True,
+    logout_page = st.Page(logout, title="Log out")
+    request_1 = st.Page(
+        "page/1_overview.py",
+        title="overview",
+        default=True,
 
-)
-request_2 = st.Page(
-    "page/2_new.py", title="New"
-)
+    )
+    request_2 = st.Page(
+        "page/2_new.py", title="New"
+    )
 
-st.title("Blackelm")
+    st.title("Blackelm")
 
-if st.session_state.user != None:
-    pg = st.navigation({"Account": [logout_page]} | {"Tools": [request_1, request_2]})
-else:
-    pg = st.navigation([st.Page(login)])
+    if st.session_state.user != None:
+        pg = st.navigation({"Account": [logout_page]} | {"Tools": [request_1, request_2]})
+    else:
+        pg = st.navigation([st.Page(login)])
 
 pg.run()
 if __name__=="__main__":
