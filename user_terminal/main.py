@@ -30,8 +30,6 @@ def add_credentials(username,password):
                              (username,password))
     connect_credentials.commit()
     connect_credentials.close()
-
-
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
