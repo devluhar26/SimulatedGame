@@ -14,7 +14,7 @@ curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    curs_credentials.execute( "SELECT username,password FROM Credentials" )
+    curs_credentials.execute( "SELECT * FROM Credentials" )
     for data in curs_credentials.fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
@@ -27,7 +27,7 @@ def add_credentials(username,password):
     if username=="" or password=="":
         st.warning("one or more of the fields are blank, please add some text")
         return
-    curs_credentials.execute("INSERT INTO  Credentials (,Username,Password) VALUES (?,?)",
+    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username,password))
     connect_credentials.commit()
     connect_credentials.close()
