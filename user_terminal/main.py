@@ -5,8 +5,8 @@ from github import Github
 import streamlit as st
 st.set_page_config(layout='wide')
 g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame/user_terminal/credentials.db")
-file=repo.get_file_contents("Blackelm-Systematic/SimulatedGame/user_terminal/credentials.db")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame/user_terminal")
+file=repo.get_file_contents("/credentials.db")
 if "user" not in st.session_state:
     st.session_state.user = None
 
@@ -29,7 +29,7 @@ def add_credentials(username,password):
 
     curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",(username,password))
     connect_credentials.commit()
-    repo.update_file("credentials.db", "it works", branch="main",sha= file.sha)
+    repo.update_file("/credentials.db", "it works", branch="main",sha= file.sha)
     st.rerun()    #
     # retrieve_credentials()
     # st.write(credentials)
