@@ -1,6 +1,7 @@
 import sqlite3
 
 import streamlit as st
+st.set_page_config(layout='wide')
 
 if "user" not in st.session_state:
     st.session_state.user = None
