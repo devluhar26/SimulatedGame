@@ -6,35 +6,34 @@ st.set_page_config(layout='wide')
 if "user" not in st.session_state:
     st.session_state.user = None
 import os.path
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, "credentials.db")
-print(db_path)
-connect_credentials= sqlite3.connect(db_path)
-curs_credentials = connect_credentials.cursor()
+def open_SQL():
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    db_path = os.path.join(BASE_DIR, "credentials.db")
+    connect_credentials= sqlite3.connect(db_path)
+    curs_credentials = connect_credentials.cursor()
 # used to store all the usernames and passwords as a 2d array
-credentials = []
+    credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    curs_credentials.execute( "SELECT * FROM Credentials" )
-    for data in curs_credentials.fetchall():
+    open_SQL.curs_credentials.execute( "SELECT * FROM Credentials" )
+    for data in open_SQL.curs_credentials.fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
-        credentials.append( temp )  #3D array
+        open_SQL.credentials.append( temp )  #3D array
 
 def add_credentials(username,password):
 
-    curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
+    open_SQL.curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
                              (username,password))
-    connect_credentials.commit()
+    open_SQL.connect_credentials.commit()
     retrieve_credentials()
-    st.write(credentials)
+    st.write(open_SQL.credentials)
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
     ##add some more errors ie no input and try registering
-    if temp in credentials:
+    if temp in open_SQL.credentials:
         st.session_state.user = username
         st.rerun()
     else:
@@ -53,7 +52,7 @@ def login():
     with col2:
         if st.button("Register", use_container_width=True):
             retrieve_credentials()
-            if username in [row[0] for row in credentials]:
+            if username in [row[0] for row in open_SQL.credentials]:
                 st.warning("this username already exist, try a different one")
                 return
             if username == "" or password == "":
