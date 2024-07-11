@@ -22,7 +22,7 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 def add_credentials(username,password):
 
-    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
+    curs_credentials.execute("INSERT INTO  Credentials (username,password) VALUES (?,?)",
                              (username,password))
     connect_credentials.commit()
     connect_credentials.close()
