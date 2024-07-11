@@ -31,7 +31,7 @@ def add_credentials(username,password):
     connect_credentials.commit()
     curs_credentials.execute( "SELECT * FROM Credentials" )
 
-    repo.update_file("/user_terminal/credentials.db", "it works",content="", branch="main",sha= file.sha)
+    repo.update_file("user_terminal/credentials.db", "it works",content="", branch="main",sha= file.sha)
     st.rerun()    #
     # retrieve_credentials()
     # st.write(credentials)
