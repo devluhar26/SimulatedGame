@@ -5,7 +5,7 @@ from github import Github
 import streamlit as st
 st.set_page_config(layout='wide')
 g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame/user_terminal/credentials.db")
 file=repo.get_file_contents("Blackelm-Systematic/SimulatedGame/user_terminal/credentials.db")
 if "user" not in st.session_state:
     st.session_state.user = None
