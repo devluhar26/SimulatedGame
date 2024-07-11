@@ -44,7 +44,7 @@ def login():
     st.header("Log in")
     username = st.text_input("enter username")
     password = st.text_input("enter password")
-    col1, col2 = st.columns([1, 1])  # Adjust column ratios as needed
+    col1, col2 = st.beta_columns([1, 1])  # Adjust column ratios as needed
 
     with col1:
         if st.button("Log in",use_container_width=True):
