@@ -49,6 +49,7 @@ def login():
 
     with col2:
         if st.button("Register", use_container_width=True):
+            retrieve_credentials()
             if username in [row[0] for row in credentials]:
                 st.warning("this username already exist, try a different one")
             if username == "" or password == "":
