@@ -7,7 +7,7 @@ from google.cloud.sql.connector import Connector
 import pymysql
 import sqlalchemy
 st.set_page_config(layout='wide')
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="application_default_credentials.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="user_terminal/application_default_credentials.json"
 
 # helper function to return SQLAlchemy connection pool
 def init_connection_pool(connector: Connector) -> sqlalchemy.engine.Engine:
