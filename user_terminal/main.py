@@ -60,7 +60,7 @@ def add_credentials(username,password):
 
     st.success("you have registered")
 def checker(username,password):
-    #retrieve_credentials()
+    retrieve_credentials()
     temp=[str(username),str(password)]
     ##add some more errors ie no input and try registering
     if temp in credentials:
