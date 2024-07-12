@@ -27,20 +27,20 @@ with Connector() as connector:
     # initialize connection pool
     pool = init_connection_pool(connector)
     # insert statement
-    insert_stmt = sqlalchemy.text(
-        "INSERT INTO my_table (id, title) VALUES (:id, :title)",
-    )
+    # insert_stmt = sqlalchemy.text(
+    #     "INSERT INTO my_table (id, title) VALUES (:id, :title)",
+    # )
 
     # interact with Cloud SQL database using connection pool
     with pool.connect() as db_conn:
         # insert into database
-        db_conn.execute(insert_stmt, parameters={"id": "book1", "title": "Book One"})
-
-        # commit transaction (SQLAlchemy v2.X.X is commit as you go)
-        db_conn.commit()
+        # db_conn.execute(insert_stmt, parameters={"id": "book1", "title": "Book One"})
+        #
+        # # commit transaction (SQLAlchemy v2.X.X is commit as you go)
+        # db_conn.commit()
 
         # query database
-        result = db_conn.execute(sqlalchemy.text("SELECT * from my_table")).fetchall()
+        result = db_conn.execute(sqlalchemy.text("SELECT * from Credentials")).fetchall()
 
         # Do something with the results
         for row in result:
