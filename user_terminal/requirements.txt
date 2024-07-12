@@ -7,3 +7,5 @@ streamlit-authenticator
 cloud-sql-python-connector[pymysql]
 sqlalchemy
 pymysql
+gcsfs
+st-files-connection
