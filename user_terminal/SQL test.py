@@ -14,25 +14,25 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="application_default_credentials.j
 connector = Connector()
 
 # getconn now using IAM user and requiring no password with IAM Auth enabled
-def init_connection_pool(connector: Connector) -> sqlalchemy.engine.Engine:
-    # function used to generate database connection
-    def getconn() -> pymysql.connections.Connection:
-        conn = connector.connect(
-            "blackelm-428420:europe-west2:blackelmsimulated",
-            "pymysql",
-            user="dev",
-            password="dev",
-            db="blackelm"
-        )
-        return conn
 
-    # create connection pool
-    pool = sqlalchemy.create_engine(
-        "mysql+pymysql://",
-        creator=getconn,
+# helper function to return SQLAlchemy connection pool
+    # function used to generate database connection
+def getconn():
+    conn = connector.connect(
+        "blackelm-428420:europe-west2:blackelmsimulated",
+        "pymysql",
+        user="dev",
+        password="dev",
+        db="blackelm"
     )
-    return pool
+    return conn
+
+# create connection pool
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn,
+)
 
 connector=Connector()
-pool = init_connection_pool(connector)
 db_conn=pool.connect()
+print(db_conn.execute(sqlalchemy.text("SELECT * FROM Credentials")).fetchall())

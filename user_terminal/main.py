@@ -8,29 +8,23 @@ import pymysql
 import sqlalchemy
 st.set_page_config(layout='wide')
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="user_terminal/application_default_credentials.json"
-
-# helper function to return SQLAlchemy connection pool
-def init_connection_pool(connector: Connector) -> sqlalchemy.engine.Engine:
-    # function used to generate database connection
-    def getconn() -> pymysql.connections.Connection:
-        conn = connector.connect(
-            "blackelm-428420:europe-west2:blackelmsimulated",
-            "pymysql",
-            user="dev",
-            password="dev",
-            db="blackelm"
-        )
-        return conn
-
-    # create connection pool
-    pool = sqlalchemy.create_engine(
-        "mysql+pymysql://",
-        creator=getconn,
+def getconn():
+    conn = connector.connect(
+        "blackelm-428420:europe-west2:blackelmsimulated",
+        "pymysql",
+        user="dev",
+        password="dev",
+        db="blackelm"
     )
-    return pool
+    return conn
+
+# create connection pool
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn,
+)
 
 connector=Connector()
-pool = init_connection_pool(connector)
 db_conn=pool.connect()
 
 g=Github("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")
