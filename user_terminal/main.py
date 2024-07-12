@@ -81,14 +81,14 @@ def login():
 
     with col2:
         if st.button("Register", use_container_width=True):
-            #retrieve_credentials()
+            retrieve_credentials()
             if username in [row[0] for row in credentials]:
                 st.warning("this username already exist, try a different one")
                 return
             if username == "" or password == "":
                 st.warning("one or more of the fields are blank, please add some text")
             else:
-                #add_credentials(username,password)
+                add_credentials(username,password)
                 st.rerun()
 
         ##add a login checking system here
