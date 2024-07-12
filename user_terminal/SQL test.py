@@ -1,8 +1,19 @@
-from google.cloud.sql.connector import Connector
+import os
+
 import pymysql
+from google.cloud.sql.connector import Connector
+import google.auth
+from google.auth.transport.requests import Request
 import sqlalchemy
 
-# helper function to return SQLAlchemy connection pool
+# IAM database user parameter (IAM user's email before the "@" sign, mysql truncates usernames)
+# ex. IAM user with email "demo-user@test.com" would have database username "demo-user"
+IAM_USER = "blackelm"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="application_default_credentials.json"
+# initialize connector
+connector = Connector()
+
+# getconn now using IAM user and requiring no password with IAM Auth enabled
 def init_connection_pool(connector: Connector) -> sqlalchemy.engine.Engine:
     # function used to generate database connection
     def getconn() -> pymysql.connections.Connection:
@@ -22,26 +33,6 @@ def init_connection_pool(connector: Connector) -> sqlalchemy.engine.Engine:
     )
     return pool
 
-# initialize Cloud SQL Python Connector as context manager
-with Connector() as connector:
-    # initialize connection pool
-    pool = init_connection_pool(connector)
-    # insert statement
-    # insert_stmt = sqlalchemy.text(
-    #     "INSERT INTO my_table (id, title) VALUES (:id, :title)",
-    # )
-
-    # interact with Cloud SQL database using connection pool
-    with pool.connect() as db_conn:
-        # insert into database
-        # db_conn.execute(insert_stmt, parameters={"id": "book1", "title": "Book One"})
-        #
-        # # commit transaction (SQLAlchemy v2.X.X is commit as you go)
-        # db_conn.commit()
-
-        # query database
-        result = db_conn.execute(sqlalchemy.text("SELECT * from Credentials")).fetchall()
-
-        # Do something with the results
-        for row in result:
-            print(row)
+connector=Connector()
+pool = init_connection_pool(connector)
+db_conn=pool.connect()
