@@ -57,7 +57,7 @@ def add_credentials(username,password):
         "INSERT INTO  Credentials (username,password) VALUES (:username,:password)",
     )
     db_conn.execute(insert_stmt, parameters={"username": username, "password": password})
-
+    db_conn.commit()
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
