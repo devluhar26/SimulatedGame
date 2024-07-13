@@ -12,7 +12,7 @@ connect_credentials = sqlite3.connect( "credentials.db" )
 curs_credentials = connect_credentials.cursor()
 #Devs personal access token, need to change it
 g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame/user_terminal")
+repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 
 if "user" not in st.session_state:
@@ -21,7 +21,7 @@ if "user" not in st.session_state:
 def save_SQL():
     connect_credentials.commit()
     with open("credentials.db", "rb") as file:
-        repo.update_file("credentials.db", ".", file.read(), repo.get_contents("credentials.db").sha,
+        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
                          "main")
 
 # used to store all the usernames and passwords as a 2d array
