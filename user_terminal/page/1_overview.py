@@ -6,7 +6,6 @@ import random
 from code_editor import code_editor
 import json
 
-connect_credentials = sqlite3.connect( "credentials.db" )
 
 html_style_string = '''<style>
 @media (min-width: 576px)
