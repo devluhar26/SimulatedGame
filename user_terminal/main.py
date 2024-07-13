@@ -10,7 +10,7 @@ st.set_page_config(layout='wide')
 connect_credentials = sqlite3.connect( "credentials.db" )
 
 curs_credentials = connect_credentials.cursor()
-
+#Devs personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
