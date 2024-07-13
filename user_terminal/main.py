@@ -32,6 +32,7 @@ def save_SQL():
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
+    st.write(curs_credentials.execute("SHOW TABLES").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
@@ -58,6 +59,11 @@ def login():
     username = st.text_input("enter username")
     password = st.text_input("enter password")
     col1, col2 = st.columns([1, 1])  # Adjust column ratios as needed
+
+    with col1:
+        if st.button("Log in",use_container_width=True):
+            checker(username, password)
+
     with col2:
         if st.button("Register", use_container_width=True):
             retrieve_credentials()
@@ -69,11 +75,6 @@ def login():
             else:
                 add_credentials(username,password)
                 st.rerun()
-    with col1:
-        if st.button("Log in",use_container_width=True):
-            checker(username, password)
-
-
 
         ##add a login checking system here
 
