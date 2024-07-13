@@ -29,6 +29,7 @@ def save_SQL():
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
                          "main")
 
+
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
