@@ -21,7 +21,7 @@ if "user" not in st.session_state:
 def save_SQL():
     connect_credentials.commit()
     with open("credentials.db", "rb") as file:
-        repo.update_file("credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
+        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
                          "main")
 
 # used to store all the usernames and passwords as a 2d array
