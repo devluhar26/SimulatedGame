@@ -32,13 +32,13 @@ def save_SQL():
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    st.write(curs_credentials.execute("SHOW TABLES").fetchall())
+    print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
-
+retrieve_credentials()
 def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
