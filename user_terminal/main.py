@@ -7,7 +7,11 @@ from google.cloud.sql.connector import Connector
 import pymysql
 import sqlalchemy
 st.set_page_config(layout='wide')
-connect_credentials = sqlite3.connect( "credentials.db" )
+import os.path
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR,"credentials.db")
+connect_credentials = sqlite3.connect( db_path )
 
 curs_credentials = connect_credentials.cursor()
 #Devs personal access token, need to change it
