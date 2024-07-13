@@ -7,25 +7,9 @@ from google.cloud.sql.connector import Connector
 import pymysql
 import sqlalchemy
 st.set_page_config(layout='wide')
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ="user_terminal/application_default_credentials.json"
-def getconn():
-    conn = connector.connect(
-        "blackelm-428420:europe-west2:blackelmsimulated",
-        "pymysql",
-        user="dev",
-        password="dev",
-        db="blackelm"
-    )
-    return conn
+connect_credentials = sqlite3.connect( "credentials.db" )
 
-# create connection pool
-pool = sqlalchemy.create_engine(
-    "mysql+pymysql://",
-    creator=getconn,
-)
-
-connector=Connector()
-db_conn=pool.connect()
+curs_credentials = connect_credentials.cursor()
 
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
@@ -34,24 +18,25 @@ repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
-
+def save_SQL():
+    connect_credentials.commit()
+    with open("credentials.db", "rb") as file:
+        repo.update_file("credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
+                         "main")
 
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    for data in  db_conn.execute(sqlalchemy.text("SELECT * from Credentials")).fetchall():
+    for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
-retrieve_credentials()
 
 def add_credentials(username,password):
-    insert_stmt = sqlalchemy.text(
-        "INSERT INTO  Credentials (username,password) VALUES (:username,:password)",
-    )
-    db_conn.execute(insert_stmt, parameters={"username": username, "password": password})
-    db_conn.commit()
+    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
+                             (username, password))
+    save_SQL()
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()

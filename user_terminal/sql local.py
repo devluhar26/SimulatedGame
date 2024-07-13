@@ -4,8 +4,7 @@ import sqlite3
 connect_credentials = sqlite3.connect( "credentials.db" )
 
 curs_credentials = connect_credentials.cursor()
-username="dev67671111111"
-password="did it1121"
+
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
