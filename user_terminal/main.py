@@ -3,9 +3,7 @@ import os.path
 from github import Github
 
 import streamlit as st
-from google.cloud.sql.connector import Connector
 import pymysql
-import sqlalchemy
 st.set_page_config(layout='wide')
 import os.path
 
