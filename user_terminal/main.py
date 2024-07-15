@@ -10,22 +10,29 @@ st.set_page_config(layout='wide')
 import os.path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR,"credentials.db")
-connect_credentials = sqlite3.connect(db_path)
-curs_credentials = connect_credentials.cursor()
+
 #Dev's personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
+def cred_cur():
+    db_path = os.path.join(BASE_DIR, "credentials.db")
+    connect_credentials = sqlite3.connect(db_path)
+    curs_credentials = connect_credentials.cursor()
+    global curs_credentials, connect_credentials ,db_path
+def sql(username):
+    connect = sqlite3.connect( + ".db")  # opens personal sql folder
+    curs = connect.cursor()
+    pass
 
 
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
-def save_SQL():
+def save_SQL(db_path,filename):
     connect_credentials.commit()
     with open(db_path, "rb") as file:
-        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
+        repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
                          "main")
 
 
@@ -44,6 +51,7 @@ def add_credentials(username,password):
                              (username, password))
     save_SQL()
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
+
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
