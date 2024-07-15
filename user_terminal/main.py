@@ -16,10 +16,11 @@ g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 def cur(filename):
+    global curs_credentials, connect_credentials ,db_path
+
     db_path = os.path.join(BASE_DIR, filename+"/"+filename+".db")
     connect_credentials = sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
-    global curs_credentials, connect_credentials ,db_path
 
 
 
