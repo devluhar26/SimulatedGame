@@ -12,9 +12,8 @@ import os.path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR,"credentials.db")
 connect_credentials = sqlite3.connect(db_path)
-
 curs_credentials = connect_credentials.cursor()
-#Devs personal access token, need to change it
+#Dev's personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
@@ -44,6 +43,8 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL()
+    username_folder = (os.getcwd()) + "/" + (username)
+    username_location = ((os.getcwd()) + "/" + (username) + "/" + (username))
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
