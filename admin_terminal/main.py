@@ -1,3 +1,5 @@
+import numpy as np
+import pandas as pd
 import streamlit as st
 st.set_page_config(layout='wide')
 
@@ -6,8 +8,8 @@ row2col1,row2col2 = st.columns([2,3])
 
 with row1col1:
     tile11 = row1col1.container(height=600)
-    tile11.title("11")
-
+    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+    st.line_chart(chart_data)
 
 with row1col2:
     tile12 = row1col2.container(height=600)
