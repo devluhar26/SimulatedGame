@@ -48,10 +48,10 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 
 def add_credentials(username,password):
-    cur("../credentials")
+    cur("credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-    save_SQL(db_path = os.path.join(BASE_DIR, "credentials"+"/"+"credentials"+".db"), filename="../credentials")
+    save_SQL(db_path = os.path.join(BASE_DIR,"user_terminal/"+filename+"/"+filename+".db"), filename="credentials")
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
 
     st.success("you have registered")
