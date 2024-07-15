@@ -43,8 +43,7 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL()
-    username_folder = (os.getcwd()) + "/" + (username)
-    username_location = ((os.getcwd()) + "/" + (username) + "/" + (username))
+    repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
