@@ -3,47 +3,47 @@ import os.path
 from github import Github
 
 import streamlit as st
+from google.cloud.sql.connector import Connector
+import pymysql
+import sqlalchemy
 st.set_page_config(layout='wide')
 import os.path
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-#Dev's personal access token, need to change it
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR,"credentials.db")
+connect_credentials = sqlite3.connect(db_path)
+
+curs_credentials = connect_credentials.cursor()
+#Devs personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
+
+
+
 if "user" not in st.session_state:
     st.session_state.user = None
-def cur(filename):
-    global curs_credentials, connect_credentials ,db_path
-    db_path = os.path.join(BASE_DIR,filename+".db")
-    connect_credentials = sqlite3.connect(db_path)
-    curs_credentials = connect_credentials.cursor()
 #SQL
-def save_SQL(db_path,filename):
-    cur(filename)
+def save_SQL():
     connect_credentials.commit()
     with open(db_path, "rb") as file:
-        repo.update_file(r"user_terminal/"+filename+".db", ".", file.read(), repo.get_contents(r"user_terminal/"+filename+".db").sha,
+        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
                          "main")
-        st.write("saved"+filename)
+
+
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
-    cur("credentials")
+    print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
             temp.append( x )
         credentials.append( temp )  #3D array
-
+retrieve_credentials()
 def add_credentials(username,password):
-    cur("credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-    save_SQL(db_path=db_path,filename="credentials")
-    # repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
-    # cur(username)
-    # curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
-    # save_SQL(db_path=db_path,filename=username)
+    save_SQL()
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
