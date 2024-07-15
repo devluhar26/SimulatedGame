@@ -1,0 +1,12 @@
+streamlit
+pandas
+numpy
+streamlit_code_editor
+PyGithub
+streamlit-authenticator
+cloud-sql-python-connector[pymysql]
+sqlalchemy
+pymysql
+gcsfs
+st-files-connection
+streamlit_elements
