@@ -51,7 +51,7 @@ def add_credentials(username,password):
     cur("credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-    save_SQL(db_path = os.path.join(BASE_DIR,"user_terminal/"+filename+"/"+filename+".db"), filename="credentials")
+    save_SQL(dbpath=dbpath,filename="credentials")
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
     cur(username)
     curs_credentials.execute(
