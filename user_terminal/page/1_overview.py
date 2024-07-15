@@ -53,7 +53,7 @@ with tab2:
         df,
         on_select='rerun',
         selection_mode='multi-row',
-        column_config={"performance": st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},
+        column_config={"performance": st.column_config.LineChartColumn("performance", y_min=0, y_max=5000)},use_container_width=True
     )
 
     st.button("modify")
