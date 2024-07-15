@@ -19,10 +19,8 @@ def cur(filename):
     global curs_credentials, connect_credentials ,db_path
 
     db_path = os.path.join(BASE_DIR, filename+"/"+filename+".db")
-    print(db_path)
     connect_credentials = sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
-cur("credentials")
 
 
 if "user" not in st.session_state:
