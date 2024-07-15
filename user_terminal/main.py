@@ -28,7 +28,6 @@ def add_credentials(username,password):
     repo.create_file("user_terminal/"+username+"/"+username+".db",".","","main")
 
     st.success("you have registered")
-
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
