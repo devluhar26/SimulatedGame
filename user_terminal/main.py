@@ -7,19 +7,27 @@ st.set_page_config(layout='wide')
 import os.path
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR,"credentials.db")
-connect_credentials = sqlite3.connect(db_path)
+cred_db_path = os.path.join(BASE_DIR, "credentials.db")
+connect_credentials = sqlite3.connect(cred_db_path)
 
 curs_credentials = connect_credentials.cursor()
 #Devs personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
-
-
-
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
+
+def add_credentials(username,password):
+    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
+                             (username, password))
+
+    connect_credentials.commit()
+    with open(cred_db_path, "rb") as file:
+        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
+    repo.create_file("user_terminal/"+username+""+username+".db",".",None,"main")
+
+    st.success("you have registered")
 
 # used to store all the usernames and passwords as a 2d array
 credentials = []
@@ -31,15 +39,6 @@ def retrieve_credentials():             #STATIC METHOD
             temp.append( x )
         credentials.append( temp )  #3D array
 
-def add_credentials(username,password):
-    curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
-                             (username, password))
-
-    connect_credentials.commit()
-    with open(db_path, "rb") as file:
-        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
-
-st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
