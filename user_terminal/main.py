@@ -54,8 +54,6 @@ def add_credentials(username,password):
     save_SQL(db_path=db_path,filename="credentials")
     repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
     cur(username)
-    curs_credentials.execute(
-        "CREATE TABLE Chapter (ChapterID INTEGER NOT NULL UNIQUE,Chapter_name REAL NOT NULL")
     save_SQL(db_path=db_path,filename=username)
     st.success("you have registered")
 def checker(username,password):
