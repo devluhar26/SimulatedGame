@@ -47,8 +47,9 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL(db_path=db_path,filename="credentials")
-    repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
+
     cur(username)
+    save_SQL(db_path=db_path,filename=username)
     curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
     save_SQL(db_path=db_path,filename=username)
     st.success("you have registered")
