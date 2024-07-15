@@ -9,4 +9,4 @@ sqlalchemy
 pymysql
 gcsfs
 st-files-connection
-streamlit_elements
+streamlit-elements
