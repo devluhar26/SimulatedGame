@@ -5,7 +5,6 @@ from github import Github
 import streamlit as st
 st.set_page_config(layout='wide')
 import os.path
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 #Dev's personal access token, need to change it
