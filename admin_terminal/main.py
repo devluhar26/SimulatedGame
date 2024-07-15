@@ -27,6 +27,7 @@ with row1col2:
 
 with row2col1:
     tile21 = row2col1.container(height=600)
+    tile21.title("21")
 
 with row2col2:
     tile22 = row2col2.container(height=600)
