@@ -25,9 +25,7 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 tab1, tab2, tab3 = st.tabs(["overview", "strategies", "modify strategy"])
 
 with tab1:
-    import streamlit as st
-    import pandas as pd
-    import numpy as np
+
 
     chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
 
@@ -78,5 +76,4 @@ with tab3:
 
 
     st.write(" #### add the trading logic widgets below####")
-#https://docs.streamlit.io/develop/tutorials/multipage/dynamic-navigation
 #
