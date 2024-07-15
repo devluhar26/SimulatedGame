@@ -4,11 +4,11 @@ st.set_page_config(layout='wide')
 
 row1 = st.columns(3)
 row2 = st.columns(3)
+tab1, tab2, tab3 = st.tabs(["Cat", "Dog", "Owl"])
 
 for col in row1 + row2:
     tile = col.container(height=400)
     tile.title(":balloon:")
-    tab1, tab2, tab3 = st.tabs(["Cat", "Dog", "Owl"])
 
     with tab1:
         st.header("A cat")
