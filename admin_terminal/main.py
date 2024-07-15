@@ -11,7 +11,7 @@ with row1col1:
 
 with row1col2:
     tile12 = row1col2.container(height=600)
-    tab1, tab2, tab3 = tile12.tabs(["Cat", "Dog", "Owl"])
+    tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
         st.header("A cat")
