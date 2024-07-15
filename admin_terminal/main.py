@@ -8,12 +8,14 @@ row2col1,row2col2 = st.columns([2,3])
 
 with row1col1:
     tile11 = row1col1.container(height=600)
+    tile11.title("11 view stock")
     chart_data = pd.DataFrame(np.random.randn(20, 1), columns=["a"])
     tile11.line_chart(chart_data,height=590, use_container_width=True)
 
 
 with row1col2:
     tile12 = row1col2.container(height=600)
+    tile12.tile("12 view strategy")
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
@@ -30,10 +32,11 @@ with row1col2:
 
 with row2col1:
     tile21 = row2col1.container(height=600)
-    tile21.title("21")
+    tile21.title("21 add macro event")
 
 with row2col2:
     tile22 = row2col2.container(height=600)
+    tile22.title("22 view active orders")
     tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
     with tab1:
