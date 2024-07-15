@@ -15,7 +15,7 @@ with row1col1:
 
 with row1col2:
     tile12 = row1col2.container(height=600)
-    tile12.tile("12 view strategy")
+    tile12.title("12 view strategy")
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
