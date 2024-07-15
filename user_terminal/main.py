@@ -26,7 +26,7 @@ def cur(filename):
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
-def save_SQL(db_path,filename):
+def save_SQL(filename):
     cur(filename)
     connect_credentials.commit()
     with open(db_path, "rb") as file:
@@ -50,12 +50,12 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     cur("credentials")
-    save_SQL(dbpath=dbpath,filename="credentials")
+    save_SQL(filename="credentials")
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
     cur(username)
     curs_credentials.execute(
         "CREATE TABLE Chapter (ChapterID	INTEGER NOT NULL UNIQUE,Chapter_name    REAL NOT NULL,PRIMARY KEY(ChapterID AUTOINCREMENT))")
-    save_SQL(dbpath=dbpath,filename=username)
+    save_SQL(filename=username)
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
