@@ -30,7 +30,7 @@ def save_SQL(filename):
     cur(filename)
     connect_credentials.commit()
     with open(db_path, "rb") as file:
-        repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
+        repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents(db_path).sha,
                          "main")
 
 
