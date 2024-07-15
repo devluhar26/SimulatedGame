@@ -19,13 +19,18 @@ if "user" not in st.session_state:
 #SQL
 
 def add_credentials(username,password):
+    local_path = "user_terminal/" + username + "/" + username + ".db"
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-
     connect_credentials.commit()
     with open(cred_db_path, "rb") as file:
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
-    repo.create_file("user_terminal/"+username+"/"+username+".db",".","","main")
+
+    repo.create_file(local_path,".","","main")
+    curs_credentials.execute("CREATE TABLE Video (VideoID	INTEGER NOT NULL UNIQUE,Video_name	TEXT NOT NULL,Video_location	TEXT NOT NULL UNIQUE,PRIMARY KEY(VideoID AUTOINCREMENT))")
+    connect_credentials.commit()
+    with open(cred_db_path, "rb") as file:
+        repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
 
     st.success("you have registered")
 # used to store all the usernames and passwords as a 2d array
