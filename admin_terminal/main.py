@@ -1,8 +1,8 @@
 import streamlit as st
 st.set_page_config(layout='wide')
 
-row1col1,row1col2 = st.columns(2)
-row2col1,row2col2 = st.columns(2)
+row1col1,row1col2 = st.columns([2,3])
+row2col1,row2col2 = st.columns([2,3])
 
 with row1col1:
     tile11 = row1col1.container(height=120)
