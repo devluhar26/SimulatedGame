@@ -27,7 +27,7 @@ with row1col2:
 
 with row2col1:
     tile21 = row2col1.container(height=600)
-    tab1, tab2, tab3 = tile12.tabs(["active orders", "past orders"])
+    tab1, tab2, tab3 = tile21.tabs(["active orders", "past orders"])
 
     with tab1:
         st.header("A cat")
