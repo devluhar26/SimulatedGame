@@ -3,7 +3,6 @@ import os.path
 from github import Github
 
 import streamlit as st
-import pymysql
 st.set_page_config(layout='wide')
 import os.path
 
