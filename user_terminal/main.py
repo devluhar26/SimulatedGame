@@ -21,10 +21,6 @@ if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
 def save_SQL():
-    connect_credentials.commit()
-    with open(db_path, "rb") as file:
-        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,
-                         "main")
 
 
 # used to store all the usernames and passwords as a 2d array
@@ -41,8 +37,11 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
 
-    save_SQL()
-    st.success("you have registered")
+    connect_credentials.commit()
+    with open(db_path, "rb") as file:
+        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
+
+st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
     temp=[str(username),str(password)]
