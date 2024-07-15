@@ -27,7 +27,15 @@ with row1col2:
 
 with row2col1:
     tile21 = row2col1.container(height=600)
-    tile21.title("21")
+    tab1, tab2, tab3 = tile12.tabs(["active orders", "past orders"])
+
+    with tab1:
+        st.header("A cat")
+        st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+
+    with tab2:
+        st.header("A dog")
+        st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 with row2col2:
     tile22 = row2col2.container(height=600)
     tile22.title("22")
