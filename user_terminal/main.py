@@ -15,7 +15,7 @@ def cur(filename):
     global curs_credentials, connect_credentials ,db_path
 
     db_path = os.path.join(BASE_DIR, filename+"/"+filename+".db")
-    st.write(db_path)
+    print(db_path)
     connect_credentials = sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
 
@@ -47,10 +47,8 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL(db_path=db_path,filename="credentials")
-    cur("credentials")
 
     cur(username)
-    save_SQL(db_path=db_path,filename=username)
     curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
     save_SQL(db_path=db_path,filename=username)
     st.success("you have registered")
