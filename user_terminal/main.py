@@ -29,6 +29,7 @@ def save_SQL(db_path,filename):
     st.write(filename+"commit")
     with open(db_path, "rb") as file:
         print(file.read())
+        "user_terminal/credentials/credentials.db"
         repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
                          "main")
         st.write("saved"+filename)
@@ -38,7 +39,6 @@ def save_SQL(db_path,filename):
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
     cur("credentials")
-    print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
