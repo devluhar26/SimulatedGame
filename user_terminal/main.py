@@ -31,7 +31,6 @@ def add_credentials(username,password):
     connect_credentials.commit()
     with open(cred_db_path, "rb") as file:
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
-
     st.success("you have registered")
 # used to store all the usernames and passwords as a 2d array
 credentials = []
