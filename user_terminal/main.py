@@ -45,6 +45,7 @@ def retrieve_credentials():             #STATIC METHOD
             temp.append( x )
         credentials.append( temp )  #3D array
 
+
 def add_credentials(username,password):
     cur("credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
