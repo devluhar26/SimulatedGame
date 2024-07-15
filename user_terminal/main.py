@@ -28,6 +28,7 @@ def save_SQL(db_path,filename):
     connect_credentials.commit()
     st.write(filename+"commit")
     with open(db_path, "rb") as file:
+        print(file.read())
         repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
                          "main")
         st.write("saved"+filename)
