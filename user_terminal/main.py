@@ -15,15 +15,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
-def cred_cur():
-    db_path = os.path.join(BASE_DIR, "credentials.db")
+def cur(filename):
+    db_path = os.path.join(BASE_DIR, filename+"/"+filename+".db")
     connect_credentials = sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
     global curs_credentials, connect_credentials ,db_path
-def sql(username):
-    connect = sqlite3.connect( + ".db")  # opens personal sql folder
-    curs = connect.cursor()
-    pass
+
 
 
 if "user" not in st.session_state:
@@ -39,6 +36,7 @@ def save_SQL(db_path,filename):
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
+    cur("credentials")
     print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
@@ -47,9 +45,10 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 
 def add_credentials(username,password):
+    cur("credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-    save_SQL()
+    save_SQL(db_path = os.path.join(BASE_DIR, "credentials"+"/"+"credentials"+".db"),filename="credentials")
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
 
     st.success("you have registered")
