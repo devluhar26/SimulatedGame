@@ -25,7 +25,7 @@ def add_credentials(username,password):
     connect_credentials.commit()
     with open(cred_db_path, "rb") as file:
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
-    repo.create_file("user_terminal/"+username+""+username+".db",".","","main")
+    repo.create_file("user_terminal/"+username+"/"+username+".db",".","","main")
 
     st.success("you have registered")
 
