@@ -51,7 +51,7 @@ def add_credentials(username,password):
                              (username, password))
     cur("credentials")
     save_SQL(db_path=db_path,filename="credentials")
-    repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
+    repo.create_file("user_terminal/"+filename+"/"+filename+".db", "test message", ".", branch="main")
     cur(username)
     curs_credentials.execute(
         "CREATE TABLE Chapter (ChapterID	INTEGER NOT NULL UNIQUE,Chapter_name    REAL NOT NULL,PRIMARY KEY(ChapterID AUTOINCREMENT))")
