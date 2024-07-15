@@ -7,7 +7,11 @@ row2col1,row2col2 = st.columns([2,3])
 with row1col1:
     tile11 = row1col1.container(height=400)
     tile11.title("11")
-    tab1, tab2, tab3 = tile11.tabs(["Cat", "Dog", "Owl"])
+
+
+with row1col2:
+    tile12 = row1col2.container(height=400)
+    tab1, tab2, tab3 = tile12.tabs(["Cat", "Dog", "Owl"])
 
     with tab1:
         st.header("A cat")
@@ -21,9 +25,6 @@ with row1col1:
         st.header("An owl")
         st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
 
-with row1col2:
-    tile12 = row1col2.container(height=400)
-    tile12.title("12")
 with row2col1:
     tile21 = row2col1.container(height=400)
     tile21.title("21")
