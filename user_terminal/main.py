@@ -26,10 +26,7 @@ if "user" not in st.session_state:
 def save_SQL(db_path,filename):
     cur(filename)
     connect_credentials.commit()
-    st.write(filename+"commit")
     with open(db_path, "rb") as file:
-        print(file.read())
-        "user_terminal/credentials/credentials.db"
         repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
                          "main")
         st.write("saved"+filename)
@@ -51,10 +48,10 @@ def add_credentials(username,password):
                              (username, password))
     save_SQL(db_path=db_path,filename="credentials")
 
-    repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
-    cur(username)
-    curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
-    save_SQL(db_path=db_path,filename=username)
+    # repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
+    # cur(username)
+    # curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
+    # save_SQL(db_path=db_path,filename=username)
     st.success("you have registered")
 def checker(username,password):
     retrieve_credentials()
