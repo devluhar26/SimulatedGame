@@ -40,9 +40,11 @@ with row2col2:
     tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
     with tab1:
-        st.header("A cat")
-        st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+
+        st.dataframe(df,use_container_width=True)
 
     with tab2:
-        st.header("A dog")
-        st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
+        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+
+        st.dataframe(df,use_container_width=True)
