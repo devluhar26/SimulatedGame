@@ -8,7 +8,7 @@ row2col1,row2col2 = st.columns([2,3])
 
 with row1col1:
     tile11 = row1col1.container(height=600)
-    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
+    chart_data = pd.DataFrame(np.random.randn(20, 1), columns=["a"])
     tile11.line_chart(chart_data)
 
 with row1col2:
