@@ -48,6 +48,7 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL(db_path=db_path,filename="credentials")
+    cur("credentials")
 
     cur(username)
     save_SQL(db_path=db_path,filename=username)
