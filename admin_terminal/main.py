@@ -10,17 +10,16 @@ with row1col1:
     tab1, tab2, tab3 = tile11.tabs(["Cat", "Dog", "Owl"])
 
     with tab1:
-        tile11.header("A cat")
-        tile11.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+        st.header("A cat")
+        st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
 
     with tab2:
-        tile11.header("A dog")
-        tile11.image("https://static.streamlit.io/examples/dog.jpg", width=200)
+        st.header("A dog")
+        st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
 
     with tab3:
-        tile11.header("An owl")
-        tile11.image("https://static.streamlit.io/examples/owl.jpg", width=200)
-
+        st.header("An owl")
+        st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
 
 with row1col2:
     tile12 = row1col2.container(height=400)
