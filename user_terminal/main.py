@@ -20,8 +20,6 @@ repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
-def save_SQL():
-
 
 # used to store all the usernames and passwords as a 2d array
 credentials = []
