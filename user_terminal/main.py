@@ -10,28 +10,21 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 #Dev's personal access token, need to change it
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
-
-def cur(filename):
-    global curs_credentials, connect_credentials ,db_path
-
-    db_path = os.path.join(BASE_DIR,filename+".db")
-    print(db_path)
-    connect_credentials = sqlite3.connect(db_path)
-    curs_credentials = connect_credentials.cursor()
-
-
 if "user" not in st.session_state:
     st.session_state.user = None
+def cur(filename):
+    global curs_credentials, connect_credentials ,db_path
+    db_path = os.path.join(BASE_DIR,filename+".db")
+    connect_credentials = sqlite3.connect(db_path)
+    curs_credentials = connect_credentials.cursor()
 #SQL
 def save_SQL(db_path,filename):
     cur(filename)
     connect_credentials.commit()
     with open(db_path, "rb") as file:
-        repo.update_file("user_terminal/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+".db").sha,
+        repo.update_file(r"user_terminal/"+filename+".db", ".", file.read(), repo.get_contents(r"user_terminal/"+filename+".db").sha,
                          "main")
         st.write("saved"+filename)
-
-
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():             #STATIC METHOD
@@ -47,7 +40,6 @@ def add_credentials(username,password):
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     save_SQL(db_path=db_path,filename="credentials")
-
     # repo.create_file("user_terminal/"+username+"/"+username+".db", "test message", "", branch="main")
     # cur(username)
     # curs_credentials.execute("CREATE TABLE Credentials (username	TEXT NOT NULL UNIQUE,password	TEXT NOT NULL,PRIMARY KEY(username));")
@@ -63,7 +55,6 @@ def checker(username,password):
     else:
         st.warning("Invalid Credentials")
 def login():
-
 
     st.header("Log in")
     username = st.text_input("enter username")
