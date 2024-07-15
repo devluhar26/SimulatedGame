@@ -11,6 +11,7 @@ with row1col1:
     chart_data = pd.DataFrame(np.random.randn(20, 1), columns=["a"])
     tile11.line_chart(chart_data,height=500, use_container_width=True)
 
+
 with row1col2:
     tile12 = row1col2.container(height=600)
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
