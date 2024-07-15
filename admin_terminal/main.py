@@ -19,8 +19,9 @@ with row1col2:
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
-        st.header("A cat")
-        st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+
+        st.dataframe(df, use_container_width=True)
 
     with tab2:
         st.header("A dog")
