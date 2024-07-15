@@ -19,15 +19,17 @@ def cur(filename):
     global curs_credentials, connect_credentials ,db_path
 
     db_path = os.path.join(BASE_DIR, filename+"/"+filename+".db")
+    print(db_path)
     connect_credentials = sqlite3.connect(db_path)
     curs_credentials = connect_credentials.cursor()
-
+cur("credentials")
 
 
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
 def save_SQL(db_path,filename):
+    cur(filename)
     connect_credentials.commit()
     with open(db_path, "rb") as file:
         repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
@@ -46,10 +48,10 @@ def retrieve_credentials():             #STATIC METHOD
         credentials.append( temp )  #3D array
 
 def add_credentials(username,password):
-    cur("credentials")
+    cur("../credentials")
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
-    save_SQL(db_path = os.path.join(BASE_DIR, "credentials"+"/"+"credentials"+".db"),filename="credentials")
+    save_SQL(db_path = os.path.join(BASE_DIR, "credentials"+"/"+"credentials"+".db"), filename="../credentials")
     repo.create_file(username+"/"+username+".db", "test message", ".", branch="main")
 
     st.success("you have registered")
