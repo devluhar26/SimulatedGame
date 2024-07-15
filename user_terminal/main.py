@@ -26,6 +26,7 @@ if "user" not in st.session_state:
 def save_SQL(db_path,filename):
     cur(filename)
     connect_credentials.commit()
+    st.write(filename+"commit")
     with open(db_path, "rb") as file:
         repo.update_file("user_terminal/"+filename+"/"+filename+".db", ".", file.read(), repo.get_contents("user_terminal/"+filename+"/"+filename+".db").sha,
                          "main")
