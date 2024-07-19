@@ -17,10 +17,17 @@ def execute_order(username,buy_sell,pps,quantity,stock):
     check_database(username,buy_sell,pps,quantity,stock)
 
 def check_database(username,buy_sell,pps,quantity,stock):
-    curs_exchange("SELECT * FROM active orders WHERE (stock==stock) and (username!=username) and (buy or sell!= buy_sell) and  (ask bid price per share<=pps) and quantity>=quantity ORDERBY and min(abs(ask bid price per share-pps)) min(order number) (?,?)"(stock,username))
-    if curs_exchange.fetchall()==None:
-        return
-    else:
-        trade_to_execute=curs_exchange.fetchall()[0]
+    #seperate out buy from sell, ive added it to the sql query below but that is incorrect and needs removing
+    if buy_sell=="buy":
+        curs_exchange("SELECT * FROM active orders WHERE (stock==stock) and (username!=username) and  (ask bid price per share<=pps) and quantity>=quantity ORDERBY and min(abs(ask bid price per share-pps)) min(order number) (?,?)"(stock,username))
+        if curs_exchange.fetchall()==None:
+            return
+        else:
+            trade_to_execute=curs_exchange.fetchall()[0]
+            #now the quantity algorithm needs to be sorted
+            #fetch quantity from the trade extracted and apply things in flowchart
 
 
+def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute):
+    if buy_sell=="buy":
+        pass
