@@ -33,7 +33,7 @@ def logic(name,code):
     st.write(f"set the trading logic for {name}")
     ##add bot logic widgets here
     if st.button("add"):
-        repo.create_file("user_terminal"+st.session_state.bot_name + ".py", "it works", code, branch="main", )
+        repo.create_file("user_terminal/"+st.session_state.bot_name + ".py", "it works", code, branch="main", )
         st.rerun()
 
 
