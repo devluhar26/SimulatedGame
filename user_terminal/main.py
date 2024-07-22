@@ -29,6 +29,7 @@ def add_credentials(username,password):
     repo.create_file(local_path,".","","main")
     curs_credentials.execute("CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     curs_credentials.execute("CREATE TABLE username_bot (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
+
     connect_credentials.commit()
     user_db_path = os.path.join(BASE_DIR, local_path)
     with open(user_db_path, "rb") as file:
