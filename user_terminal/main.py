@@ -30,11 +30,10 @@ def add_credentials(username,password):
     curs_credentials.execute("CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     curs_credentials.execute("CREATE TABLE username_bot (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
     connect_credentials.commit()
-    connect_credentials.close()
-    user_db_path = os.path.join(BASE_DIR, local_path)
-    file= open(username + "/" + username + ".db", "rb")
-    st.write(file.read())
-    repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
+    user_db_path = os.path.join(BASE_DIR,  username + "/" + username + ".db")
+    with open(user_db_path, "rb") as file:
+        repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
+    st.rerun()
 
     st.success("you have registered")
 # used to store all the usernames and passwords as a 2d array
