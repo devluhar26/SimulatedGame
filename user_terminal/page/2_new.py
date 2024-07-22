@@ -31,6 +31,13 @@ if "bot_name" not in st.session_state:
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
+    values = st.slider(
+        "Select a range of values",
+        0.0, 100.0, (25.0, 75.0))
+    number = st.number_input("Insert a number")
+    option = st.selectbox(
+        "How would you like to be contacted?",
+        ("Email", "Home phone", "Mobile phone"))
     ##add bot logic widgets here
     if st.button("add"):
         repo.create_file("user_terminal/"+st.session_state.bot_name + ".py", "it works", code, branch="main", )
