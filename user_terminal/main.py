@@ -19,7 +19,7 @@ if "user" not in st.session_state:
 #SQL
 
 def add_credentials(username,password):
-    local_path = "user_terminal/" + username + "/" + username + ".db"
+    local_path = "user_terminal/"  + username + ".db"
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     connect_credentials.commit()
@@ -32,7 +32,7 @@ def add_credentials(username,password):
     connect_credentials.commit()
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    user_db_path = os.path.join(BASE_DIR,  username + "/" + username + ".db")
+    user_db_path = os.path.join(BASE_DIR,  username + ".db")
 
     with open(user_db_path, "rb") as file:
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
