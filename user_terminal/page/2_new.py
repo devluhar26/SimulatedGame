@@ -26,17 +26,19 @@ section div.block-container {
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
+if "bot_name" not in st.session_state:
+    st.session_state.bot_name = None
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
     ##add bot logic widgets here
     if st.button("add"):
-        repo.create_file(str(random.randint(0, 5000)) + ".py", "it works", code, branch="main", )
+        repo.create_file(st.session_state.bot_name + ".py", "it works", code, branch="main", )
         st.rerun()
 
 
 st.title("Create a new trading strategy here")
-name = st.text_input("enter bot name here")
+st.session_state.bot_name = st.text_input("enter bot name here")
 ###
 
 with open('user_terminal/page/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
@@ -51,7 +53,7 @@ st.write("Program your strategy below then Hit Save")
 
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
-if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
+if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
     code=response_dict['text']
     logic(name,code)
 elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
