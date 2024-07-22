@@ -19,7 +19,7 @@ if "user" not in st.session_state:
 #SQL
 
 def add_credentials(username,password):
-    local_path = "user_terminal/"+ username + ".db"
+    local_path = "user_terminal/"+ username +"/"+ username + ".db"
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     connect_credentials.commit()
@@ -27,7 +27,7 @@ def add_credentials(username,password):
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 ###
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    user_db_path = os.path.join(BASE_DIR, username + ".db")
+    user_db_path = os.path.join(BASE_DIR,username +"/"+ username + ".db")
     repo.create_file(local_path,".","","main")
     connect_user = sqlite3.connect(user_db_path)
     curs_user = connect_user.cursor()

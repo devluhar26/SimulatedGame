@@ -40,15 +40,15 @@ def logic(name,code):
     option = st.selectbox(
         "How would you like to be contacted?",
         ("Email", "Home phone", "Mobile phone"))
-    local_path = "user_terminal/"+ st.session_state.user + ".db"
+    local_path = "user_terminal/"+st.session_state.user +"/"+ st.session_state.user + ".db"
 
 
 
     ##add bot logic widgets here
     if st.button("add"):
-        repo.create_file("user_terminal/"+st.session_state.bot_name + ".py", "it works", code, branch="main", )
+        repo.create_file("user_terminal/"+st.session_state.user +"/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
+        user_db_path = os.path.join(BASE_DIR,st.session_state.user +"/"+  st.session_state.user + ".db")
         connect_user = sqlite3.connect(user_db_path)
         curs_user = connect_user.cursor()
         #curs_user.execute("")
