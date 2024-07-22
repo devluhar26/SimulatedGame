@@ -27,13 +27,10 @@ def add_credentials(username,password):
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 
     repo.create_file(local_path,".","","main")
-    curs_credentials.execute("CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
-    curs_credentials.execute("CREATE TABLE username_bot (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
+    curs_credentials.execute("CREATE TABLE Video (VideoID	INTEGER NOT NULL UNIQUE,Video_name	TEXT NOT NULL,Video_location	TEXT NOT NULL UNIQUE,PRIMARY KEY(VideoID AUTOINCREMENT))")
     connect_credentials.commit()
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
     user_db_path = os.path.join(BASE_DIR,  username + ".db")
-
     with open(user_db_path, "rb") as file:
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
     st.rerun()
