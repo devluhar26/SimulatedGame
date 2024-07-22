@@ -26,10 +26,10 @@ def add_credentials(username,password):
     with open(cred_db_path, "rb") as file:
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 
-    repo.create_file(local_path,".","a","main")
+    repo.create_file(local_path,".","","main")
     curs_credentials.execute("CREATE TABLE Video (VideoID	INTEGER NOT NULL UNIQUE,Video_name	TEXT NOT NULL,Video_location	TEXT NOT NULL UNIQUE,PRIMARY KEY(VideoID AUTOINCREMENT))")
     connect_credentials.commit()
-
+    connect_credentials.close()
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     user_db_path = os.path.join(BASE_DIR,  username + ".db")
     st.write((glob.glob(BASE_DIR+"/*")))
