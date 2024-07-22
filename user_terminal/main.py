@@ -27,10 +27,10 @@ def add_credentials(username,password):
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 ###
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    user_db_path = os.path.join(BASE_DIR,username +"/"+ username + ".db")
+    user_db_path = os.path.join(BASE_DIR,"/"+username +"/"+ username + ".db")
     repo.create_file(local_path,".","","main")
-    st.write(BASE_DIR)
-    connect_user = sqlite3.connect( username +"/"+ username + ".db")
+    st.write(user_db_path)
+    connect_user = sqlite3.connect( user_db_path)
     curs_user = connect_user.cursor()
     curs_user.execute(
          "CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
