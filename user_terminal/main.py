@@ -27,7 +27,7 @@ def add_credentials(username,password):
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 
     repo.create_file(local_path,".","","main")
-    curs_credentials.execute("CREATE TABLE ")
+    curs_credentials.execute("CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     connect_credentials.commit()
     user_db_path = os.path.join(BASE_DIR, local_path)
     with open(user_db_path, "rb") as file:
