@@ -1,4 +1,6 @@
 import os.path
+import sqlite3
+
 import streamlit_authenticator as stauth
 
 import streamlit as st
@@ -38,9 +40,22 @@ def logic(name,code):
     option = st.selectbox(
         "How would you like to be contacted?",
         ("Email", "Home phone", "Mobile phone"))
+    local_path = "user_terminal/"+ st.session_state.user + ".db"
+
+
+
     ##add bot logic widgets here
     if st.button("add"):
         repo.create_file("user_terminal/"+st.session_state.bot_name + ".py", "it works", code, branch="main", )
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
+        connect_user = sqlite3.connect(user_db_path)
+        curs_user = connect_user.cursor()
+        #curs_user.execute("")
+        #INSERT INTO STATEMENT^
+        connect_user.commit()
+        file = open(user_db_path, "rb")
+        repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
         st.rerun()
 
 
