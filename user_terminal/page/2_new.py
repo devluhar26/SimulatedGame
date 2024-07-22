@@ -25,6 +25,7 @@ section div.block-container {
 </style>'''
 
 st.markdown(html_style_string, unsafe_allow_html=True)
+st.write(st.session_state.user)
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
