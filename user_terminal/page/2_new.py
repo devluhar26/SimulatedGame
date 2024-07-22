@@ -55,7 +55,7 @@ st.write("Program your strategy below then Hit Save")
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
     code=response_dict['text']
-    logic(name,code)
+    logic(st.session_state.bot_name,code)
 elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
     st.warning('Add your strategy before Hitting Save', icon="⚠️")
 
