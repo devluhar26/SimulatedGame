@@ -32,7 +32,7 @@ def add_credentials(username,password):
     connect_credentials.commit()
     connect_credentials.close()
     user_db_path = os.path.join(BASE_DIR, local_path)
-    file= open(user_db_path, "rb")
+    file= open(local_path, "rb")
     st.write(file.read())
     repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
 
