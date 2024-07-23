@@ -41,7 +41,7 @@ with tab2:
     st.session_state.curs.execute("SELECT * FROM strategy")
     data = {
         'strategy name': [row[0] for row in st.session_state.curs.fetchall()],
-        'performance': [[random.randint(0, 5000) for _ in range(30)] for _ in range(5)],
+        'performance': [row[1] for row in st.session_state.curs.fetchall()],
     }
     ##change the array in line 14 for the strategies true performance
 
