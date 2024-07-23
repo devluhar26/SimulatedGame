@@ -47,7 +47,14 @@ with tab2:
 
     data = {
         'strategy name': [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'performance': [row[1] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'location': [row[1] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'stock': [row[2] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'take profit': [row[3] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'stop loss': [row[4] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'minimum trade size': [row[5] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'maximum trade size': [row[6] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'trade duration': [row[7] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'trade frequency': [row[8] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
     }
     ##change the array in line 14 for the strategies true performance
 
