@@ -68,10 +68,10 @@ with tab3:
     option = st.selectbox(
         "Select the strategy you wish to modify",
         data["strategy name"])
-    with open('user_terminal/page/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+    with open('user_terminal/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
         custom_buttons_alt = json.load(json_button_file_alt)
 
-    with open('user_terminal/page/resources/example_info_bar.json') as json_info_file:
+    with open('user_terminal/resources/example_info_bar.json') as json_info_file:
         info_bar = json.load(json_info_file)
 
     height = [20, 10]
