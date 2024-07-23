@@ -20,12 +20,45 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
         conn_seller = sqlite3.connect(trade_to_execute[2] + ".db")
         curs_seller = conn_seller.cursor()
 
-        if curs_seller.execute("SELECT quantity WHERE stock=?").fetchone()==quantity:
-            curs_seller.execute("DELETE FROM portfolio WHERE stock=?",(stock))
+        if curs_seller.execute("SELECT quantity WHERE stock=?",(stock,)).fetchone()[0]==quantity:
+            curs_seller.execute("DELETE FROM portfolio WHERE stock=?",(stock,))
         else:
             curs_seller.execute("UPDATE portfolio SET quantity=quantity-? WHERE (stock)=(?)", (quantity, stock))
+
+        curs_seller.execute("UPDATE portfolio SET quantity=quantity+? WHERE stock=cash",(pps*quantity,))
+
+
+        if curs_buyer.execute("SELECT quantity WHERE stock=?",(stock,)).fetchone()==None:
+            curs_buyer.execute("INSERT INTO portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",(stock,quantity,pps,"long"))
+        else:
+            curs_buyer.execute("UPDATE portfolio SET quantity=quantity+? WHERE (stock)=(?)", (quantity, stock))
+
+        curs_buyer.execute("UPDATE portfolio SET quantity=quantity-? WHERE stock=cash",(pps*quantity,))
     if buy_sell == "sell":
-        pass
+        conn_seller = sqlite3.connect(username + ".db")
+        curs_seller = conn_buyer.cursor()
+
+        conn_buyer = sqlite3.connect(trade_to_execute[2] + ".db")
+        curs_buyer = conn_buyer.cursor()
+
+        if curs_seller.execute("SELECT quantity WHERE stock=?",(stock,)).fetchone()[0] == quantity:
+            curs_seller.execute("DELETE FROM portfolio WHERE stock=?", (stock,))
+        else:
+            curs_seller.execute("UPDATE portfolio SET quantity=quantity-? WHERE (stock)=(?)", (quantity, stock))
+
+        curs_seller.execute("UPDATE portfolio SET quantity=quantity+? WHERE stock=cash", (pps * quantity,))
+
+        if curs_buyer.execute("SELECT quantity WHERE stock=?",(stock,)).fetchone() == None:
+            curs_buyer.execute(
+                "INSERT INTO portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+                (stock, quantity, pps, "short"))
+        else:
+            curs_buyer.execute("UPDATE portfolio SET quantity=quantity+? WHERE (stock)=(?)", (quantity, stock))
+
+        curs_buyer.execute("UPDATE portfolio SET quantity=quantity-? WHERE stock=cash", (pps * quantity,))
+
+conn_buyer=sqlite3.connect("bob.db")
+curs_buyer=conn_buyer.cursor()
 
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute):
     if buy_sell=="buy":
