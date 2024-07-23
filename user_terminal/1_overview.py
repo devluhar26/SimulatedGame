@@ -72,6 +72,7 @@ with tab2:
         df,
         on_select='rerun',
         selection_mode='multi-row',
+         hide_index = True,
         use_container_width=True,height=400
     )
 
