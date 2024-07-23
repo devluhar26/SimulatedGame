@@ -46,11 +46,7 @@ with tab1:
     ##change the array in line 14 for the strategies true performance
 
     df = pd.DataFrame(data)
-    event = st.dataframe(
-        df,
-        selection_mode='multi-row',
-        use_container_width=True, height=400
-    )
+    event = st.dataframe(df,hide_index=True,use_container_width=True, height=400)
 
 with tab2:
     st.title("simulated trading game")
