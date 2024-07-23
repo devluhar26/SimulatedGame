@@ -28,7 +28,8 @@ def add_credentials(username,password):
 ###
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     user_db_path = os.path.join(BASE_DIR,username + ".db")
-    #repo.create_file(local_path,".","","main")
+
+    repo.create_file(local_path,".","","main")
 
     st.write(user_db_path)
     connect_user = sqlite3.connect(user_db_path)
