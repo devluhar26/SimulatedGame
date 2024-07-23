@@ -45,7 +45,7 @@ with tab2:
 
 
     curs_user.execute("SELECT * FROM strategy")
-    st.write([row[0] for row in curs_user.fetchall()])
+    st.write(curs_user.fetchall())
 
     st.write([row[1] for row in curs_user.fetchall()])
     data = {
