@@ -36,8 +36,22 @@ with tab1:
     chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
 
     st.line_chart(chart_data)
-    st.write("add portfolio value here")
+    data = {
+        'stock': [row[0] for row in curs_user.execute("SELECT * FROM portfolio").fetchall()],
+        'quantity': [row[1] for row in curs_user.execute("SELECT * FROM portfolio").fetchall()],
+        'initial price per share': [row[2] for row in curs_user.execute("SELECT * FROM portfolio").fetchall()],
+        'long/short': [row[3] for row in curs_user.execute("SELECT * FROM portfolio").fetchall()],
 
+    }
+    ##change the array in line 14 for the strategies true performance
+
+    df = pd.DataFrame(data)
+    event = st.dataframe(
+        df,
+        on_select='rerun',
+        selection_mode='multi-row',
+        use_container_width=True, height=400
+    )
 
 with tab2:
     st.title("simulated trading game")
