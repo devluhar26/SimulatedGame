@@ -51,7 +51,7 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
         if curs_buyer.execute("SELECT quantity WHERE stock=?",(stock,)).fetchone() == None:
             curs_buyer.execute(
                 "INSERT INTO portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                (stock, quantity, pps, "short"))
+                (stock, quantity, pps, "long"))
         else:
             curs_buyer.execute("UPDATE portfolio SET quantity=quantity+? WHERE (stock)=(?)", (quantity, stock))
 
