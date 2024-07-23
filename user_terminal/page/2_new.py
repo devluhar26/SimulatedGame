@@ -30,6 +30,7 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
+
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")

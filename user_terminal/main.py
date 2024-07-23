@@ -33,10 +33,14 @@ def add_credentials(username,password):
 
     connect_user = sqlite3.connect(user_db_path)
     curs_user = connect_user.cursor()
+    if "conn" not in st.session_state:
+        st.session_state.conn = connect_user
+    if "curs" not in st.session_state:
+        st.session_state.curs = curs_user
     curs_user.execute(
-         "CREATE TABLE portfolio_bot (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
+         "CREATE TABLE portfolio (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     curs_user.execute(
-         "CREATE TABLE username_bot (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
+         "CREATE TABLE strategy (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
 
     connect_user.commit()
     file=open(user_db_path, "rb")
