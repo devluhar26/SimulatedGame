@@ -12,6 +12,20 @@ def tuple_to_array(tuple, array):
             temp.append( x )
         array.append( temp )  #3D array
     return array
+def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
+    if buy_sell=="buy":
+        conn_buyer=sqlite3.connect(username+".db")
+        curs_buyer=conn_buyer.cursor()
+
+        conn_seller = sqlite3.connect(trade_to_execute[2] + ".db")
+        curs_seller = conn_seller.cursor()
+
+        if curs_seller.execute("SELECT quantity WHERE stock=?").fetchone()==quantity:
+            curs_seller.execute("DELETE FROM portfolio WHERE stock=?",(stock))
+        else:
+            curs_seller.execute("UPDATE portfolio SET quantity=quantity-? WHERE (stock)=(?)", (quantity, stock))
+    if buy_sell == "sell":
+        pass
 
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute):
     if buy_sell=="buy":
@@ -48,6 +62,8 @@ def check_database(username,buy_sell,pps,quantity,stock):
     print(orders)
     #quantity_adjustments(orders)
 
+def check_funds():
+    pass
 
 def execute_order(username,buy_sell,pps,quantity,stock):
     ordernum=int(open("ordernum.txt","r").readline())
