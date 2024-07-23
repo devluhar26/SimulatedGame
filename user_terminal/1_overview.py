@@ -45,6 +45,9 @@ with tab2:
 
 
     curs_user.execute("SELECT * FROM strategy")
+    st.write([row[0] for row in curs_user.fetchall()])
+
+    st.write([row[1] for row in curs_user.fetchall()])
     data = {
         'strategy name': [row[0] for row in curs_user.fetchall()],
         'performance': [row[1] for row in curs_user.fetchall()],
