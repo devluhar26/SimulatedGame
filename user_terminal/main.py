@@ -31,7 +31,6 @@ def add_credentials(username,password):
 
     repo.create_file(local_path,".","","main")
 
-    st.write(user_db_path)
     connect_user = sqlite3.connect(user_db_path)
     curs_user = connect_user.cursor()
     curs_user.execute(
