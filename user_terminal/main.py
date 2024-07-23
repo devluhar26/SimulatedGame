@@ -47,7 +47,7 @@ def add_credentials(username,password):
     st.success("you have registered")
 # used to store all the usernames and passwords as a 2d array
 credentials = []
-def retrieve_credentials():             #STATIC METHOD
+def retrieve_credentials():
     print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
