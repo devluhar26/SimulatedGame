@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import streamlit as st
 import pandas as pd
@@ -6,6 +7,10 @@ import random
 from code_editor import code_editor
 import json
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
+connect_user = sqlite3.connect(user_db_path)
+curs_user = connect_user.cursor()
 
 html_style_string = '''<style>
 @media (min-width: 576px)
@@ -38,10 +43,10 @@ with tab2:
     st.write("need to import table [docs.streamlit.io](https://docs.streamlit.io/).")
 
 
-    st.session_state.curs.execute("SELECT * FROM strategy")
+    curs_user.execute("SELECT * FROM strategy")
     data = {
-        'strategy name': [row[0] for row in st.session_state.curs.fetchall()],
-        'performance': [row[1] for row in st.session_state.curs.fetchall()],
+        'strategy name': [row[0] for row in curs_user.fetchall()],
+        'performance': [row[1] for row in curs_user.fetchall()],
     }
     ##change the array in line 14 for the strategies true performance
 

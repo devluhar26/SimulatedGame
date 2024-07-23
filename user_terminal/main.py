@@ -33,10 +33,7 @@ def add_credentials(username,password):
 
     connect_user = sqlite3.connect(user_db_path)
     curs_user = connect_user.cursor()
-    if "conn" not in st.session_state:
-        st.session_state.conn = connect_user
-    if "curs" not in st.session_state:
-        st.session_state.curs = curs_user
+
     curs_user.execute(
          "CREATE TABLE portfolio (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     curs_user.execute(

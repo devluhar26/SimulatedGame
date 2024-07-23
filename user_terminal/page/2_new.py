@@ -25,6 +25,10 @@ section div.block-container {
 }  
 
 </style>'''
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
+connect_user = sqlite3.connect(user_db_path)
+curs_user = connect_user.cursor()
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
@@ -48,10 +52,7 @@ def logic(name,code):
     ##add bot logic widgets here
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        user_db_path = os.path.join(BASE_DIR,  st.session_state.user + ".db")
-        connect_user = sqlite3.connect(user_db_path)
-        curs_user = connect_user.cursor()
+
         #curs_user.execute("")
         #INSERT INTO STATEMENT^
         connect_user.commit()
