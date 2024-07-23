@@ -63,7 +63,7 @@ with tab2:
         df,
         on_select='rerun',
         selection_mode='multi-row',
-        use_container_width=False,height=400
+        use_container_width=True,height=400
     )
 
     st.button("modify")
