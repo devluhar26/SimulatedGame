@@ -44,13 +44,10 @@ with tab2:
     st.write("need to import table [docs.streamlit.io](https://docs.streamlit.io/).")
 
 
-    curs_user.execute("SELECT * FROM strategy")
-    st.write(curs_user.fetchall())
 
-    st.write([row[1] for row in curs_user.fetchall()])
     data = {
-        'strategy name': [row[0] for row in curs_user.fetchall()],
-        'performance': [row[1] for row in curs_user.fetchall()],
+        'strategy name': [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'performance': [row[1] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
     }
     ##change the array in line 14 for the strategies true performance
 
