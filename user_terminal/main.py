@@ -26,8 +26,7 @@ def add_credentials(username,password):
     with open(cred_db_path, "rb") as file:
         repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
 ###
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    user_db_path = os.getcwd()+"/"+ username +"/"+ username + ".db"
+    user_db_path = os.getcwd()+r"/"+ username +r"/"+ username + r".db"
     repo.create_file(local_path,".","","main")
     st.write(user_db_path)
     connect_user = sqlite3.connect( user_db_path)
