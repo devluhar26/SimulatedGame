@@ -48,7 +48,6 @@ with tab1:
     df = pd.DataFrame(data)
     event = st.dataframe(
         df,
-        on_select='rerun',
         selection_mode='multi-row',
         use_container_width=True, height=400
     )
