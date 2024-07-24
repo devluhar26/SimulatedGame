@@ -30,6 +30,14 @@ user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
+def tuple_to_array(tuple, array):
+    for data in  tuple:
+        temp = []  # creates 2d array for all credentials
+        for x in data:
+            temp.append( x )
+        array.append( temp )  #3D array
+    return array
+
 st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
@@ -42,11 +50,17 @@ def logic(name,code):
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
     st.write(values[0])
+    stock_name=[]
+    conn_stock=sqlite3.connect("stock_prices.db")
+    curs_stock=conn_stock.cursor()
+    options = st.multiselect(
+        "Select the stocks you wish to apply the strategy to",tuple_to_array(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall(),stock_name)
+        )
 
+    st.write("You selected:", options)
     number = st.number_input("Insert a number")
-    option = st.selectbox(
-        "How would you like to be contacted?",
-        ("Email", "Home phone", "Mobile phone"))
+
+
     local_path = "user_terminal/"+ st.session_state.user + ".db"
 
 
