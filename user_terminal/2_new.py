@@ -30,13 +30,6 @@ user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
-def tuple_to_array(tuple, array):
-    for data in  tuple:
-        temp = []  # creates 2d array for all credentials
-        for x in data:
-            temp.append( x )
-        array.append( temp )  #3D array
-    return array
 
 st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
