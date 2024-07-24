@@ -12,6 +12,9 @@ import json
 from github import Github
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 
 conn_stock = sqlite3.connect("stock_prices.db")
 curs_stock = conn_stock.cursor()
@@ -40,8 +43,7 @@ st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
-curs_stock.execute("SELECT * FROM AAPL ")
-print(curs_stock.fetchall())
+print(curs_stock.execute("SELECT * FROM AAPL ").fetchall())
 
 if "stock_name" not in st.session_state:
         st.session_state.stock_name =None
