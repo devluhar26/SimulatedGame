@@ -56,7 +56,7 @@ def logic(name,code):
     tuple_to_array(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall(), stock_name)
     print(stock_name)
     options = st.multiselect(
-        "Select the stocks you wish to apply the strategy to",
+        "Select the stocks you wish to apply the strategy to",[1,2,3]
         )
 
     st.write("You selected:", options)
