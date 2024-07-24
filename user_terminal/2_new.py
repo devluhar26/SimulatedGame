@@ -13,9 +13,7 @@ from github import Github
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
-conn_stock=sqlite3.connect("stock_prices.db")
-curs_stock=conn_stock.cursor()
-stock_name=(str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall())
+
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -66,6 +64,9 @@ with open('user_terminal/resources/example_info_bar.json') as json_info_file:
 height = [20, 22]
 btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
+conn_stock=sqlite3.connect("stock_prices.db")
+curs_stock=conn_stock.cursor()
+stock_name=[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 st.write(stock_name)
 
 
