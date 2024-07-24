@@ -43,7 +43,7 @@ st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
-print(curs_stock.execute("SELECT * FROM AAPL ").fetchall())
+st.write(curs_stock.execute("SELECT * FROM AAPL ").fetchall())
 
 if "stock_name" not in st.session_state:
         st.session_state.stock_name =None
