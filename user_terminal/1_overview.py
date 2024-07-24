@@ -62,8 +62,9 @@ with tab2:
         'stop loss': [row[4] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
         'minimum trade size': [row[5] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
         'maximum trade size': [row[6] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'trade duration': [row[7] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'trade frequency': [row[8] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'minimum trade duration': [row[7] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'maximum duration': [row[8] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+        'trade frequency': [row[9] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
     }
     ##change the array in line 14 for the strategies true performance
 

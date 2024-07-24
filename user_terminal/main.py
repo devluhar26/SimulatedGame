@@ -37,7 +37,7 @@ def add_credentials(username,password):
     curs_user.execute(
          "CREATE TABLE portfolio (stock	TEXT NOT NULL UNIQUE,quantity	REAL NOT NULL,initial_price_per_share	REAL NOT NULL,long_or_short	TEXT NOT NULL,PRIMARY KEY(stock))")
     curs_user.execute(
-         "CREATE TABLE strategy (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
+         "CREATE TABLE strategy (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, min_timeframe REAL, max_timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
     curs_user.execute("INSERT INTO  portfolio (stock,quantity,initial_price_per_share.long_or_short) VALUES (?,?,?,?)",("cash",1000,1,"long"))
 
     connect_user.commit()

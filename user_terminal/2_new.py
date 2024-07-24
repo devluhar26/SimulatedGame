@@ -79,11 +79,26 @@ def logic(name,code):
         min_size=trade_size[0]
         max_size=trade_size[1]
 
-
+    timeframe_option = st.selectbox(
+        "some question about min and max timeframe?",
+        ("none", "min timeframe", "max timeframe", "both"))
+    min_timeframe = None
+    max_timeframe = None
+    if timeframe_option == "none":
+        pass
+    if size_option == "min timeframe":
+        min_timeframe = st.slider("select min timeframe", 0.0, 60.0, 20.0)
+    if size_option == "max timeframe":
+        max_timeframe = st.slider("select  max timeframe", 0.0, 60.0, 40.0)
+    if size_option == "both":
+        trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
+        min_timeframe = trade_timeframe[0]
+        max_timeframe = trade_timeframe[1]
+    trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
-        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",stock,take_profit,stop_loss,min_size,max_size))
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour))
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
