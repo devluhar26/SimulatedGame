@@ -160,7 +160,7 @@ with tab3:
         max_timeframe = trade_timeframe[1]
     trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
     local_path = "user_terminal/"+ st.session_state.user + ".db"
-    if st.button("add")and len(response_dict['text']) != 0:
+    if st.button("add"):
         code = response_dict['text']
         repo.update_file("user_terminal/"+ option + ".py", "it works2", content=code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py").sha )
 
