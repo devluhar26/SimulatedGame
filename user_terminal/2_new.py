@@ -42,7 +42,7 @@ if "bot_name" not in st.session_state:
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
-    options = st.selectbox("Select the stocks you wish to apply the strategy to",stock_name,stock_name)
+    options = st.selectbox("Select the stocks you wish to apply the strategy to",stock_name)
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     ##add bot logic widgets here
     if st.button("add"):
