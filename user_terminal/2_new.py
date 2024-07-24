@@ -40,6 +40,7 @@ st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 a=curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'")
+st.write(a)
 if "stock_name" not in st.session_state:
     st.session_state.stock_name =a.fetchall()
 st.write(st.session_state)
