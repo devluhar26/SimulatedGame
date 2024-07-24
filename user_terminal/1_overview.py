@@ -169,3 +169,4 @@ with tab3:
             st.rerun()
             st.sucess("the strategy has been modified")
 
+
