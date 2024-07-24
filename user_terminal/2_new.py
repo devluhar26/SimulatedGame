@@ -41,14 +41,13 @@ if "bot_name" not in st.session_state:
 
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
+
     st.write(f"set the trading logic for {name}")
+    st.write(stock_name)
+
     values = st.slider(
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
-    st.write(values[0])
-    conn_stock=sqlite3.connect("stock_prices.db")
-    curs_stock=conn_stock.cursor()
-    st.write(stock_name)
     options = st.multiselect("Select the stocks you wish to apply the strategy to",stock_name)
 
     st.write("You selected:", options)
