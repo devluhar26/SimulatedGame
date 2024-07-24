@@ -47,7 +47,7 @@ def logic(name,code):
     st.write(f"set the trading logic for {name}")
     stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
     option = st.selectbox(
-        "How would you like to be contacted?",
+        "some question about stop loss and take profit?",
         ("none","stop loss","take profit","both"))
     stop_loss=None
     take_profit=None
@@ -55,7 +55,6 @@ def logic(name,code):
         pass
     if option=="stop loss":
         stop_loss = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 25.0)
-
     if option=="take profit":
         take_profit = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 75.0)
     if option=="both":
@@ -65,10 +64,28 @@ def logic(name,code):
     st.write(stop_loss)
     st.write(take_profit)
 
+    size_option = st.selectbox(
+        "some question about min and max trade size?",
+        ("none","min size","max","both"))
+    min_size=None
+    max_size=None
+    if size_option=="none":
+        pass
+    if size_option=="stop loss":
+        min_size = st.slider("select min size", 0.0, 100.0, 25.0)
+    if size_option=="take profit":
+        max_size = st.slider("select max size trade", 0.0, 100.0, 75.0)
+    if size_option=="both":
+        trade_size = st.slider("select min and max trade size", 0.0, 100.0, (25.0, 75.0))
+        min_size=trade_size[0]
+        max_size=trade_size[1]
+    st.write(min_size)
+    st.write(max_size)
+
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
-        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",stock))
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",stock,stop_loss,take_profit))
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
