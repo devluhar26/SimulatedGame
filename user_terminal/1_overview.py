@@ -172,5 +172,4 @@ with tab3:
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
         st.rerun()
-        st.st.switch_page("1_overview.py")
 
