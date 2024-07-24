@@ -152,11 +152,11 @@ with tab3:
     max_timeframe = None
     if timeframe_option == "none":
         pass
-    if size_option == "min timeframe":
+    if timeframe_option == "min timeframe":
         min_timeframe = st.slider("select min timeframe", 0.0, 60.0, 20.0)
-    if size_option == "max timeframe":
+    if timeframe_option == "max timeframe":
         max_timeframe = st.slider("select  max timeframe", 0.0, 60.0, 40.0)
-    if size_option == "both":
+    if timeframe_option == "both":
         trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
         min_timeframe = trade_timeframe[0]
         max_timeframe = trade_timeframe[1]
