@@ -41,7 +41,7 @@ def logic(name,code):
     values = st.slider(
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
-    st.write(values)
+    st.write(values[0])
 
     number = st.number_input("Insert a number")
     option = st.selectbox(
