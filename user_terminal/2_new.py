@@ -66,14 +66,14 @@ def logic(name,code):
 
     size_option = st.selectbox(
         "some question about min and max trade size?",
-        ("none","min size","max","both"))
+        ("none","min size","max size","both"))
     min_size=None
     max_size=None
     if size_option=="none":
         pass
-    if size_option=="stop loss":
+    if size_option=="min size":
         min_size = st.slider("select min size", 0.0, 100.0, 25.0)
-    if size_option=="take profit":
+    if size_option=="max size":
         max_size = st.slider("select max size trade", 0.0, 100.0, 75.0)
     if size_option=="both":
         trade_size = st.slider("select min and max trade size", 0.0, 100.0, (25.0, 75.0))
