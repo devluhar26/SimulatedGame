@@ -53,8 +53,10 @@ def logic(name,code):
     stock_name=[]
     conn_stock=sqlite3.connect("stock_prices.db")
     curs_stock=conn_stock.cursor()
+    tuple_to_array(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall(), stock_name)
+    print(stock_name)
     options = st.multiselect(
-        "Select the stocks you wish to apply the strategy to",tuple_to_array(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall(),stock_name)
+        "Select the stocks you wish to apply the strategy to",
         )
 
     st.write("You selected:", options)
