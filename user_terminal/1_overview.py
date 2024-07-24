@@ -101,7 +101,7 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
 
-    response_dict = code_editor(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0], height=height, buttons=btns, info=info_bar)
+    response_dict = code_editor(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]), height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
 
