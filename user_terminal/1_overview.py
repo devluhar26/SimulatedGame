@@ -163,6 +163,10 @@ with tab3:
     trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
+        contents = repo.get_contents("user_terminal/"+option+".py",ref="main")
+        repo.delete_file("user_terminal/"+ option + ".py","deleted",contents.sha)
+        repo.create_file("user_terminal/"+ new_name + ".py", "it works", response_dict['text'], branch="main", )
+
         curs_user.execute("UPDATE strategy SET (strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?) WHERE strategy_name=?",(new_name,"user_terminal/"+ new_name + ".py",stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
         connect_user.commit()
         file = open(user_db_path, "rb")
