@@ -18,7 +18,7 @@ user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
-st.write(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",("dsftryr",)).fetchone()[0]),"r").read())
+st.write()
 print("hello")
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 conn_stock = sqlite3.connect(stock_db_path)
@@ -103,7 +103,7 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
 
-    response_dict = code_editor("dff", height=height, buttons=btns, info=info_bar)
+    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read() height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
 
