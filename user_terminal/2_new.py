@@ -12,14 +12,10 @@ import json
 from github import Github
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 
-conn_stock = sqlite3.connect(stock_db_path)
-curs_stock = conn_stock.cursor()
 
-#print([str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -37,13 +33,15 @@ user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
+stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
+
+conn_stock = sqlite3.connect(stock_db_path)
+curs_stock = conn_stock.cursor()
 
 st.markdown(html_style_string, unsafe_allow_html=True)
-st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
-st.write(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall())
 
 if "stock_name" not in st.session_state:
         st.session_state.stock_name =None
@@ -51,11 +49,11 @@ st.write(st.session_state)
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
-    options = st.selectbox("Select the stocks you wish to apply the strategy to",st.session_state.stock_name)
+    stock = st.selectbox("Select which stocks you would like to use with the strategy",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
-        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",))
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",stock))
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
