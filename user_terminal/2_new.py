@@ -50,13 +50,10 @@ def logic(name,code):
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
     st.write(values[0])
-    stock_name=[]
     conn_stock=sqlite3.connect("stock_prices.db")
     curs_stock=conn_stock.cursor()
-    #tuple_to_array(, stock_name)
-    st.write(curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchone())
     options = st.multiselect(
-        "Select the stocks you wish to apply the strategy to",[1,2,3]
+        "Select the stocks you wish to apply the strategy to",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
         )
 
     st.write("You selected:", options)
