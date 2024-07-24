@@ -42,6 +42,7 @@ def logic(name,code):
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
     st.write(values)
+
     number = st.number_input("Insert a number")
     option = st.selectbox(
         "How would you like to be contacted?",
