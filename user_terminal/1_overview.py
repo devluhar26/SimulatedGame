@@ -167,7 +167,7 @@ with tab3:
         repo.delete_file("user_terminal/"+ option + ".py","deleted",contents.sha)
         repo.create_file("user_terminal/"+ new_name + ".py", "it works", response_dict['text'], branch="main", )
 
-        curs_user.execute("UPDATE strategy SET (strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?) WHERE strategy_name=?",(new_name,"user_terminal/"+ new_name + ".py",stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
+        curs_user.execute("UPDATE strategy SET (strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(new_name,"user_terminal/"+ new_name + ".py",stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
