@@ -162,7 +162,7 @@ with tab3:
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add")and len(response_dict['text']) != 0:
         code = response_dict['text']
-        repo.update_file("user_terminal/"+ option + ".py", "it works", content=code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py",ref="main").sha )
+        repo.update_file("user_terminal/"+ option + ".py", "it works2", content=code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py").sha )
 
         curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
         connect_user.commit()
