@@ -17,7 +17,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
-
+print(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",("dsftryr",)).fetchone()[0]),"r").read())
+print("hello")
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 conn_stock = sqlite3.connect(stock_db_path)
 curs_stock = conn_stock.cursor()
@@ -101,7 +102,7 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
 
-    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"rb"), height=height, buttons=btns, info=info_bar)
+    response_dict = code_editor("dff", height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
 
@@ -159,6 +160,7 @@ with tab3:
     trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
+        new_name="d"
         curs_user.execute("UPDATE strategy SET (strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?) WHERE strategy_name=?",(new_name,"user_terminal/"+ new_name + ".py",stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
         connect_user.commit()
         file = open(user_db_path, "rb")
