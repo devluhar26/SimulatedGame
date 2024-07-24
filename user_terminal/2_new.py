@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 
-conn_stock = sqlite3.connect("stock_prices.db")
+conn_stock = sqlite3.connect(stock_db_path)
 curs_stock = conn_stock.cursor()
 
 #print([str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
