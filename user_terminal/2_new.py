@@ -54,8 +54,7 @@ def logic(name,code):
     curs_stock=conn_stock.cursor()
     st.write([row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
     options = st.multiselect(
-        "Select the stocks you wish to apply the strategy to",[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-        )
+        "Select the stocks you wish to apply the strategy to",[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()],)
 
     st.write("You selected:", options)
     number = st.number_input("Insert a number")
