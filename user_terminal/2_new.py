@@ -67,7 +67,7 @@ st.write("Program your strategy below then Hit Save")
 conn_stock=sqlite3.connect("stock_prices.db")
 curs_stock=conn_stock.cursor()
 for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall():
-    st.write(row[0])
+    st.write(row)
 
 
 
