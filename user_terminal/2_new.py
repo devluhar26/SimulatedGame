@@ -41,7 +41,7 @@ if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
 curs_stock.execute("SELECT * FROM AAPL ")
-st.write(curs_stock.fetchall())
+print(curs_stock.fetchall())
 
 if "stock_name" not in st.session_state:
         st.session_state.stock_name =None
