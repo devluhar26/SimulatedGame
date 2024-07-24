@@ -70,6 +70,7 @@ for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'
     st.write(row[0])
 
 
+
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
     code=response_dict['text']
