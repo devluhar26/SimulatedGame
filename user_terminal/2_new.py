@@ -39,9 +39,9 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
-
+a=curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'")
 if "stock_name" not in st.session_state:
-    st.session_state.stock_name =curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+    st.session_state.stock_name =a.fetchall()
 st.write(st.session_state)
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
