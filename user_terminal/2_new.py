@@ -13,7 +13,10 @@ from github import Github
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
+conn_stock = sqlite3.connect("stock_prices.db")
+curs_stock = conn_stock.cursor()
 
+#print([str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -36,11 +39,13 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
+if "stock_name" not in st.session_state:
+    st.session_state.stock_name = [str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
-    options = st.selectbox("Select the stocks you wish to apply the strategy to",stock_name)
+    options = st.selectbox("Select the stocks you wish to apply the strategy to",[])
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
@@ -64,9 +69,7 @@ with open('user_terminal/resources/example_info_bar.json') as json_info_file:
 height = [20, 22]
 btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
-conn_stock = sqlite3.connect("stock_prices.db")
-curs_stock = conn_stock.cursor()
-st.write([row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+
 
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
