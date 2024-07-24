@@ -29,12 +29,12 @@ section div.block-container {
 
 </style>'''
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
-
 conn_stock = sqlite3.connect(stock_db_path)
 curs_stock = conn_stock.cursor()
 
@@ -42,10 +42,6 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
-
-if "stock_name" not in st.session_state:
-        st.session_state.stock_name =None
-st.write(st.session_state)
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
