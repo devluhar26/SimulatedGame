@@ -18,7 +18,7 @@ user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
 
-print(open(os.path.join(BASE_DIR,str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",("dsftryr",)).fetchone()[0])),"r").read())
+print(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",("dsftryr",)).fetchone()[0]),"r").read())
 print("hello")
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
 conn_stock = sqlite3.connect(stock_db_path)
