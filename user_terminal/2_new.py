@@ -39,6 +39,7 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 st.write(st.session_state.user)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
+
 curs_stock.execute("SELECT name FROM sqlite_master ")
 st.write(curs_stock.fetchall())
 if "stock_name" not in st.session_state:
