@@ -48,7 +48,7 @@ def logic(name,code):
     st.write(values[0])
     conn_stock=sqlite3.connect("stock_prices.db")
     curs_stock=conn_stock.cursor()
-    st.write()
+    st.write(stock_name)
     options = st.multiselect("Select the stocks you wish to apply the strategy to",stock_name)
 
     st.write("You selected:", options)
