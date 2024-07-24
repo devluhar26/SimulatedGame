@@ -15,7 +15,7 @@ repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 conn_stock=sqlite3.connect("stock_prices.db")
 curs_stock=conn_stock.cursor()
-stock_name=[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+stock_name=(str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall())
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -44,20 +44,13 @@ def logic(name,code):
 
     st.write(f"set the trading logic for {name}")
     st.write(stock_name)
-
     values = st.slider(
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
     options = st.multiselect("Select the stocks you wish to apply the strategy to",stock_name)
-
     st.write("You selected:", options)
     number = st.number_input("Insert a number")
-
-
     local_path = "user_terminal/"+ st.session_state.user + ".db"
-
-
-
     ##add bot logic widgets here
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
