@@ -45,7 +45,7 @@ if "stock_name" not in st.session_state:
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
-    options = st.selectbox("Select the stocks you wish to apply the strategy to",[])
+    options = st.selectbox("Select the stocks you wish to apply the strategy to",st.session_state.stock_name)
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
