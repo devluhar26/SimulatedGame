@@ -44,7 +44,6 @@ def logic(name,code):
     st.write(f"set the trading logic for {name}")
     options = st.selectbox("Select the stocks you wish to apply the strategy to",stock_name)
     local_path = "user_terminal/"+ st.session_state.user + ".db"
-    ##add bot logic widgets here
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
         curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",))
@@ -67,7 +66,7 @@ with open('user_terminal/resources/example_info_bar.json') as json_info_file:
 height = [20, 22]
 btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
-
+st.write(stock_name)
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
