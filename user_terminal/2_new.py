@@ -41,6 +41,7 @@ def logic(name,code):
     values = st.slider(
         "Select a range of values",
         0.0, 100.0, (25.0, 75.0))
+    st.write(values)
     number = st.number_input("Insert a number")
     option = st.selectbox(
         "How would you like to be contacted?",
@@ -53,8 +54,8 @@ def logic(name,code):
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
 
-        #curs_user.execute("")
-        #INSERT INTO STATEMENT^
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,stock, take_profit,stop_loss,min_size,max_size,timeframe,trade_frequency) VALUES (?,?,?,?,?,?,?,?,?,?)",(st.session_state.bot_name,"user_terminal/"+ st.session_state.bot_name + ".py",))
+
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
