@@ -66,8 +66,8 @@ btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
 conn_stock=sqlite3.connect("stock_prices.db")
 curs_stock=conn_stock.cursor()
-stock_name=[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-st.write(stock_name)
+stock_name=
+st.write([str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
 
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
