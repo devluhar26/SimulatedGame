@@ -103,9 +103,8 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
 
-    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read(), height=height, buttons=btns, info=info_bar)
-    if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
-        code = response_dict['text']
+    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read(), height=height, info=info_bar)
+
 
 
     st.write(" #### add the trading logic widgets below####")
@@ -161,7 +160,8 @@ with tab3:
         max_timeframe = trade_timeframe[1]
     trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
     local_path = "user_terminal/"+ st.session_state.user + ".db"
-    if st.button("add"):
+    if st.button("add")and len(response_dict['text']) != 0:
+        code = response_dict['text']
         repo.update_file("user_terminal/"+ option + ".py", "it works", code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py",ref="main").sha )
 
         curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
@@ -169,4 +169,5 @@ with tab3:
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
         st.rerun()
+        st.sucess("the strategy has been modified")
 
