@@ -64,11 +64,9 @@ with open('user_terminal/resources/example_info_bar.json') as json_info_file:
 height = [20, 22]
 btns = custom_buttons_alt
 st.write("Program your strategy below then Hit Save")
-conn_stock=sqlite3.connect("stock_prices.db")
-curs_stock=conn_stock.cursor()
-for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall():
-    st.write(row)
-
+conn_stock = sqlite3.connect("stock_prices.db")
+curs_stock = conn_stock.cursor()
+st.write([row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
 
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
