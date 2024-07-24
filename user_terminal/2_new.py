@@ -45,7 +45,26 @@ if "bot_name" not in st.session_state:
 @st.experimental_dialog("Create a new trading strategy")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
-    stock = st.selectbox("Select which stocks you would like to use with the strategy",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+    stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+    option = st.selectbox(
+        "How would you like to be contacted?",
+        ("none","stop loss","take profit","both"))
+    stop_loss=None
+    take_profit=None
+    if option=="none":
+        pass
+    if option=="stop loss":
+        stop_loss = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 25.0)
+
+    if option=="take profit":
+        take_profit = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 75.0)
+    if option=="both":
+        size = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, (25.0, 75.0))
+        stop_loss=size[0]
+        take_profit=size[1]
+    st.write(stop_loss)
+    st.write(take_profit)
+
     local_path = "user_terminal/"+ st.session_state.user + ".db"
     if st.button("add"):
         repo.create_file("user_terminal/"+ st.session_state.bot_name + ".py", "it works", code, branch="main", )
