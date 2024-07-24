@@ -103,71 +103,69 @@ with tab3:
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
 
-    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read(), height=height, info=info_bar)
-
-
-
-    st.write(" #### add the trading logic widgets below####")
-
-    stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
-    option_2 = st.selectbox(
-        "some question about stop loss and take profit?",
-        ("none","stop loss","take profit","both"))
-    stop_loss=None
-    take_profit=None
-    if option_2=="none":
-        pass
-    if option_2=="stop loss":
-        stop_loss = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 25.0)
-    if option_2=="take profit":
-        take_profit = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 75.0)
-    if option_2=="both":
-        size = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, (25.0, 75.0))
-        stop_loss=size[0]
-        take_profit=size[1]
-
-
-    size_option = st.selectbox(
-        "some question about min and max trade size?",
-        ("none","min size","max size","both"))
-    min_size=None
-    max_size=None
-    if size_option=="none":
-        pass
-    if size_option=="min size":
-        min_size = st.slider("select min size", 0.0, 100.0, 25.0)
-    if size_option=="max size":
-        max_size = st.slider("select max size trade", 0.0, 100.0, 75.0)
-    if size_option=="both":
-        trade_size = st.slider("select min and max trade size", 0.0, 100.0, (25.0, 75.0))
-        min_size=trade_size[0]
-        max_size=trade_size[1]
-
-    timeframe_option = st.selectbox(
-        "some question about min and max timeframe?",
-        ("none", "min timeframe", "max timeframe", "both"))
-    min_timeframe = None
-    max_timeframe = None
-    if timeframe_option == "none":
-        pass
-    if timeframe_option == "min timeframe":
-        min_timeframe = st.slider("select min timeframe", 0.0, 60.0, 20.0)
-    if timeframe_option == "max timeframe":
-        max_timeframe = st.slider("select  max timeframe", 0.0, 60.0, 40.0)
-    if timeframe_option == "both":
-        trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
-        min_timeframe = trade_timeframe[0]
-        max_timeframe = trade_timeframe[1]
-    trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
-    local_path = "user_terminal/"+ st.session_state.user + ".db"
-    if st.button("add"):
+    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read(), height=height, buttons=btns, info=info_bar)
+    if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
-        repo.update_file("user_terminal/"+ option + ".py", "it works2", content=code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py").sha )
+        st.write(" #### add the trading logic widgets below####")
 
-        curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
-        connect_user.commit()
-        file = open(user_db_path, "rb")
-        repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
-        st.rerun()
-        st.sucess("the strategy has been modified")
+        stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+        option_2 = st.selectbox(
+            "some question about stop loss and take profit?",
+            ("none","stop loss","take profit","both"))
+        stop_loss=None
+        take_profit=None
+        if option_2=="none":
+            pass
+        if option_2=="stop loss":
+            stop_loss = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 25.0)
+        if option_2=="take profit":
+            take_profit = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 75.0)
+        if option_2=="both":
+            size = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, (25.0, 75.0))
+            stop_loss=size[0]
+            take_profit=size[1]
+
+
+        size_option = st.selectbox(
+            "some question about min and max trade size?",
+            ("none","min size","max size","both"))
+        min_size=None
+        max_size=None
+        if size_option=="none":
+            pass
+        if size_option=="min size":
+            min_size = st.slider("select min size", 0.0, 100.0, 25.0)
+        if size_option=="max size":
+            max_size = st.slider("select max size trade", 0.0, 100.0, 75.0)
+        if size_option=="both":
+            trade_size = st.slider("select min and max trade size", 0.0, 100.0, (25.0, 75.0))
+            min_size=trade_size[0]
+            max_size=trade_size[1]
+
+        timeframe_option = st.selectbox(
+            "some question about min and max timeframe?",
+            ("none", "min timeframe", "max timeframe", "both"))
+        min_timeframe = None
+        max_timeframe = None
+        if timeframe_option == "none":
+            pass
+        if timeframe_option == "min timeframe":
+            min_timeframe = st.slider("select min timeframe", 0.0, 60.0, 20.0)
+        if timeframe_option == "max timeframe":
+            max_timeframe = st.slider("select  max timeframe", 0.0, 60.0, 40.0)
+        if timeframe_option == "both":
+            trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
+            min_timeframe = trade_timeframe[0]
+            max_timeframe = trade_timeframe[1]
+        trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
+        local_path = "user_terminal/"+ st.session_state.user + ".db"
+        if st.button("add"):
+            repo.update_file("user_terminal/"+ option + ".py", "it works", code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py",ref="main").sha )
+
+            curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
+            connect_user.commit()
+            file = open(user_db_path, "rb")
+            repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
+            st.rerun()
+            st.sucess("the strategy has been modified")
 
