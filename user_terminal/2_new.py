@@ -13,6 +13,9 @@ from github import Github
 g=Github("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")
 repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
+conn_stock=sqlite3.connect("stock_prices.db")
+curs_stock=conn_stock.cursor()
+stock_name=[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
@@ -45,8 +48,8 @@ def logic(name,code):
     st.write(values[0])
     conn_stock=sqlite3.connect("stock_prices.db")
     curs_stock=conn_stock.cursor()
-    print([str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
-    options = st.multiselect("Select the stocks you wish to apply the strategy to",[str(row[0]) for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()],)
+    st.write()
+    options = st.multiselect("Select the stocks you wish to apply the strategy to",stock_name)
 
     st.write("You selected:", options)
     number = st.number_input("Insert a number")
