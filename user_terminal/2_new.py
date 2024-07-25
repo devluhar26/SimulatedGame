@@ -106,6 +106,7 @@ def logic(name,code):
         st.switch_page("user_terminal/2_new.py")
 
 
+
 st.title("Create a new trading strategy here")
 st.session_state.bot_name = st.text_input("enter bot name here")
 ###
