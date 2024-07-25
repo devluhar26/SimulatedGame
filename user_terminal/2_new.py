@@ -102,7 +102,7 @@ def logic(name,code):
         connect_user.commit()
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
-        st.switch_page("user_terminal/2_new.py")
+        st.switch_page("2_new.py")
 
 
 
