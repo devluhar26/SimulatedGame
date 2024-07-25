@@ -167,7 +167,7 @@ with tab3:
             connect_user.commit()
             file = open(user_db_path, "rb")
             repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
-            st.success("the strategy has been modified")
+            st.success("the strategy has been modified",icon="✅")
 
             st.rerun()
 

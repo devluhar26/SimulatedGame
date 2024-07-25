@@ -44,7 +44,7 @@ def add_credentials(username,password):
     file=open(user_db_path, "rb")
     repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
 
-    st.success("you have registered")
+    st.success("you have registered",icon="✅")
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():
