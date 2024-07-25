@@ -103,6 +103,7 @@ def logic(name,code):
         file = open(user_db_path, "rb")
         repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
         st.rerun()
+        st.switch_page("user_terminal/2_new.py")
 
 
 st.title("Create a new trading strategy here")
