@@ -169,6 +169,5 @@ with tab3:
             repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
             st.success("the strategy has been modified",icon="✅")
 
-            st.rerun()
 
 
