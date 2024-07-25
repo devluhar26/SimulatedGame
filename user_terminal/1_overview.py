@@ -17,7 +17,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path)
 curs_user = connect_user.cursor()
-
+def rerun():
+    st.rerun()
 st.write()
 print("hello")
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
@@ -92,7 +93,7 @@ with tab2:
 with tab3:
     option = st.selectbox(
         "Select the strategy you wish to modify",
-        data["strategy name"],on_change=None)
+        data["strategy name"],on_change=st.rerun)
     with open('user_terminal/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
         custom_buttons_alt = json.load(json_button_file_alt)
 
