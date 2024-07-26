@@ -46,7 +46,9 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
         curs_buyer.execute("UPDATE portfolio SET (quantity=quantity+?,long_or_short=?) WHERE (stock)=(?)", (quantity,"short", stock))
 
     curs_buyer.execute("UPDATE portfolio SET quantity=quantity-? WHERE stock=cash", (pps * quantity,))
-
+    conn_buyer.commit()
+    conn_seller.commit()
+    connect_exchange.commit()
 conn_buyer=sqlite3.connect("bob.db")
 curs_buyer=conn_buyer.cursor()
 
