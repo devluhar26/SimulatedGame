@@ -52,6 +52,7 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
 conn_buyer=sqlite3.connect("bob.db")
 curs_buyer=conn_buyer.cursor()
 
+
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,ordernum):
     recieptnum=int(open("recieptnum.txt","r").readline())
 
