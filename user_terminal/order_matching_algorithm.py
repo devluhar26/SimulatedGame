@@ -59,6 +59,9 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         curs_exchange.execute("UPDATE active_orders SET quantity=quantity-?  WHERE (order_number)=(?)",
                             (quantity, ordernum))
+        new_quantity=curs_exchange.execute("SELECT quantity FROM active_orders WHERE order_number=?",(ordernum,)).fetchone()[0]
+
+        check_database(username, buy_sell, pps, new_quantity, stock, ordernum)
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
         if buy_sell=="buy":
             curs_exchange.execute(
@@ -73,6 +76,8 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         execute_trade(username, buy_sell, pps, quantity, stock, trade_to_execute)
 
         curs_exchange.execute("UPDATE active_orders SET quantity=quantity-?  WHERE (order_number)=(?)",(quantity, trade_to_execute[0]))
+        new_quantity=curs_exchange.execute("SELECT quantity FROM active_orders WHERE order_number=?",(trade_to_execute[0],)).fetchone()[0]
+        check_database(trade_to_execute[2], trade_to_execute[1], trade_to_execute[3], new_quantity, trade_to_execute[5], trade_to_execute[0])
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
         if buy_sell == "buy":
             curs_exchange.execute(
@@ -89,6 +94,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
 
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
+
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
         if buy_sell == "buy":
             curs_exchange.execute(
@@ -138,4 +144,6 @@ def execute_order(username,buy_sell,pps,quantity,stock):
         check_database(username,buy_sell,pps,quantity,stock,ordernum)
     else:
         return
-
+#to use
+# from order_matching_algorithm import execute_order
+# execute_order(...)

@@ -15,7 +15,6 @@ repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 
 
-
 html_style_string = '''<style>
 @media (min-width: 576px)
 section div.block-container {
