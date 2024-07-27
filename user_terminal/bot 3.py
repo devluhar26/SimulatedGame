@@ -5,7 +5,7 @@ def main(username):
     names=get_stock_names()
     stock = names[random.randint(0, len(names) - 1)]
     choice=random.randint(0,1)
-    percent_adjust=round(random.uniform(-2,2)/100,4)
+    percent_adjust=round(random.uniform(-50,50)/100,4)
     print(percent_adjust)
     if choice==0:
         buy_sell="buy"
