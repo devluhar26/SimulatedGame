@@ -1,7 +1,7 @@
 import sqlite3
 import time
 from time import gmtime, strftime
-
+from update_stock_price import main
 connect_exchange = sqlite3.connect( "exchange.db" )
 curs_exchange = connect_exchange.cursor()
 
@@ -69,14 +69,14 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
         if buy_sell=="buy":
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2] ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2] ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("1")
             print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         else:
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum,trade_to_execute[2],trade_to_execute[3] ,trade_to_execute[4] ,pps ,username ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock,trade_to_execute[2],trade_to_execute[3] ,trade_to_execute[4] ,pps ,username ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("2")
             print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
@@ -94,18 +94,18 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         execute_trade(username, buy_sell, pps, quantity, stock, trade_to_execute)
         if buy_sell == "buy":
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum, username, pps, quantity, trade_to_execute[3], trade_to_execute[2],
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2],
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("3")
-            print("executed order:",[recieptnum, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
+            print("executed order:",[recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
         else:
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum, trade_to_execute[2], trade_to_execute[3], quantity, pps, username,
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username,
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("4")
-            print("executed order:",[recieptnum, trade_to_execute[2], trade_to_execute[3], quantity, pps, username])
+            print("executed order:",[recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username])
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
 
         curs_exchange.execute("UPDATE active_orders SET(quantity)=(?) WHERE (order_number)=(?)",(trade_to_execute[4]-quantity, trade_to_execute[0]))
@@ -126,16 +126,16 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         if buy_sell == "buy":
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum, username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2],
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock , username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2],
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("5")
 
             print("executed order:",[recieptnum, username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2]])
         else:
             curs_exchange.execute(
-                "INSERT INTO past_orders (reciept_number,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                (recieptnum, trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username,
+                "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
+                (recieptnum,stock ,trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username,
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             print("6")
             print("executed order:",[recieptnum, trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username])
@@ -148,7 +148,6 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
 
 def check_database(username,buy_sell,pps,quantity,stock,ordernum):
-
     if buy_sell=="buy":
         curs_exchange.execute(
             "SELECT * FROM active_orders WHERE (stock = ?) AND (username != ?) AND (ask_bid_price_per_share <= ?)  AND (buy_or_sell != ?) ORDER BY abs(ask_bid_price_per_share - ?), order_number",(stock, username,pps ,buy_sell,pps))
@@ -176,6 +175,8 @@ def check_funds(username,buy_sell,pps,quantity):
 
 def execute_order(username,buy_sell,pps,quantity,stock):
     if check_funds(username,buy_sell,pps,quantity)==True:
+        main()
+
         ordernum=int(open("ordernum.txt","r").readline())
         print("current user:",[buy_sell,username,pps,quantity,stock])
         curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
@@ -191,3 +192,5 @@ def execute_order(username,buy_sell,pps,quantity,stock):
 #to use
 # from order_matching_algorithm import execute_order
 # execute_order(...)
+
+
