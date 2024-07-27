@@ -106,6 +106,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         curs_exchange.execute("UPDATE active_orders SET(quantity)=(?) WHERE (order_number)=(?)",(trade_to_execute[4]-quantity, trade_to_execute[0]))
         new = open("recieptnum.txt", "w")
+        print(saving)
         new.write(str(recieptnum + 1))
         new.close()
         check_database(trade_to_execute[2], trade_to_execute[1], trade_to_execute[3], trade_to_execute[4]-quantity, trade_to_execute[5], trade_to_execute[0])
