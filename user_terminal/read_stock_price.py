@@ -16,7 +16,6 @@ def tuple_to_array(tuple):
 def current_bid_price(stock):
     curs_stock.execute(f"SELECT bid FROM [{stock}] WHERE time = (SELECT MAX(time) From [{stock}] )")####
     bid_price=curs_stock.fetchone()
-    print(bid_price[0])
     return bid_price[0]
 
 #gets an array of stock prices for stock A from start datetime to end date time

@@ -21,7 +21,6 @@ def main():
             ask=curs_exchange.fetchone()[0]
             curs_exchange.execute(f"SELECT bid_pps,time_of_execution FROM past_orders WHERE reciept_number = (SELECT MAX(reciept_number) FROM past_orders WHERE  (stock =?)) AND  (stock =?)",(name,name))
             last=curs_exchange.fetchall()[0]
-            print(curs_stock.execute(f"SELECT MAX(_rowid_) FROM [{name}] ").fetchone()[0])
             if (bid,ask,last[0],last[1])==curs_stock.execute(f"SELECT * FROM [{name}]").fetchall()[-1]:
                 pass
             else:
