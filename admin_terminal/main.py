@@ -47,7 +47,7 @@ with row2col2:
     tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
     with tab1:
-        df = pd.DataFrame(curs_exchange("SELECT * FROM active_orders").fetchall())
+        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
 
         st.dataframe(df,use_container_width=True)
 
