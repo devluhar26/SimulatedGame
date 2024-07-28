@@ -49,9 +49,9 @@ with row2col2:
     with tab1:
         df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
 
-        st.dataframe(df,use_container_width=True)
+        st.dataframe(df,use_container_width=True, hide_index=True)
 
     with tab2:
-        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders").fetchall())
 
-        st.dataframe(df,use_container_width=True)
+        st.dataframe(df,use_container_width=True, hide_index=True)
