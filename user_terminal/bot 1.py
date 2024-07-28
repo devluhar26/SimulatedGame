@@ -35,7 +35,11 @@ def main2(username):
 if __name__=="__main__":
     for x in range(1000):
         main1("bot1")
+        main1("bot1")
+        main1("bot1")
         main2("bot1")
+        main1("dev")
+        main1("dev")
         main1("dev")
         main2("dev")
 #
