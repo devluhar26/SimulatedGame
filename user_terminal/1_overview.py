@@ -101,8 +101,11 @@ with tab3:
     height = [20, 10]
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
-
-    response_dict = code_editor(open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?",(option,)).fetchone()[0]),"r").read(), height=height, buttons=btns, info=info_bar)
+    try:
+        startcode=open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?", (option,)).fetchone()[0]),"r").read()
+    except:
+        startcode=""
+    response_dict = code_editor(startcode, height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
         st.write(" #### add the trading logic widgets below####")

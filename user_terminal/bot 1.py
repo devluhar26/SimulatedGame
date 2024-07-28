@@ -1,3 +1,5 @@
+import time
+
 from order_matching_algorithm import execute_order
 from read_stock_price import *
 import random
@@ -6,7 +8,6 @@ def main(username):
     stock = names[random.randint(0, len(names) - 1)]
     choice=random.randint(0,1)
     percent_adjust=round(random.uniform(-2,2)/100,4)
-    print(percent_adjust)
     if choice==0:
         buy_sell="buy"
         pps=round(current_bid_price(stock)*(1+percent_adjust),2)
@@ -20,3 +21,4 @@ if __name__=="__main__":
     for x in range(100):
         main("bot1")
         main("dev")
+#
