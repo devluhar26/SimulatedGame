@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import read_stock_price
-print(read_stock_price.get_stock_names())
+print()
 st.set_page_config(layout='wide')
 connect_stock = sqlite3.connect("stock_prices.db")
 curs_stock = connect_stock.cursor()
@@ -18,7 +18,7 @@ with row1col1:
     tile11.title("11 view stock")
     stock_option = tile11.selectbox(
         "Select the strategy you wish to modify",
-        )
+        read_stock_price.get_stock_names())
 
     chart_data = pd.DataFrame(curs_stock.execute(f"SELECT * FROM [{stock_option}]").fetchall(), columns=["bid","ask","last trade price","time"],)
     tile11.line_chart(chart_data,height=590, use_container_width=True)
