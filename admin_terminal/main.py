@@ -1,8 +1,13 @@
+import sqlite3
+
 import numpy as np
 import pandas as pd
 import streamlit as st
 st.set_page_config(layout='wide')
-
+connect_stock = sqlite3.connect( "user_terminal/stock_prices.db" )
+curs_stock = connect_stock.cursor()
+connect_exchange = sqlite3.connect( "user_terminal/exchange.db" )
+curs_exchange = connect_exchange.cursor()
 row1col1,row1col2 = st.columns([2,3])
 row2col1,row2col2 = st.columns([2,3])
 
@@ -41,7 +46,7 @@ with row2col2:
     tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
     with tab1:
-        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+        df = pd.DataFrame(curs_exchange("SELECT * FROM active_orders").fetchall())
 
         st.dataframe(df,use_container_width=True)
 
