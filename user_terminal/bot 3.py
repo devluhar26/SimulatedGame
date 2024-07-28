@@ -9,7 +9,7 @@ def main(username):
     print(percent_adjust)
     if choice==0:
         buy_sell="buy"
-        pps=round(current_last_price(stock)*(1+percent_adjust),2)
+        pps=round(current_last_price(stock)*(1-percent_adjust),2)
     else:
         buy_sell="sell"
         pps=round(current_last_price(stock)*(1+percent_adjust),2)
