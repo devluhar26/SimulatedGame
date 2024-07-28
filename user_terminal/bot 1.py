@@ -14,8 +14,10 @@ def main1(username):
     else:
         buy_sell="sell"
         pps=round(current_last_price(stock)*(1+percent_adjust),2)
+
     quantity=round(random.uniform(0.1, 0.5), 1)
-    execute_order(username=username,buy_sell=buy_sell,pps=round(pps,2),quantity=quantity,stock=stock)
+
+    execute_order(username=username,buy_sell=buy_sell,pps=pps,quantity=quantity,stock=stock)
 
 def main2(username):
     names=get_stock_names()
@@ -33,12 +35,12 @@ def main2(username):
     execute_order(username=username,buy_sell=buy_sell,pps=round(pps,2),quantity=quantity,stock=stock)
 
 if __name__=="__main__":
-    for x in range(10000):
+    for x in range(1000):
         lock=threading.Lock()
-        threading.Thread(target=main1("bot1")).start()
-        #threading.Thread(target=main2("bot1")).start()
-        threading.Thread(target=main1("dev")).start()
-        #threading.Thread(target=main2("dev")).start()
+        #threading.Thread(target=main1("bot1")).start()
+        threading.Thread(target=main2("bot1")).start()
+        #threading.Thread(target=main1("dev")).start()
+        threading.Thread(target=main2("dev")).start()
 
 
 
