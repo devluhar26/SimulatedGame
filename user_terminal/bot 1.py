@@ -18,7 +18,7 @@ def main(username):
     execute_order(username=username,buy_sell=buy_sell,pps=round(pps,2),quantity=quantity,stock=stock)
 
 if __name__=="__main__":
-    for x in range(1000):
+    for x in range(5000):
         main("bot1")
         main("dev")
 #
