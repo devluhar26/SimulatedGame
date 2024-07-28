@@ -19,6 +19,7 @@ def main1(username):
 
     execute_order(username=username,buy_sell=buy_sell,pps=pps,quantity=quantity,stock=stock)
 
+
 def main2(username):
     names=get_stock_names()
     stock = names[random.randint(0, len(names) - 1)]
