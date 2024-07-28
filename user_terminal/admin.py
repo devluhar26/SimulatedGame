@@ -7,9 +7,9 @@ import user_terminal.read_stock_price
 print(np.random.randn(20, 3))
 
 st.set_page_config(layout='wide')
-connect_stock = sqlite3.connect( "user_terminal/stock_prices.db" )
+connect_stock = sqlite3.connect("../admin_terminal/stock_prices.db")
 curs_stock = connect_stock.cursor()
-connect_exchange = sqlite3.connect( "user_terminal/exchange.db" )
+connect_exchange = sqlite3.connect( "exchange.db" )
 curs_exchange = connect_exchange.cursor()
 row1col1,row1col2 = st.columns([2,3])
 row2col1,row2col2 = st.columns([2,3])
