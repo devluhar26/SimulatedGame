@@ -13,7 +13,7 @@ curs_stock = connect_stock.cursor()
 
 connect_exchange = sqlite3.connect( "user_terminal/exchange.db" )
 curs_exchange = connect_exchange.cursor()
-row1col1,row1col2 = st.columns([2,3])
+row1col1,row1col2 = st.columns([3,2])
 row2col1,row2col2 = st.columns([2,3])
 def tuple_to_array(tuple):
     array=[]
