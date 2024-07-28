@@ -11,6 +11,7 @@ curs_exchange = connect_exchange.cursor()
 row1col1,row1col2 = st.columns([2,3])
 row2col1,row2col2 = st.columns([2,3])
 
+
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
