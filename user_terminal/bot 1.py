@@ -33,7 +33,7 @@ def main2(username):
     execute_order(username=username,buy_sell=buy_sell,pps=round(pps,2),quantity=quantity,stock=stock)
 
 if __name__=="__main__":
-    for x in range(1000):
+    for x in range(3000):
         lock=threading.Lock()
         threading.Thread(target=main1("bot1")).start()
         #threading.Thread(target=main2("bot1")).start()
