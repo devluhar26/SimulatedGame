@@ -3,6 +3,9 @@ import sqlite3
 import numpy as np
 import pandas as pd
 import streamlit as st
+import user_terminal.read_stock_price
+print(np.random.randn(20, 3))
+
 st.set_page_config(layout='wide')
 connect_stock = sqlite3.connect( "user_terminal/stock_prices.db" )
 curs_stock = connect_stock.cursor()
@@ -11,11 +14,14 @@ curs_exchange = connect_exchange.cursor()
 row1col1,row1col2 = st.columns([2,3])
 row2col1,row2col2 = st.columns([2,3])
 
-
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
-    chart_data = pd.DataFrame(np.random.randn(20, 1), columns=["a"])
+    stock_option = st.selectbox(
+        "Select the strategy you wish to modify",
+        user_terminal.read_stock_price.get_stock_names())
+
+    chart_data = pd.DataFrame(curs_stock.execute(f"SELECT * FROM [{stock_option}]"), columns=["bid","ask","last trade price","time"],)
     tile11.line_chart(chart_data,height=590, use_container_width=True)
 
 
