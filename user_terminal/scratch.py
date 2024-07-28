@@ -11,7 +11,7 @@ for x in range(100):
     ordernum = int(open("ordernum.txt", "r").readline())
     curs_exchange.execute(
         "INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
-        (ordernum, "sell", "bot1", round(current_ask_price("AAPL")*(1+round(random.uniform(-2,2)/100,2)),1), round(random.uniform(10,1000),1), "AAPL", time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
+        (ordernum, "buy", "bot1", round(current_ask_price("AAPL")*(1+round(random.uniform(-2,2)/100,2)),1), round(random.uniform(10,1000),1), "AAPL", time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
 
 
     print(x)
