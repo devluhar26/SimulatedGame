@@ -26,9 +26,9 @@ with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
     stock = tile11.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
-    array=tuple_to_array(curs_stock.execute(f"SELECT * FROM [{stock}]", ).fetchall())
-    tile11.write(array[:,:3])
-    chart_data = pd.DataFrame(np.random.randn(20,4), columns=["bid","ask","last trade price","time"],)
+    array=tuple_to_array(curs_stock.execute(f"SELECT bid,ask,last_trade_price FROM [{stock}]", ).fetchall())
+    tile11.write(array)
+    chart_data = pd.DataFrame(array, columns=["bid","ask","last trade price"],)
     tile11.line_chart(chart_data,height=590, use_container_width=True)
 
 
