@@ -36,9 +36,9 @@ if __name__=="__main__":
     for x in range(1000):
         lock=threading.Lock()
         threading.Thread(target=main1("bot1")).start()
-        threading.Thread(target=main2("bot1")).start()
+        #threading.Thread(target=main2("bot1")).start()
         threading.Thread(target=main1("dev")).start()
-        threading.Thread(target=main2("dev")).start()
+        #threading.Thread(target=main2("dev")).start()
 
 
 
