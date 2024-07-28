@@ -21,7 +21,7 @@ with row1col1:
         "Select the strategy you wish to modify",
         read_stock_price.get_stock_names())
 
-    chart_data = pd.DataFrame(curs_stock.execute(f"SELECT * FROM [{stock_option}]"), columns=["bid","ask","last trade price","time"],)
+    chart_data = pd.DataFrame(curs_stock.execute(f"SELECT * FROM [{stock_option}]").fetchall(), columns=["bid","ask","last trade price","time"],)
     tile11.line_chart(chart_data,height=590, use_container_width=True)
 
 
