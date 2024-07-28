@@ -29,7 +29,7 @@ with row1col1:
     array=tuple_to_array(curs_stock.execute(f"SELECT bid,ask,last_trade_price FROM [{stock}]", ).fetchall())
 
     row=[row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    chart_data = pd.DataFrame(array, columns=["bid","ask","last trade price"],)
+    chart_data = pd.DataFrame(array, columns=["bid","ask","last trade price","time"],)
     tile11.line_chart(x=row, y=chart_data,height=590, use_container_width=True)
 
 
