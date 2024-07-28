@@ -26,7 +26,8 @@ def tuple_to_array(tuple):
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
-    stock = tile11.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+    name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+    stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
 
     row0=[row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
     row1=[row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
