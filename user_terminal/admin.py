@@ -8,8 +8,7 @@ print(read_stock_price.get_stock_names())
 st.set_page_config(layout='wide')
 connect_stock = sqlite3.connect("stock_prices.db")
 curs_stock = connect_stock.cursor()
-stock="AAPL"
-print()
+
 
 connect_exchange = sqlite3.connect( "exchange.db" )
 curs_exchange = connect_exchange.cursor()
@@ -26,10 +25,7 @@ def tuple_to_array(tuple):
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
-    try:
-        stock = tile11.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
-    except:
-        stock="AAPL"
+    stock = tile11.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
 
     # chart_data = pd.DataFrame(tuple_to_array(curs_stock.execute(f"SELECT * FROM ",(stock[0],)).fetchall()), columns=["bid","ask","last trade price","time"],)
     # tile11.line_chart(chart_data,height=590, use_container_width=True)
