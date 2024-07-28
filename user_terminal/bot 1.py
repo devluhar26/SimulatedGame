@@ -1,5 +1,5 @@
 import time
-
+import threading
 from order_matching_algorithm import execute_order
 from read_stock_price import *
 import random
@@ -34,12 +34,14 @@ def main2(username):
 
 if __name__=="__main__":
     for x in range(1000):
-        main1("bot1")
-        main1("bot1")
-        main1("bot1")
-        main2("bot1")
-        main1("dev")
-        main1("dev")
-        main1("dev")
-        main2("dev")
+        lock=threading.Lock()
+        threading.Thread(target=main1("bot1")).start()
+        threading.Thread(target=main2("bot1")).start()
+        threading.Thread(target=main1("dev")).start()
+        threading.Thread(target=main2("dev")).start()
+
+
+
+
+
 #
