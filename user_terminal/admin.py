@@ -17,7 +17,7 @@ row2col1,row2col2 = st.columns([2,3])
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
-    stock_option = st.selectbox(
+    stock_option = tile11.selectbox(
         "Select the strategy you wish to modify",
         read_stock_price.get_stock_names())
 
