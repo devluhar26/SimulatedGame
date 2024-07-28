@@ -29,12 +29,11 @@ with row1col1:
     name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
     stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
 
-    # row0=[row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
-    # row1=[row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
+    row0=[row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
+    row1=[row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
     row2=[row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
     row3=[row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    #"bid": row0,"ask":row1,
-    data={"last trade price":row2,"time":row3}
+    data={"bid": row0,"ask":row1,"last trade price":row2,"time":row3}
     chart_data = pd.DataFrame( data)
     chart_data.set_index('time', inplace=True)
     tile11.line_chart(chart_data, height=570,use_container_width=True)
