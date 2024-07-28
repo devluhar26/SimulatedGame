@@ -1,5 +1,6 @@
 import sqlite3
 
+import altair
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -30,6 +31,7 @@ with row1col1:
 
     row=[row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
     chart_data = pd.DataFrame(array, columns=["bid","ask","last trade price"],)
+    c=altair.Chart(chart_data)
     tile11.altair_chart(chart_data,height=590, use_container_width=True)
 
 
