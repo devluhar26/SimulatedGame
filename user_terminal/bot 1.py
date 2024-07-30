@@ -8,12 +8,16 @@ def main1(username):
     stock = names[random.randint(0, len(names) - 1)]
     choice=random.randint(0,1)
     percent_adjust=round(random.uniform(-2,2)/100,4)
+    buy = 0
+    sell = 0
     if choice==0:
         buy_sell="buy"
         pps=round(current_last_price(stock)*(1-percent_adjust),2)
+        buy+=1
     else:
         buy_sell="sell"
         pps=round(current_last_price(stock)*(1+percent_adjust),2)
+        sell-=1
 
     quantity=round(random.uniform(0.1, 0.5), 1)
 
