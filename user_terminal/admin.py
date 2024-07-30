@@ -57,6 +57,8 @@ with row1col2:
                 conn_user=sqlite3.connect(user+".db")
                 curs_user=conn_user.cursor()
                 strat.append(tuple_to_array( curs_user.execute("SELECT * from portfolio").fetchall()))
+                st.write(user)
+
             except:
                 pass
 
