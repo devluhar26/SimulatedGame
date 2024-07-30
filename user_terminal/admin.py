@@ -67,7 +67,7 @@ with row1col2:
 
 
                 df = pd.DataFrame( curs_user.execute("SELECT * from strategy").fetchall())
-                st.dataframe(df, use_container_width=True)
+                st.dataframe(df, use_container_width=True,)
 
     with tab2:
         st.header("A dog")

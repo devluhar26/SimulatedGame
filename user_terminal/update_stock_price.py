@@ -16,9 +16,9 @@ def main():
     for name in names:
         try:
             curs_exchange.execute(f"SELECT MAX(ask_bid_price_per_share) FROM active_orders WHERE (buy_or_sell = 'sell') AND (stock=?)",(name,))
-            bid=curs_exchange.fetchone()[0]
-            curs_exchange.execute(f"SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE (buy_or_sell = 'buy') AND (stock =?)",(name,))
             ask=curs_exchange.fetchone()[0]
+            curs_exchange.execute(f"SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE (buy_or_sell = 'buy') AND (stock =?)",(name,))
+            bid=curs_exchange.fetchone()[0]
             curs_exchange.execute(f"SELECT bid_pps,time_of_execution FROM past_orders WHERE reciept_number = (SELECT MAX(reciept_number) FROM past_orders WHERE  (stock =?)) AND  (stock =?)",(name,name))
             last=curs_exchange.fetchall()[0]
             if (bid,ask,last[0],last[1])==curs_stock.execute(f"SELECT * FROM [{name}]").fetchall()[-1]:

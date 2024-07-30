@@ -7,7 +7,7 @@ def main1(username):
     names=get_stock_names()
     stock = names[random.randint(0, len(names) - 1)]
     choice=random.randint(0,1)
-    percent_adjust=round(random.uniform(-2,2)/100,4)
+    percent_adjust=round(random.uniform(0,2)/100,4)
     if choice==0:
         buy_sell="buy"
         pps=round(current_last_price(stock)*(1-percent_adjust),2)
