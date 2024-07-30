@@ -54,7 +54,7 @@ with row1col2:
         strat=[]
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
             try:
-                conn_user=sqlite3.connect("user_terminal/"+user+".db")
+                conn_user=sqlite3.connect(user+".db")
                 curs_user=conn_user.cursor()
                 strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy").fetchall()))
             except:
