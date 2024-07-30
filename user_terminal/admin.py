@@ -53,14 +53,11 @@ with row1col2:
         tile12.write()
         strat=[]
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-            try:
                 conn_user=sqlite3.connect(user+".db")
                 curs_user=conn_user.cursor()
                 strat.append(tuple_to_array( curs_user.execute("SELECT * from portfolio").fetchall()))
                 st.write(user)
 
-            except:
-                pass
 
         df = pd.DataFrame(strat)
         st.dataframe(df, use_container_width=True)
