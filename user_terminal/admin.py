@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 import altair
@@ -9,7 +10,11 @@ print(read_stock_price.get_stock_names())
 st.set_page_config(layout='wide')
 connect_stock = sqlite3.connect("user_terminal/stock_prices.db")
 curs_stock = connect_stock.cursor()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+cred_db_path = os.path.join(BASE_DIR, "credentials.db")
+connect_credentials = sqlite3.connect(cred_db_path)
 
+curs_credentials = connect_credentials.cursor()
 
 connect_exchange = sqlite3.connect( "user_terminal/exchange.db" )
 curs_exchange = connect_exchange.cursor()
@@ -45,6 +50,7 @@ with row1col2:
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
+        tile12.write([row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()])
         df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
 
         st.dataframe(df, use_container_width=True)
