@@ -50,9 +50,17 @@ with row1col2:
     tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
     with tab1:
-        tile12.write([row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()])
-        df = pd.DataFrame(np.random.randn(10, 5), columns=("col %d" % i for i in range(5)))
+        tile12.write()
+        strat=[]
+        for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+            try:
+                conn_user=sqlite3.connect(user+".db")
+                curs_user=conn_user.cursor()
+                strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy")))
+            except:
+                pass
 
+        df = pd.DataFrame(strat)
         st.dataframe(df, use_container_width=True)
 
     with tab2:
