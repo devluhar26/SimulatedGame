@@ -53,7 +53,7 @@ with row1col2:
         tile12.write()
         strat=[]
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-                conn_user=sqlite3.connect(user+".db")
+                conn_user=sqlite3.connect("user_terminal/"+user+".db")
                 curs_user=conn_user.cursor()
                 strat.append(tuple_to_array( curs_user.execute("SELECT * from portfolio").fetchall()))
                 st.write(user)
