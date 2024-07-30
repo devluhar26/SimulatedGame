@@ -56,7 +56,7 @@ with row1col2:
             try:
                 conn_user=sqlite3.connect(user+".db")
                 curs_user=conn_user.cursor()
-                strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy")))
+                strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy").fetchall()))
             except:
                 pass
 
