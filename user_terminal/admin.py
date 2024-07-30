@@ -28,6 +28,14 @@ def tuple_to_array(tuple):
             temp.append( x )
         array.append( temp )  #3D array
     return array
+def tuple_to_array_str(tuple):
+    array=[]
+    for data in  tuple:
+        temp = []  # creates 2d array for all credentials
+        for x in data:
+            temp.append( str(x) )
+        array.append( temp )  #3D array
+    return array
 with row1col1:
     tile11 = row1col1.container(height=600)
     tile11.title("11 view stock")
@@ -55,7 +63,7 @@ with row1col2:
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
                 conn_user=sqlite3.connect("user_terminal/"+user+".db")
                 curs_user=conn_user.cursor()
-                strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy").fetchall()))
+                strat.append(tuple_to_array_str( curs_user.execute("SELECT * from strategy").fetchall()))
 
 
         df = pd.DataFrame(strat)
