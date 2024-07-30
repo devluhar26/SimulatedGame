@@ -55,8 +55,7 @@ with row1col2:
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
                 conn_user=sqlite3.connect("user_terminal/"+user+".db")
                 curs_user=conn_user.cursor()
-                strat.append(tuple_to_array( curs_user.execute("SELECT * from portfolio").fetchall()))
-                st.write(user)
+                strat.append(tuple_to_array( curs_user.execute("SELECT * from strategy").fetchall()))
 
 
         df = pd.DataFrame(strat)
