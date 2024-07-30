@@ -63,10 +63,10 @@ with row1col2:
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
                 conn_user=sqlite3.connect("user_terminal/"+user+".db")
                 curs_user=conn_user.cursor()
-                strat.append(tuple_to_array_str( curs_user.execute("SELECT * from strategy").fetchall()))
+                #strat.append(tuple_to_array_str())
 
 
-        df = pd.DataFrame(strat)
+                df = pd.DataFrame( curs_user.execute("SELECT * from strategy").fetchall())
         st.dataframe(df, use_container_width=True)
 
     with tab2:
