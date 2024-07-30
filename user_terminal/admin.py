@@ -60,7 +60,7 @@ with row1col2:
             except:
                 pass
 
-        df = pd.DataFrame(strat)
+        df = pd.DataFrame(strat[0])
         st.dataframe(df, use_container_width=True)
 
     with tab2:

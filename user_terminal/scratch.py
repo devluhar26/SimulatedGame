@@ -42,4 +42,4 @@ for user in [row[0] for row in curs_credentials.execute("SELECT username From Cr
         strat.append(tuple_to_array(curs_user.execute("SELECT * from strategy").fetchall()))
     except:
         pass
-print(strat)
+print(strat[0])
