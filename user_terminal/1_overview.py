@@ -9,12 +9,10 @@ import json
 from github import Github
 
 #
-g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
+user_db_path = os.path.join(BASE_DIR,st.session_state.user +"/"+st.session_state.user + ".db")
 connect_user = sqlite3.connect(user_db_path,check_same_thread=False)
 curs_user = connect_user.cursor()
 
@@ -160,15 +158,13 @@ with tab3:
             min_timeframe = trade_timeframe[0]
             max_timeframe = trade_timeframe[1]
         trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
-        local_path = "user_terminal/"+ st.session_state.user + ".db"
         if st.button("add"):
-            repo.update_file("user_terminal/"+ option + ".py", "it works", code, branch="main",sha=repo.get_contents("user_terminal/"+option+".py",ref="main").sha )
-
+            file=open("user_terminal/"+st.session_state.user+"/"+ option + ".py","w")
+            file.write(code)
             curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
             connect_user.commit()
-            file = open(user_db_path, "rb")
-            repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
             st.success("the strategy has been modified",icon="✅")
+            st.rerun()
 
 
 

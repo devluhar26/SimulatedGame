@@ -11,25 +11,17 @@ cred_db_path = os.path.join(BASE_DIR, "credentials.db")
 connect_credentials = sqlite3.connect(cred_db_path,check_same_thread=False)
 
 curs_credentials = connect_credentials.cursor()
-#Devs personal access token, need to change it
-g=Github("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")
-repo=g.get_repo("Blackelm-Systematic/SimulatedGame")
+
 if "user" not in st.session_state:
     st.session_state.user = None
 #SQL
 
 def add_credentials(username,password):
-    local_path = "user_terminal/"+ username + ".db"
     curs_credentials.execute("INSERT INTO  Credentials (Username,Password) VALUES (?,?)",
                              (username, password))
     connect_credentials.commit()
-    with open(cred_db_path, "rb") as file:
-        repo.update_file("user_terminal/credentials.db", ".", file.read(), repo.get_contents("user_terminal/credentials.db").sha,"main")
-###
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    user_db_path = os.path.join(BASE_DIR,username + ".db")
-
-    repo.create_file(local_path,".","","main")
+    user_db_path = os.path.join(BASE_DIR,username+"/"+username + ".db")
 
     connect_user = sqlite3.connect(user_db_path,check_same_thread=False)
     curs_user = connect_user.cursor()
@@ -40,8 +32,7 @@ def add_credentials(username,password):
          "CREATE TABLE strategy (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, min_timeframe REAL, max_timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
     curs_user.execute("INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",("cash",1000,1,"long"))
     connect_user.commit()
-    file=open(user_db_path, "rb")
-    repo.update_file(local_path, ".", file.read(), repo.get_contents(local_path).sha, "main")
+
 
     st.success("you have registered",icon="✅")
 # used to store all the usernames and passwords as a 2d array
@@ -96,7 +87,7 @@ def main():
     logout_page = st.Page(logout, title="Log out")
     request_1 = st.Page(
         "1_overview.py",
-        title="overview",
+        title="Overview",
         default=True,
 
     )
