@@ -40,6 +40,7 @@ def main():
             for x in data:
                 temp.append( str(x) )
             array.append( temp )  #3D array
+
         return array
     with row1col1:
         tile11 = row1col1.container(height=600)
@@ -53,35 +54,27 @@ def main():
         row3=[row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
         #"bid": row0,"ask":row1,
         data={"last trade price":row2,"time":row3}
-        chart_data = pd.DataFrame( data)
-        chart_data.set_index('time', inplace=True)
-        tile11.line_chart(chart_data, height=570,use_container_width=True)
-
+        try:
+            chart_data = pd.DataFrame( data)
+            chart_data.set_index('time', inplace=True)
+            tile11.line_chart(chart_data, height=570,use_container_width=True)
+        except:
+            st.warning("Loading....")
 
     with row1col2:
         tile12 = row1col2.container(height=600)
         tile12.title("12 view strategy")
-        tab1, tab2, tab3 = tile12.tabs(["strategy", "new", "edit"])
 
-        with tab1:
-            tile12.write()
-            strat=[]
-            for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-                    conn_user=sqlite3.connect("user_terminal/"+user+".db")
-                    curs_user=conn_user.cursor()
-                    #strat.append(tuple_to_array_str())
-
-
-                    df = pd.DataFrame( curs_user.execute("SELECT * from strategy").fetchall())
-                    st.dataframe(df, use_container_width=True,)
-
-        with tab2:
-            st.header("A dog")
-            st.image("https://static.streamlit.io/examples/dog.jpg", width=200)
-
-        with tab3:
-            st.header("An owl")
-            st.image("https://static.streamlit.io/examples/owl.jpg", width=200)
+        tile12.write()
+        strat=[]
+        for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
+            curs_user = conn_user.cursor()
+            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
+                x.insert(0,user)
+                strat.append(x)
+        df = pd.DataFrame(strat)
+        tile12.dataframe(df, use_container_width=True )
 
     with row2col1:
         tile21 = row2col1.container(height=600)
@@ -93,12 +86,12 @@ def main():
         tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
         with tab1:
-            df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
+            df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
 
             st.dataframe(df,use_container_width=True, hide_index=True)
 
         with tab2:
-            df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders").fetchall())
+            df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
 
             st.dataframe(df,use_container_width=True, hide_index=True)
 if __name__=="__main__":

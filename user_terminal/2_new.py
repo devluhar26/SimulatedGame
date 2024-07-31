@@ -38,6 +38,7 @@ st.markdown(html_style_string, unsafe_allow_html=True)
 if "bot_name" not in st.session_state:
     st.session_state.bot_name = None
 
+
 @st.dialog("Create a new trading strategy",width="large")
 def logic(name,code):
     st.write(f"set the trading logic for {name}")
@@ -99,6 +100,7 @@ def logic(name,code):
         st.switch_page("1_overview.py")
 
 
+
 st.title("Create a new trading strategy here")
 st.session_state.bot_name = st.text_input("enter bot name here")
 ###
@@ -119,8 +121,6 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
     code=response_dict['text']
     logic(st.session_state.bot_name,code)
+
 elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
     st.warning('Add your strategy before Hitting Save', icon="⚠️")
-
-else:
-    "strategy has been added"

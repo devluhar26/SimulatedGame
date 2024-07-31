@@ -18,16 +18,16 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
     # pps and username varies of whether buy_sell is buy or sell since if user is seller then bid price will be the one on the exchange whereas if user is buyer then bid price will be inputted by system
 
     if buy_sell=="buy":
-        conn_buyer=sqlite3.connect(username+".db",check_same_thread=False)
+        conn_buyer=sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_buyer=conn_buyer.cursor()
-        conn_seller = sqlite3.connect(str(trade_to_execute[2]) + ".db",check_same_thread=False)
+        conn_seller = sqlite3.connect(str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
         curs_seller = conn_seller.cursor()
         pps=pps
 
     if buy_sell == "sell":
-        conn_seller = sqlite3.connect(username + ".db",check_same_thread=False)
+        conn_seller = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_seller = conn_seller.cursor()
-        conn_buyer = sqlite3.connect(str(trade_to_execute[2]) + ".db",check_same_thread=False)
+        conn_buyer = sqlite3.connect(str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         pps=trade_to_execute[3]
 
@@ -159,7 +159,7 @@ def check_database(username,buy_sell,pps,quantity,stock,ordernum):
 
 def check_funds(username,buy_sell,pps,quantity):
     if buy_sell=="buy":
-        conn_buyer = sqlite3.connect(username+".db",check_same_thread=False)
+        conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0])<float(quantity*pps):
             print("insufficent funds",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0]))

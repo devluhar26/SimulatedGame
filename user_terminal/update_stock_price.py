@@ -21,7 +21,7 @@ def main():
             ask=curs_exchange.fetchone()[0]
             curs_exchange.execute(f"SELECT bid_pps,time_of_execution FROM past_orders WHERE reciept_number = (SELECT MAX(reciept_number) FROM past_orders WHERE  (stock =?)) AND  (stock =?)",(name,name))
             last=curs_exchange.fetchall()[0]
-            if (bid,ask,last[0],last[1])==curs_stock.execute(f"SELECT * FROM [{name}]").fetchall()[-1]:
+            if (bid,ask,last[0],last[1])==curs_stock.execute(f"SELECT * FROM [{name}]").fetchall()[-1][:4]:
                 pass
             else:
                 if (bid == None or ask == None):
@@ -30,6 +30,6 @@ def main():
                     curs_stock.execute(f"INSERT INTO [{name}] (bid,ask,last_trade_price,time) VALUES (?,?,?,?)",(bid,ask,last[0],last[1]))
             connect_stock.commit()
         except:
-            pass
+             pass
 if __name__=="__main__":
     main()
