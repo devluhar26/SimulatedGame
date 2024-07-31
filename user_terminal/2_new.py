@@ -30,11 +30,11 @@ section div.block-container {
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 user_db_path = os.path.join(BASE_DIR, st.session_state.user + ".db")
-connect_user = sqlite3.connect(user_db_path)
+connect_user = sqlite3.connect(user_db_path,check_same_thread=False)
 curs_user = connect_user.cursor()
 
 stock_db_path = os.path.join(BASE_DIR, "stock_prices.db")
-conn_stock = sqlite3.connect(stock_db_path)
+conn_stock = sqlite3.connect(stock_db_path,check_same_thread=False)
 curs_stock = conn_stock.cursor()
 
 st.markdown(html_style_string, unsafe_allow_html=True)

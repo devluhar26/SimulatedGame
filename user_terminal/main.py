@@ -8,7 +8,7 @@ import os.path
 import time
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 cred_db_path = os.path.join(BASE_DIR, "credentials.db")
-connect_credentials = sqlite3.connect(cred_db_path)
+connect_credentials = sqlite3.connect(cred_db_path,check_same_thread=False)
 
 curs_credentials = connect_credentials.cursor()
 #Devs personal access token, need to change it
@@ -31,7 +31,7 @@ def add_credentials(username,password):
 
     repo.create_file(local_path,".","","main")
 
-    connect_user = sqlite3.connect(user_db_path)
+    connect_user = sqlite3.connect(user_db_path,check_same_thread=False)
     curs_user = connect_user.cursor()
 
     curs_user.execute(
