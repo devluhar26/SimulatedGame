@@ -1,0 +1,1 @@
+powershell -c "pythonw 'C:\Users\dev26\Documents\SimulatedGame\user_terminal\bot1.py'"
