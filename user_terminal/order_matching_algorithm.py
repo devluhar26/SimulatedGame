@@ -21,7 +21,7 @@ def tuple_to_array(tuple):
 
 def cancel_order(ordernum):
     curs_exchange.execute("DELETE FROM active_orders WHERE (order_number)=(?)",(ordernum,))
-    connect_exchange.commit()
+
 def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
     # pps and username varies of whether buy_sell is buy or sell since if user is seller then bid price will be the one on the exchange whereas if user is buyer then bid price will be inputted by system
 

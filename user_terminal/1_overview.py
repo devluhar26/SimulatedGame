@@ -49,7 +49,7 @@ def tuple_to_array_str(tuple):
     return array
 
 #
-tab1, tab2, tab3 = st.tabs(["overview", "strategies", "modify strategy"])
+tab1, tab2= st.tabs(["overview",  "modify strategy"])
 with tab1:
     name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
     stock = st.selectbox("Select which stock you would like to use the strategy on", name)
@@ -99,10 +99,9 @@ with tab1:
         df = pd.DataFrame(past).sort_values(4,ascending=False)
         tile2.dataframe(df, use_container_width=True,hide_index=True )
 
+
 with tab2:
     st.title("Currently active strategies")
-
-
 
     data = {
         'strategy name': [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
@@ -123,27 +122,25 @@ with tab2:
         df,
         on_select='rerun',
         selection_mode='multi-row',
-         hide_index = True,
+        hide_index=True,
         use_container_width=True
 
     )
-    st.write(event.selection["rows"])
 
-    if st.button("modify"):
-        pass
     if st.button("delete", type="primary"):
 
         for x in range(len(event.selection["rows"])):
             st.write(event.selection["rows"][x])
-            curs_user.execute("DELETE FROM  strategy WHERE (strategy_name)=(?)",([row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()][event.selection["rows"][x]],))
+            curs_user.execute("DELETE FROM  strategy WHERE (strategy_name)=(?)", (
+            [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()][event.selection["rows"][x]],))
             connect_user.commit()
             st.error("strategy has been removed")
             time.sleep(1)
-            #st.rerun()
-with tab3:
+            st.rerun()
+#########################################################################
     option = st.selectbox(
         "Select the strategy you wish to modify",
-        data["strategy name"])
+        data["strategy name"],key="5")
 
     with open('user_terminal/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
         custom_buttons_alt = json.load(json_button_file_alt)
@@ -161,12 +158,13 @@ with tab3:
     response_dict = code_editor(startcode, height=height, buttons=btns, info=info_bar)
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
-        st.write(" #### add the trading logic widgets below####")
+        st.write("Add the trading logic widgets below")
 
-        stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()])
+        stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()],key ="1")
+######################################################################################################
         option_2 = st.selectbox(
             "some question about stop loss and take profit?",
-            ("none","stop loss","take profit","both"))
+            ("none","stop loss","take profit","both"),key="2")
         stop_loss=None
         take_profit=None
         if option_2=="none":
@@ -183,7 +181,7 @@ with tab3:
 
         size_option = st.selectbox(
             "some question about min and max trade size?",
-            ("none","min size","max size","both"))
+            ("none","min size","max size","both"),key="7")
         min_size=None
         max_size=None
         if size_option=="none":
@@ -199,7 +197,7 @@ with tab3:
 
         timeframe_option = st.selectbox(
             "some question about min and max timeframe?",
-            ("none", "min timeframe", "max timeframe", "both"))
+            ("none", "min timeframe", "max timeframe", "both"),key="4")
         min_timeframe = None
         max_timeframe = None
         if timeframe_option == "none":
@@ -212,6 +210,8 @@ with tab3:
             trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
             min_timeframe = trade_timeframe[0]
             max_timeframe = trade_timeframe[1]
+
+###############################################################################
         trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
         if st.button("add"):
             file=open("user_terminal/"+st.session_state.user+"/"+ option + ".py","w")
