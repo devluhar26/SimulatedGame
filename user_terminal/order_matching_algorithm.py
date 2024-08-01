@@ -4,8 +4,12 @@ from time import gmtime, strftime
 from update_stock_price import main
 connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )
 curs_stock = connect_stock.cursor()
+connect_stock.execute('PRAGMA journal_mode=WAL;')
+
 connect_exchange = sqlite3.connect( "exchange.db",check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
+connect_exchange.execute('PRAGMA journal_mode=WAL;')
+
 def tuple_to_array(tuple):
     array=[]
     for data in  tuple:
@@ -14,6 +18,10 @@ def tuple_to_array(tuple):
             temp.append( x )
         array.append( temp )  #3D array
     return array
+
+def cancel_order(ordernum):
+    curs_exchange.execute("DELETE FROM active_orders WHERE (order_number)=(?)",(ordernum,))
+    connect_exchange.commit()
 def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
     # pps and username varies of whether buy_sell is buy or sell since if user is seller then bid price will be the one on the exchange whereas if user is buyer then bid price will be inputted by system
 
@@ -35,11 +43,11 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
         old_quantity=(curs_seller.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])
     except:
         old_quantity=0
-    if old_quantity == quantity:
+    if (old_quantity == quantity) and (old_quantity!=0):
         curs_seller.execute("DELETE FROM portfolio WHERE stock=?", (stock,))
-    elif old_quantity - quantity>0:
+    elif (old_quantity - quantity)>0:
         curs_seller.execute("UPDATE portfolio SET (quantity,long_or_short)=(?,?) WHERE stock=(?)",((old_quantity-quantity),"long",stock))
-    elif old_quantity - quantity>0:
+    elif (old_quantity - quantity)<0:
         curs_seller.execute("UPDATE portfolio SET (quantity,long_or_short)=(?,?) WHERE stock=(?)",((old_quantity-quantity),"short",stock))
     old_cash=(curs_seller.execute("SELECT quantity FROM portfolio WHERE stock='cash'",).fetchone()[0])
     curs_seller.execute("UPDATE portfolio SET (quantity)=(?) WHERE stock='cash'", (old_cash+(pps * quantity),))
@@ -48,7 +56,7 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
         old_quantity_2=(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])
     except:
         old_quantity_2=0
-    if old_quantity_2 == None:
+    if old_quantity_2 == 0:
         curs_buyer.execute("INSERT INTO portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",(stock, quantity, pps, "long"))
     elif old_quantity_2 +quantity>0:
         curs_buyer.execute("UPDATE portfolio SET (quantity,long_or_short)=(?,?) WHERE (stock)=(?)", (old_quantity_2+quantity,"long", stock))
@@ -168,6 +176,11 @@ def check_funds(username,buy_sell,pps,quantity):
             return True
     else:
         return True
+def recheck_all():
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders ").fetchall())
+    for order in orders:
+        check_database(order[2], order[1], order[3], order[4], order[5], order[0])
+
 
 def execute_order(username,buy_sell,pps,quantity,stock):
     if check_funds(username,buy_sell,pps,quantity)==True:
@@ -182,8 +195,10 @@ def execute_order(username,buy_sell,pps,quantity,stock):
         new.write(str(ordernum + 1))
         new.close()
         check_database(username,buy_sell,pps,quantity,stock,ordernum)
+
     else:
         return
+
 
 
 #to use

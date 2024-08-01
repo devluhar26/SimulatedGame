@@ -8,6 +8,7 @@ connect_stock.execute('PRAGMA journal_mode=WAL;')
 curs_stock = connect_stock.cursor()
 connect_exchange = sqlite3.connect( "exchange.db" )
 curs_exchange = connect_exchange.cursor()
+connect_exchange.execute('PRAGMA journal_mode=WAL;')
 
 
 
