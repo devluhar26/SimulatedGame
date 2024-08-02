@@ -5,15 +5,20 @@ from datetime import datetime
 from order_matching_algorithm import *
 from read_stock_price import *
 import random
+from multiprocessing import Process
+
 connect_exchange = sqlite3.connect( "exchange.db",check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
-connect_exchange.execute('PRAGMA journal_mode=WAL;')
-
+curs_exchange.execute('PRAGMA journal_mode=WAL;')
+import bot2
+import bot4
+import bot5
 def main1(username):
     names=get_stock_names()
     stock = names[random.randint(0, len(names) - 1)]
     choice=random.randint(0,1)
     percent_adjust=round(random.uniform(-2,2)/100,4)
+
     buy = 0
     sell = 0
     if choice==0:
@@ -32,7 +37,7 @@ def check_incomplete(username):
     orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE (username)=(?)",(username,)).fetchall())
     for order in orders:
         difference=datetime.strptime(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),"%Y-%m-%d %H:%M:%S")- datetime.strptime(order[6], "%Y-%m-%d %H:%M:%S")
-        if 500>(difference.seconds)>=100:
+        if difference.seconds>=100:
             #cancel_order(order[0])
             if order[1]=="buy":
                 try:
@@ -66,11 +71,20 @@ def check_incomplete(username):
     print("READJUSTED PRICES")
 if __name__=="__main__":
     while True:
-         lock=threading.Lock()
-         threading.Thread(target=main1("bot1")).start()
-         threading.Thread(target=main1("dev")).start()
-         check_incomplete("dev")
-         check_incomplete("bot1")
+        lock=threading.Lock()
+        threading.Thread(target=main1("bot1")).start()
+        threading.Thread(target=main1("dev")).start()
+        check_incomplete("dev")
+        check_incomplete("bot1")
+        threading.Thread(target=bot2.main2("bot1")).start()
+        threading.Thread(target=bot2.main2("dev")).start()
+        # threading.Thread(target=bot5.main5("bot1")).start()
+        # threading.Thread(target=bot5.main5("dev")).start()
+        # threading.Thread(target=bot5.main5("bot1")).start()
+        # threading.Thread(target=bot5.main5("dev")).start()
+        # threading.Thread(target=bot5.main5("bot1")).start()
+        # threading.Thread(target=bot5.main5("dev")).start()
+        # threading.Thread(target=bot5.main5("bot1")).start()
+        # threading.Thread(target=bot5.main5("dev")).start()
 
 
-#

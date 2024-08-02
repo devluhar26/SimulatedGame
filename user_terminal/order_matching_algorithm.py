@@ -5,7 +5,8 @@ from update_stock_price import main
 connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )
 curs_stock = connect_stock.cursor()
 connect_stock.execute('PRAGMA journal_mode=WAL;')
-
+from multiprocessing import Process
+import threading
 connect_exchange = sqlite3.connect( "exchange.db",check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
@@ -177,9 +178,10 @@ def check_funds(username,buy_sell,pps,quantity):
     else:
         return True
 def recheck_all():
-    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders ").fetchall())
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
     for order in orders:
         check_database(order[2], order[1], order[3], order[4], order[5], order[0])
+
 
 
 def execute_order(username,buy_sell,pps,quantity,stock):
