@@ -112,14 +112,7 @@ with tab2:
     data = {
         'strategy name': [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
         'location': [row[1] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'stock': [row[2] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'take profit': [row[3] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'stop loss': [row[4] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'minimum trade size': [row[5] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'maximum trade size': [row[6] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'minimum trade duration': [row[7] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'maximum duration': [row[8] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-        'trade frequency': [row[9] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
+
     }
     ##change the array in line 14 for the strategies true performance
 
@@ -148,10 +141,10 @@ with tab2:
         "Select the strategy you wish to modify",
         data["strategy name"],key="5")
 
-    with open('user_terminal/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
+    with open('example_custom_buttons_bar_adj.json',"r") as json_button_file_alt:
         custom_buttons_alt = json.load(json_button_file_alt)
 
-    with open('user_terminal/resources/example_info_bar.json') as json_info_file:
+    with open('example_info_bar.json',"r") as json_info_file:
         info_bar = json.load(json_info_file)
 
     height = [20, 10]

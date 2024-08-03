@@ -16,12 +16,12 @@ def main2(username):
     names=get_stock_names()
     stock = names[random.randint(0, len(names) - 1)]
     choice=np.random.randint(2)
-    if choice==0:
+    if username=="bot1":
         buy_sell="buy"
         mu = current_ask_price(stock)
         sigma = 3
         pps = random.normal(loc=mu, scale=sigma)
-    if choice==1:
+    else:
         buy_sell="sell"
         mu = current_bid_price(stock)
         sigma = 3

@@ -1,5 +1,7 @@
 import sqlite3
 import time
+from datetime import datetime
+
 from time import gmtime, strftime
 from update_stock_price import main
 connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )

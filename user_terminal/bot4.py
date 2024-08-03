@@ -12,5 +12,5 @@ def main4(username):
     percent_adjust=round(random.uniform(10,20)/100,4)
     buy_sell="sell"
     pps=round(current_ask_price(stock)*(1-percent_adjust),2)
-    quantity=round(random.uniform(1, 50), 1)
+    quantity=round(random.uniform(10, 500), 1)
     execute_order(username=username,buy_sell=buy_sell,pps=pps,quantity=quantity,stock=stock)

@@ -43,7 +43,7 @@ def main():
 
         return array
     with row1col1:
-        tile11 = row1col1.container(height=600)
+        tile11 = row1col1.container(height=700)
         tile11.title("11 view stock")
         name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
         stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
@@ -62,7 +62,7 @@ def main():
             st.warning("Loading....")
 
     with row1col2:
-        tile12 = row1col2.container(height=600)
+        tile12 = row1col2.container(height=700)
         tile12.title("12 view strategy")
 
         tile12.write()
@@ -80,14 +80,14 @@ def main():
         tile12.dataframe(df, use_container_width=True )
 
     with row2col1:
-        tile21 = row2col1.container(height=600)
+        tile21 = row2col1.container(height=700)
         tile21.title("21 add macro event")
 
         table_names = [row[0] for row in
                        curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 
         # User selects the stock table
-        selected_stock = st.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
+        selected_stock = tile21.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
 
         # Fetch data for each column
         try:
@@ -121,9 +121,9 @@ def main():
         ax.grid(True)
 
         # Display the plot in Streamlit
-        st.pyplot(fig)
+        tile21.pyplot(fig)
     with row2col2:
-        tile22 = row2col2.container(height=600)
+        tile22 = row2col2.container(height=710)
         tile22.title("22 view active orders")
         tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
