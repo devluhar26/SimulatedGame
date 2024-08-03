@@ -2,6 +2,8 @@ import sqlite3
 import os.path
 from github import Github
 import glob
+import shutil
+
 import streamlit as st
 st.set_page_config(layout='wide')
 import os.path
@@ -21,9 +23,9 @@ def add_credentials(username,password):
                              (username, password))
     connect_credentials.commit()
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    user_db_path = os.path.join(BASE_DIR,username+"/"+username + ".db")
+    old_user_db_path = os.path.join(BASE_DIR,username + ".db")
 
-    connect_user = sqlite3.connect(user_db_path,check_same_thread=False)
+    connect_user = sqlite3.connect(old_user_db_path,check_same_thread=False)
     curs_user = connect_user.cursor()
 
     curs_user.execute(
@@ -32,7 +34,10 @@ def add_credentials(username,password):
          "CREATE TABLE strategy (strategy_name TEXT NOT NULL UNIQUE, strategy_location BLOB NOT NULL, stock TEXT NOT NULL, take_profit REAL, stop_loss REAL, min_size REAL, max_size REAL, min_timeframe REAL, max_timeframe REAL, trade_frequency REAL, PRIMARY KEY(strategy_name))")
     curs_user.execute("INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",("cash",1000,1,"long"))
     connect_user.commit()
-
+    connect_user.close()
+    folder_path = os.path.join(BASE_DIR,username )
+    os.mkdir(folder_path)
+    shutil.move(old_user_db_path, folder_path)
 
     st.success("you have registered",icon="✅")
 # used to store all the usernames and passwords as a 2d array

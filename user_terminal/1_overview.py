@@ -84,7 +84,10 @@ with tab1:
     with col1:
         tile1 = col1.container(height=520)
         tile1.title("view my current orders")
-        df = pd.DataFrame(curs_exchange.execute("SELECT order_number,stock,buy_or_sell,ask_bid_price_per_share,quantity,time_of_execution FROM active_orders WHERE (username)=(?)",(st.session_state.user,)).fetchall()).sort_values(5,ascending=False)
+        try:
+            df = pd.DataFrame(curs_exchange.execute("SELECT order_number,stock,buy_or_sell,ask_bid_price_per_share,quantity,time_of_execution FROM active_orders WHERE (username)=(?)",(st.session_state.user,)).fetchall()).sort_values(5,ascending=False)
+        except:
+            df=[]
         tile1.dataframe(df, use_container_width=True,hide_index=True)
     with col2:
         tile2 = col2.container(height=520)
@@ -96,7 +99,10 @@ with tab1:
 
         for x in tuple_to_array_str(curs_exchange.execute("SELECT reciept_number,stock,ask_pps,quantity,time_of_execution FROM past_orders WHERE (seller_username)=(?)",(st.session_state.user,)).fetchall()):
             past.append(x)
-        df = pd.DataFrame(past).sort_values(4,ascending=False)
+        try:
+            df = pd.DataFrame(past).sort_values(4,ascending=False)
+        except:
+            df=[]
         tile2.dataframe(df, use_container_width=True,hide_index=True )
 
 

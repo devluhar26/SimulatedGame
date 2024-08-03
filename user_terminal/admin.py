@@ -68,11 +68,14 @@ def main():
         tile12.write()
         strat=[]
         for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
-            curs_user = conn_user.cursor()
-            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
-                x.insert(0,user)
-                strat.append(x)
+            try:
+                conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
+                curs_user = conn_user.cursor()
+                for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
+                    x.insert(0,user)
+                    strat.append(x)
+            except:
+                pass
         df = pd.DataFrame(strat)
         tile12.dataframe(df, use_container_width=True )
 
