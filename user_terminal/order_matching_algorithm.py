@@ -185,7 +185,7 @@ def recheck_all():
 
 
 def execute_order(username,buy_sell,pps,quantity,stock):
-    if check_funds(username,buy_sell,pps,quantity)==True:
+    #if check_funds(username,buy_sell,pps,quantity)==True:
 
         ordernum=int(open("ordernum.txt","r").readline())
         print("current user:",[buy_sell,username,pps,quantity,stock])
@@ -197,9 +197,9 @@ def execute_order(username,buy_sell,pps,quantity,stock):
         new.write(str(ordernum + 1))
         new.close()
         check_database(username,buy_sell,pps,quantity,stock,ordernum)
-
-    else:
-        return
+    #
+    # else:
+    #     return
 
 
 

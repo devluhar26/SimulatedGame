@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import matplotlib.pyplot as plt
 
 import altair
 import numpy as np
@@ -12,7 +13,6 @@ st.set_page_config(layout='wide')
 # Remove the while True loop to prevent continuous rerunning
 def main():
     st_autorefresh()
-    print(read_stock_price.get_stock_names())
     connect_stock = sqlite3.connect("user_terminal/stock_prices.db",check_same_thread=False)
     curs_stock = connect_stock.cursor()
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -80,6 +80,45 @@ def main():
         tile21 = row2col1.container(height=600)
         tile21.title("21 add macro event")
 
+        table_names = [row[0] for row in
+                       curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+
+        # User selects the stock table
+        selected_stock = st.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
+
+        # Fetch data for each column
+        try:
+            bid_prices = [row[3] for row in curs_exchange.execute(
+                f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='buy' ORDER BY ask_bid_price_per_share DESC").fetchall()]
+            ask_prices = [row[3] for row in curs_exchange.execute(
+                f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
+            bid_volumes = [row[4] for row in curs_exchange.execute(
+                f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='buy' ORDER BY ask_bid_price_per_share DESC").fetchall()]
+            ask_volumes = [row[4] for row in curs_exchange.execute(
+                f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
+        except sqlite3.Error as e:
+            st.error(f"An error occurred: {e}")
+
+        # Sorting and preparing the data is now handled by the SQL queries
+
+        # Plotting the data
+        fig, ax = plt.subplots()
+
+        # Plot the bid data
+        ax.fill_between(bid_prices, bid_volumes, color='green', alpha=0.5, step='post', label='Bid')
+
+        # Plot the ask data
+        ax.fill_between(ask_prices, ask_volumes, color='red', alpha=0.5, step='post', label='Ask')
+
+        # Formatting the plot
+        ax.set_xlabel('Price')
+        ax.set_ylabel('Volume')
+        ax.set_title(f'Bid-Ask Spread for {selected_stock}')
+        ax.legend()
+        ax.grid(True)
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
     with row2col2:
         tile22 = row2col2.container(height=600)
         tile22.title("22 view active orders")
