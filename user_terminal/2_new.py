@@ -1,5 +1,6 @@
 import os.path
 import sqlite3
+import time
 
 import streamlit_authenticator as stauth
 
@@ -45,11 +46,13 @@ st.title("Create a new trading strategy here")
 st.session_state.bot_name = st.text_input("enter bot name here")
 ###
 
-with open('user_terminal/resources/example_custom_buttons_bar_adj.json') as json_button_file_alt:
-    custom_buttons_alt = json.load(json_button_file_alt)
+path1 = os.path.join(BASE_DIR, 'example_custom_buttons_bar_adj.json')
+json_button_file_alt = open(path1)
+custom_buttons_alt = json.load(json_button_file_alt)
 
-with open('user_terminal/resources/example_info_bar.json') as json_info_file:
-    info_bar = json.load(json_info_file)
+path2 = os.path.join(BASE_DIR, 'example_info_bar.json')
+json_info_file = open(path2)
+info_bar = json.load(json_info_file)
 
 height = [20, 22]
 btns = custom_buttons_alt
@@ -59,12 +62,19 @@ st.write("Program your strategy below then Hit Save")
 
 response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
-    code=response_dict['text']
-    file = open("user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py", "w")
-    file.write(code)
-    curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location) VALUES (?,?)", (
-    st.session_state.bot_name, "user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py"))
-    connect_user.commit()
+    try:
+        code=response_dict['text']
+        file = open("user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py", "w")
+        file.write(code)
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location) VALUES (?,?)", (
+        st.session_state.bot_name, "user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py"))
+        connect_user.commit()
+        st.success("Strategy Saved",icon="✅")
+    except sqlite3.Error as e:
+            st.error("This strategy already exists")
+
+
+
 
 elif  response_dict['type'] == "submit" and len(response_dict['text']) == 0:
     st.warning('Add your strategy before Hitting Save', icon="⚠️")

@@ -141,84 +141,37 @@ with tab2:
         "Select the strategy you wish to modify",
         data["strategy name"],key="5")
 
-    with open('example_custom_buttons_bar_adj.json',"r") as json_button_file_alt:
-        custom_buttons_alt = json.load(json_button_file_alt)
+    path1 = os.path.join(BASE_DIR,'example_custom_buttons_bar_adj.json')
+    json_button_file_alt=open(path1)
+    custom_buttons_alt = json.load(json_button_file_alt)
 
-    with open('example_info_bar.json',"r") as json_info_file:
-        info_bar = json.load(json_info_file)
+    path2 = os.path.join(BASE_DIR,'example_info_bar.json')
+    json_info_file= open(path2)
+    info_bar = json.load(json_info_file)
 
     height = [20, 10]
     btns = custom_buttons_alt
     st.write("Adjust the strategy below then Hit Save")
+    new_name=st.text_input(label="edit name",value=option)
     try:
         startcode=open(str(curs_user.execute("SELECT strategy_location FROM strategy WHERE strategy_name=?", (option,)).fetchone()[0]),"r").read()
     except:
         startcode=""
     response_dict = code_editor(startcode, height=height, buttons=btns, info=info_bar)
+
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
-        st.write("Add the trading logic widgets below")
-        ######################################################################################################
 
-        # stock = st.selectbox("Select which stock you would like to use the strategy on",[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()],key ="1")
-        # option_2 = st.selectbox(
-        #     "some question about stop loss and take profit?",
-        #     ("none","stop loss","take profit","both"),key="2")
-        # stop_loss=None
-        # take_profit=None
-        # if option_2=="none":
-        #     pass
-        # if option_2=="stop loss":
-        #     stop_loss = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 25.0)
-        # if option_2=="take profit":
-        #     take_profit = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, 75.0)
-        # if option_2=="both":
-        #     size = st.slider("select stop loss and take profit using the slider", 0.0, 100.0, (25.0, 75.0))
-        #     stop_loss=size[0]
-        #     take_profit=size[1]
-        #
-        #
-        # size_option = st.selectbox(
-        #     "some question about min and max trade size?",
-        #     ("none","min size","max size","both"),key="7")
-        # min_size=None
-        # max_size=None
-        # if size_option=="none":
-        #     pass
-        # if size_option=="min size":
-        #     min_size = st.slider("select min size", 0.0, 100.0, 25.0)
-        # if size_option=="max size":
-        #     max_size = st.slider("select max size trade", 0.0, 100.0, 75.0)
-        # if size_option=="both":
-        #     trade_size = st.slider("select min and max trade size", 0.0, 100.0, (25.0, 75.0))
-        #     min_size=trade_size[0]
-        #     max_size=trade_size[1]
-        #
-        # timeframe_option = st.selectbox(
-        #     "some question about min and max timeframe?",
-        #     ("none", "min timeframe", "max timeframe", "both"),key="4")
-        # min_timeframe = None
-        # max_timeframe = None
-        # if timeframe_option == "none":
-        #     pass
-        # if timeframe_option == "min timeframe":
-        #     min_timeframe = st.slider("select min timeframe", 0.0, 60.0, 20.0)
-        # if timeframe_option == "max timeframe":
-        #     max_timeframe = st.slider("select  max timeframe", 0.0, 60.0, 40.0)
-        # if timeframe_option == "both":
-        #     trade_timeframe = st.slider("select min and max timeframe", 0.0, 60.0, (20.0, 40.0))
-        #     min_timeframe = trade_timeframe[0]
-        #     max_timeframe = trade_timeframe[1]
+        file=open("user_terminal/"+st.session_state.user+"/"+ new_name + ".py","w")
+        file.write(code)
+        file.close()
 
-###############################################################################
-        trades_per_hour = st.number_input("select how many trades you would like to do per hour. If you would like to do less then 1 trade per hour, use decimals ")
-        if st.button("add"):
-            file=open("user_terminal/"+st.session_state.user+"/"+ option + ".py","w")
-            file.write(code)
-            curs_user.execute("UPDATE strategy SET (stock, take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trade_frequency) = (?,?,?,?,?,?,?,?) WHERE (strategy_name)=(?)",(stock,take_profit,stop_loss,min_size,max_size,min_timeframe,max_timeframe,trades_per_hour,option))
-            connect_user.commit()
-            st.success("the strategy has been modified",icon="✅")
-            st.rerun()
+        curs_user.execute("UPDATE strategy SET (strategy_name,strategy_location)=(?,?)  WHERE (strategy_name)=(?)", ( new_name,"user_terminal/"+st.session_state.user+"/"+ new_name + ".py",option))
+        connect_user.commit()
+        if option!=new_name:
+            os.remove("user_terminal/" + st.session_state.user + "/" + option + ".py")
+
+        st.success("the strategy has been modified",icon="✅")
 
 
 
