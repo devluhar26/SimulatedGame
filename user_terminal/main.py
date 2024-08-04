@@ -104,7 +104,7 @@ def main():
         default=True
     )
     st.title("Blackelm")
-    if st.session_state.user == "admin":
+    if (st.session_state.user != None) and st.session_state.user == "admin":
         pg = st.navigation({"Account": [logout_page]} | {"Admin": [admin]})
 
     if (st.session_state.user != None) and (st.session_state.user != "admin"):
