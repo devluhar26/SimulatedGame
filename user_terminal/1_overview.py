@@ -108,34 +108,58 @@ with tab1:
 
 with tab2:
     st.title("Currently active strategies")
+    state=[]
+    for x in[row[2] for row in curs_user.execute("SELECT * FROM strategy").fetchall()]:
+        if x==1:
+            state.append(True)
+        else:
+            state.append(False)
+    checkbox_states = [False] * len(state)
 
     data = {
+        "select to delete":checkbox_states,
         'strategy name': [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
         'location': [row[1] for row in curs_user.execute("SELECT * FROM strategy").fetchall()],
-
+        'on or off':state
     }
-    ##change the array in line 14 for the strategies true performance
 
     df = pd.DataFrame(data)
-    event = st.dataframe(
-        df,
-        on_select='rerun',
-        selection_mode='multi-row',
-        hide_index=True,
-        use_container_width=True
 
+    event = st.data_editor(
+        df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={"select to delete":st.column_config.Column(width="small"),"on or off":st.column_config.Column(width="small")},
+        disabled = ["strategy name", "location"]
     )
+    rows_array = []
+
+    if st.button("save state"):
+        for index,x in event.iterrows():
+            rows_array.append(x.tolist())
+        for a in rows_array:
+            state=0
+            if a[3]==True:
+                state=1
+            curs_user.execute("UPDATE strategy SET (on_off)=(?)  WHERE (strategy_name)=(?)",(state,a[1]))
+        connect_user.commit()
+
+        st.success("state has been saved")
 
     if st.button("delete", type="primary"):
-
-        for x in range(len(event.selection["rows"])):
-            st.write(event.selection["rows"][x])
-            curs_user.execute("DELETE FROM  strategy WHERE (strategy_name)=(?)", (
-            [row[0] for row in curs_user.execute("SELECT * FROM strategy").fetchall()][event.selection["rows"][x]],))
+            for index, x in event.iterrows():
+                rows_array.append(x.tolist())
+            deleted_something=False
+            for a in rows_array:
+                if a[0] == True:
+                    deleted_something=True
+                    curs_user.execute("DELETE FROM  strategy  WHERE (strategy_name)=(?)", (a[1],))
             connect_user.commit()
-            st.error("strategy has been removed")
-            time.sleep(1)
-            st.rerun()
+            if deleted_something==True:
+                st.success("strategy has been removed")
+            else:
+                st.error("Select a row in the selected column to delete a row")
+
 #########################################################################
     option = st.selectbox(
         "Select the strategy you wish to modify",

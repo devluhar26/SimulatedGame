@@ -66,8 +66,8 @@ if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len
         code=response_dict['text']
         file = open("user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py", "w")
         file.write(code)
-        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location) VALUES (?,?)", (
-        st.session_state.bot_name, "user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py"))
+        curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,on_off) VALUES (?,?,?)", (
+        st.session_state.bot_name, "user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py",1))
         connect_user.commit()
         st.success("Strategy Saved",icon="✅")
     except sqlite3.Error as e:

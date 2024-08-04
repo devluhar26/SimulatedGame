@@ -9,9 +9,9 @@ import streamlit as st
 import read_stock_price
 from streamlit_autorefresh import st_autorefresh
 
-# Remove the while True loop to prevent continuous rerunning
+st.session_state.user=st.session_state.user
 
-
+st_autorefresh()
 connect_stock = sqlite3.connect("user_terminal/stock_prices.db",check_same_thread=False)
 curs_stock = connect_stock.cursor()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -47,12 +47,12 @@ with row1col1:
     name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
     stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
 
-    row0=[row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
-    row1=[row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
-    row2=[row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
-    row3=[row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
+
     #
-    data={"bid": row0,"ask":row1,"last trade price":row2,"time":row3}
+    data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
     try:
         chart_data = pd.DataFrame( data)
         chart_data.set_index('time', inplace=True)
