@@ -65,7 +65,7 @@ def login():
     username = st.text_input("enter username")
     password = st.text_input("enter password")
     col1, col2 = st.columns([1, 1])  # Adjust column ratios as needed
-
+    st.write(st.session_state.user)
     with col1:
         if st.button("Log in",use_container_width=True):
             checker(username, password)
@@ -99,14 +99,19 @@ def main():
     request_2 = st.Page(
         "2_new.py", title="New"
     )
-
+    admin = st.Page(
+        "admin.py", title="Admin",
+        default=True
+    )
     st.title("Blackelm")
+    if st.session_state.user == "admin":
+        pg = st.navigation({"Account": [logout_page]} | {"Admin": [admin]})
 
-    if st.session_state.user != None:
+    if (st.session_state.user != None) and (st.session_state.user != "admin"):
         pg = st.navigation({"Account": [logout_page]} | {"Tools": [request_1, request_2]})
+
     else:
         pg = st.navigation([st.Page(login)])
-
     pg.run()
 if __name__=="__main__":
     main()
