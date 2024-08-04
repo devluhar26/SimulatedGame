@@ -155,11 +155,10 @@ def check_incomplete(username,time_frame):
     for order in orders:
         difference=datetime.strptime(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),"%Y-%m-%d %H:%M:%S")- datetime.strptime(order[6], "%Y-%m-%d %H:%M:%S")
         if difference.seconds>time_frame:
-            #cancel_order(order[0])
             if order[1]=="buy":
                 try:
                     new_price = curs_exchange.execute(
-                        "SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='sell') AND (username!=?)",
+                        "SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='sell') AND (username!=?) AND (username!='admin')",
                         (order[5], order[2])).fetchone()
                     cancel_order( order[0])
 
@@ -214,6 +213,18 @@ def check_funds(username,buy_sell,pps,quantity):
             return True
     else:
         return True
+
+def check_stock(username,buy_sell,stock,quantity):
+    if buy_sell=="sell":
+        conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
+        curs_buyer = conn_buyer.cursor()
+        if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0])<float(quantity):
+            print("insufficent stock to sell",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0]))
+            return False
+        else:
+            return True
+    else:
+        return True
 def recheck_all():
     orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
     for order in orders:
@@ -222,21 +233,23 @@ def recheck_all():
 
 
 def execute_order(username,buy_sell,pps,quantity,stock):
-    #if check_funds(username,buy_sell,pps,quantity)==True:
+    if check_funds(username,buy_sell,pps,quantity)==True:
+        if check_funds(username, buy_sell, stock, quantity) == True:
 
-        ordernum=int(open("ordernum.txt","r").readline())
-        print("current user:",[buy_sell,username,pps,quantity,stock])
-        curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                                 (ordernum,buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
+            ordernum=int(open("ordernum.txt","r").readline())
+            print("current user:",[buy_sell,username,pps,quantity,stock])
+            curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
+                                     (ordernum,buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
 
-        connect_exchange.commit()
-        new = open("ordernum.txt", "w")
-        new.write(str(ordernum + 1))
-        new.close()
-        check_database(username,buy_sell,pps,quantity,stock,ordernum)
-    #
-    # else:
-    #     return
+            connect_exchange.commit()
+            new = open("ordernum.txt", "w")
+            new.write(str(ordernum + 1))
+            new.close()
+            check_database(username,buy_sell,pps,quantity,stock,ordernum)
+        else:
+            return
+    else:
+         return
 
 
 
