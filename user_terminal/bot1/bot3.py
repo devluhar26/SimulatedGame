@@ -1,10 +1,10 @@
 import numpy as np
 
-from user_terminal.order_placement import *
+from order_placement import *
 
-from user_terminal.read_stock_price import *
+from read_stock_price import *
 from numpy import random
-connect_exchange = sqlite3.connect( "exchange.db",check_same_thread=False )
+connect_exchange = sqlite3.connect( "user_terminal/exchange.db",check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
 
@@ -12,7 +12,7 @@ def main2(username):
 
     names=get_stock_names()
 
-    stock = names[random.randint(0, len(names) )]
+    stock = names[random.randint(0, len(names)-1 )]
 
     choice=np.random.randint(2)
 

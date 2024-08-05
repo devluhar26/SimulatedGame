@@ -41,13 +41,13 @@ if __name__=="__main__":
 
         threading.Thread(target=bot2.main2("bot1")).start()
         threading.Thread(target=bot2.main2("dev")).start()
-        threading.Thread(target=bot2.main2("bot1")).start()
-        threading.Thread(target=bot2.main2("dev")).start()
-        threading.Thread(target=bot2.main2("bot1")).start()
-        threading.Thread(target=bot2.main2("dev")).start()
-        threading.Thread(target=check_incomplete("bot1",100)).start()
-        threading.Thread(target=check_incomplete("dev",100)).start()
-        threading.Thread(target=recheck_all()).start()
+        # threading.Thread(target=bot2.main2("bot1")).start()
+        # threading.Thread(target=bot2.main2("dev")).start()
+        # threading.Thread(target=bot2.main2("bot1")).start()
+        # threading.Thread(target=bot2.main2("dev")).start()
+        # threading.Thread(target=check_incomplete("bot1",100)).start()
+        # threading.Thread(target=check_incomplete("dev",100)).start()
+        # threading.Thread(target=recheck_all()).start()
 
 
         # threading.Thread(target=bot5.main5("bot1")).start()

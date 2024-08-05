@@ -30,7 +30,9 @@ tile4.title("Macro event")
 start, stop = tile4.columns([1, 1])
 with start:
     if st.button("start market",use_container_width=True):
-        p=subprocess.run([r'C:\Users\dev26\Documents\LiveGame\venv\Scripts\python.exe',r"C:\Users\dev26\Documents\SimulatedGame\user_terminal\scheduler.py" ])
+        print("running")
+
+        subprocess.run([r'C:\Users\dev26\Documents\SimulatedGame\venv\Scripts\python.exe',r"C:\Users\dev26\Documents\SimulatedGame\user_terminal\scheduler.py" ])
 with stop:
     if st.button("stop market",use_container_width=True):
         sys.exit(0)

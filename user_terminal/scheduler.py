@@ -21,7 +21,7 @@ def run_bot_script(file_path):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
         file_path_2 = os.path.join(BASE_DIR, file_path[14:])
-        #print(file_path_2)
+        print(file_path_2)
         subprocess.run([r'C:\Users\dev26\Documents\LiveGame\venv\Scripts\python.exe', file_path_2])
 
         #exec(open(file_path_2).read())
@@ -29,14 +29,17 @@ def run_bot_script(file_path):
 
 # Function to start the order matching algorithm in a separate process
 def start_order_matching():
+    print("ordermatching")
     process = multiprocessing.Process(target=order_matching_runner)
     process.start()
 
 # Function to start all bot scripts using threading
 def start_bot_scripts():
+    print("script running")
     # Connect to the database and fetch bot script file paths
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     cred_db_path = os.path.join(BASE_DIR, "credentials.db")
+    print(cred_db_path)
     connect_credentials = sqlite3.connect(cred_db_path)
     curs_credentials = connect_credentials.cursor()
 
@@ -52,8 +55,10 @@ def start_bot_scripts():
     strat = []
     loc = []
     for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+        print(user)
         try:
-            conn_user = sqlite3.connect(user + "/" + user + ".db")
+            user_db= os.path.join(BASE_DIR,user + "/" + user + ".db")
+            conn_user = sqlite3.connect(user_db)
             curs_user = conn_user.cursor()
             strat.append(tuple_to_array(curs_user.execute("SELECT * from strategy").fetchall()))
         except:
@@ -65,12 +70,13 @@ def start_bot_scripts():
                     loc.append(y[1])
             except:
                 pass
+    print(loc)
     for a in loc:
         threading.Thread(target=run_bot_script, args=(a,), daemon=True).start()
 
 if __name__ == "__main__":
     # Path to the database file
-
+    print("defo running")
     # Start the order matching algorithm
     start_order_matching()
 
