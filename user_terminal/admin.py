@@ -3,7 +3,7 @@ import sqlite3
 import sys
 
 import matplotlib.pyplot as plt
-
+import signal
 import altair
 import numpy as np
 import pandas as pd
@@ -26,20 +26,43 @@ curs_credentials = connect_credentials.cursor()
 
 connect_exchange = sqlite3.connect( "user_terminal/exchange.db" ,check_same_thread=False)
 curs_exchange = connect_exchange.cursor()
+process_handle = None
+
+# Start market function
+if 'process_handle' not in st.session_state:
+    st.session_state.process_handle = None
+
+# Start market function
+def start_market():
+    if st.session_state.process_handle is None:
+        # Start the process and store the handle in session state
+        st.session_state.process_handle = subprocess.Popen([compiler_location, "user_terminal/scheduler.py"])
+        st.write("Market started.")
+    else:
+        st.write("Market is already running.")
+
+# Stop market function
+def stop_market():
+    if st.session_state.process_handle is not None:
+        # Terminate the process
+        st.session_state.process_handle.terminate()
+        st.session_state.process_handle = None
+        st.write("Market stopped.")
+    else:
+        st.write("Market is not running.")
+
 tile4 = st.container(height=180)
 tile4.title("Macro event")
 start, stop ,reset= tile4.columns([1, 1,1])
 with start:
     if st.button("start market",use_container_width=True):
-        print("running")
-        subprocess.run([compiler_location,"user_terminal/scheduler.py" ])
+        start_market()
 with stop:
     if st.button("stop market",use_container_width=True):
-        sys.exit(0)
+        stop_market()
 with reset:
     if st.button("reset market", use_container_width=True):
         print("reset")
-
         subprocess.run([compiler_location,"user_terminal/reset.py"])
 
 col1, col2, col3, col4 = tile4.columns([1, 1, 1, 1])

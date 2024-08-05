@@ -13,7 +13,7 @@ def main2(username):
     names=get_stock_names()
 
     stock = names[random.randint(0, len(names)-1 )]
-
+    stock="AAPL"
     choice=np.random.randint(2)
 
     if choice==0:

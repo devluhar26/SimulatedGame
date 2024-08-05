@@ -4,7 +4,7 @@ from datetime import datetime
 
 from time import gmtime, strftime
 from update_stock_price import main
-connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )
+connect_stock = sqlite3.connect( "user_terminal/stock_prices.db",check_same_thread=False )
 curs_stock = connect_stock.cursor()
 connect_stock.execute('PRAGMA journal_mode=WAL;')
 from multiprocessing import Process
@@ -29,16 +29,16 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
     # pps and username varies of whether buy_sell is buy or sell since if user is seller then bid price will be the one on the exchange whereas if user is buyer then bid price will be inputted by system
 
     if buy_sell=="buy":
-        conn_buyer=sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
+        conn_buyer=sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
         curs_buyer=conn_buyer.cursor()
-        conn_seller = sqlite3.connect(str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
+        conn_seller = sqlite3.connect("user_terminal/"+str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
         curs_seller = conn_seller.cursor()
         pps=pps
 
     if buy_sell == "sell":
-        conn_seller = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
+        conn_seller = sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
         curs_seller = conn_seller.cursor()
-        conn_buyer = sqlite3.connect(str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
+        conn_buyer = sqlite3.connect("user_terminal/"+str(trade_to_execute[2]) +"/"+str(trade_to_execute[2]) + ".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         pps=trade_to_execute[3]
 
@@ -76,7 +76,7 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
 
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,ordernum):
     if trade_to_execute[4]<quantity:
-        recieptnum = int(open("recieptnum.txt", "r").readline())
+        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
 
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
         if buy_sell=="buy":
@@ -100,7 +100,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         #add sellers quantity of stock to buyers portfolio then remove sellers stock from sellers portfolio, modify buyers active order by buyer quantity- sellers quantity
     if trade_to_execute[4]>quantity:
-        recieptnum = int(open("recieptnum.txt", "r").readline())
+        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
         execute_trade(username, buy_sell, pps, quantity, stock, trade_to_execute)
         if buy_sell == "buy":
             curs_exchange.execute(
@@ -117,7 +117,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
 
         curs_exchange.execute("UPDATE active_orders SET(quantity)=(?) WHERE (order_number)=(?)",(trade_to_execute[4]-quantity, trade_to_execute[0]))
-        new = open("recieptnum.txt", "w")
+        new = open("user_terminal/"+"recieptnum.txt", "w")
         new.write(str(recieptnum + 1))
         new.close()
         check_database(trade_to_execute[2], trade_to_execute[1], trade_to_execute[3], trade_to_execute[4]-quantity, trade_to_execute[5], trade_to_execute[0])
@@ -125,7 +125,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         #add buyers quantity of stock to buyers portfolio then remove buyer from active orders and keep seller on active order with reduced quantity
     if trade_to_execute[4]==quantity:
-        recieptnum = int(open("recieptnum.txt", "r").readline())
+        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
 
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
 
@@ -144,7 +144,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
                 (recieptnum,stock ,trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username,
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             #print("executed order:",[recieptnum, trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username])
-        new = open("recieptnum.txt", "w")
+        new = open("user_terminal/"+"recieptnum.txt", "w")
         new.write(str(recieptnum + 1))
         new.close()
     connect_exchange.commit()
@@ -190,6 +190,7 @@ def check_incomplete(username,time_frame):
 def check_database(username,buy_sell,pps,quantity,stock,ordernum):
     main()
     if buy_sell=="buy":
+
         curs_exchange.execute(
             "SELECT * FROM active_orders WHERE (stock = ?) AND (username != ?) AND (ask_bid_price_per_share <= ?)  AND (buy_or_sell != ?) ORDER BY abs(ask_bid_price_per_share - ?), order_number",(stock, username,pps ,buy_sell,pps))
     if buy_sell == "sell":
@@ -205,7 +206,7 @@ def check_database(username,buy_sell,pps,quantity,stock,ordernum):
 
 def check_funds(username,buy_sell,pps,quantity):
     if buy_sell=="buy":
-        conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
+        conn_buyer = sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0])<float(quantity*pps):
             print("insufficent funds",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0]))
@@ -217,7 +218,7 @@ def check_funds(username,buy_sell,pps,quantity):
 
 def check_stock(username,buy_sell,stock,quantity):
     if buy_sell=="sell":
-        conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
+        conn_buyer = sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])<float(quantity):
             #print("insufficent stock to sell",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0]))
@@ -237,13 +238,13 @@ def execute_order(username,buy_sell,pps,quantity,stock):
     if check_funds(username,buy_sell,pps,quantity)==True:
         if check_stock(username, buy_sell, stock, quantity) == True:
 
-            ordernum=int(open("ordernum.txt","r").readline())
+            ordernum=int(open("user_terminal/"+"ordernum.txt","r").readline())
             #print("current user:",[buy_sell,username,pps,quantity,stock])
             curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
                                      (ordernum,buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
 
             connect_exchange.commit()
-            new = open("ordernum.txt", "w")
+            new = open("user_terminal/"+"ordernum.txt", "w")
             new.write(str(ordernum + 1))
             new.close()
             check_database(username,buy_sell,pps,quantity,stock,ordernum)

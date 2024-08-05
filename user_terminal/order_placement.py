@@ -24,19 +24,18 @@ def check_funds(username,buy_sell,pps,quantity):
         return True
 
 def check_stock(username,buy_sell,stock,quantity):
-    try:
+
         if buy_sell=="sell":
             conn_buyer = sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
             curs_buyer = conn_buyer.cursor()
-            if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])<float(quantity):
-                #print("insufficent stock to sell",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0]))
+            if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])-float(quantity)<0:
+                print("insufficent stock to sell",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0]))
                 return False
             else:
                 return True
         else:
             return True
-    except:
-        pass
+
 
 def execute_order(username,buy_sell,pps,quantity,stock):
     if check_funds(username,buy_sell,pps,quantity)==True:

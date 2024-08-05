@@ -15,13 +15,15 @@ def order_matching_runner():
 # Function to run a bot script
 def run_bot_script(file_path):
     while True:
-        print(f"Running bot script: {file_path} at {time.strftime('%H:%M:%S')}")
+        #print(f"Running bot script: {file_path} at {time.strftime('%H:%M:%S')}")
         # Use subprocess to run the bot script
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
         file_path_2 = os.path.join(BASE_DIR, file_path[14:])
-        print(file_path_2)
-        subprocess.run([r'C:\Users\dev26\Documents\SimulatedGame\venv\Scripts\python.exe', file_path_2])
+        #print(file_path_2)
+        new = open("user_terminal/compiler_location.txt")
+        compiler_location = new.readline()
+        subprocess.run([compiler_location, file_path_2])
 
         #exec(open(file_path_2).read())
         # Simulate staggered start
@@ -34,6 +36,7 @@ def start_order_matching():
 # Function to start all bot scripts using threading
 def start_bot_scripts():
     # Connect to the database and fetch bot script file paths
+    print("running bot script")
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     cred_db_path = os.path.join(BASE_DIR, "credentials.db")
     connect_credentials = sqlite3.connect(cred_db_path)
@@ -65,6 +68,7 @@ def start_bot_scripts():
                     loc.append(y[1])
             except:
                 pass
+            print(loc)
     for a in loc:
         threading.Thread(target=run_bot_script, args=(a,), daemon=True).start()
 
