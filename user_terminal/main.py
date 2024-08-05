@@ -100,11 +100,11 @@ def main():
     )
     admin = st.Page(
         "admin.py", title="Admin",
-        default=True,
+
     )
     st.title("Blackelm")
     if st.session_state.user=="admin" :
-        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]})
+        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]}| {"Tools": [request_1, request_2]})
         pg.run()
     else:
         if (st.session_state.user != None) and (st.session_state.user != "admin"):
