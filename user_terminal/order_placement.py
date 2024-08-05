@@ -29,7 +29,7 @@ def execute_order(username,buy_sell,pps,quantity,stock):
     if check_funds(username,buy_sell,pps,quantity)==True:
 
         ordernum=int(open("ordernum.txt","r").readline())
-        print("current user:",[buy_sell,username,pps,quantity,stock])
+        #print("current user:",[buy_sell,username,pps,quantity,stock])
         curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
                                  (ordernum,buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
 

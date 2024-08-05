@@ -18,9 +18,14 @@ def run_bot_script(file_path):
     while True:
         print(f"Running bot script: {file_path} at {time.strftime('%H:%M:%S')}")
         # Use subprocess to run the bot script
-        subprocess.run(['python', file_path])
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+        file_path_2 = os.path.join(BASE_DIR, file_path[14:])
+        #print(file_path_2)
+        subprocess.run([r'C:\Users\dev26\Documents\LiveGame\venv\Scripts\python.exe', file_path_2])
+
+        #exec(open(file_path_2).read())
         # Simulate staggered start
-        time.sleep(1)
 
 # Function to start the order matching algorithm in a separate process
 def start_order_matching():
@@ -48,7 +53,6 @@ def start_bot_scripts():
     loc = []
     for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
         try:
-            print(user)
             conn_user = sqlite3.connect(user + "/" + user + ".db")
             curs_user = conn_user.cursor()
             strat.append(tuple_to_array(curs_user.execute("SELECT * from strategy").fetchall()))
@@ -56,7 +60,6 @@ def start_bot_scripts():
             pass
     for x in strat:
         for y in x:
-            print(y)
             try:
                 if y[2] == 1:
                     loc.append(y[1])
@@ -76,4 +79,4 @@ if __name__ == "__main__":
 
     # Keep the main thread alive
     while True:
-        time.sleep(10)
+        time.sleep(1)
