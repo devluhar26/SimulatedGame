@@ -38,6 +38,8 @@ def add_credentials(username,password):
     folder_path = os.path.join(BASE_DIR,username )
     os.mkdir(folder_path)
     shutil.move(old_user_db_path, folder_path)
+    shutil.copy("user_terminal/order_placement.py", folder_path)
+    shutil.copy("user_terminal/read_stock_price.py", folder_path)
 
     st.success("you have registered",icon="✅")
 # used to store all the usernames and passwords as a 2d array

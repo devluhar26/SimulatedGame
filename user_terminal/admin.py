@@ -11,7 +11,8 @@ import streamlit as st
 import read_stock_price
 from streamlit_autorefresh import st_autorefresh
 import subprocess
-
+new=open("user_terminal/compiler_location.txt")
+compiler_location=new.readline()
 st.session_state.user=st.session_state.user
 
 st_autorefresh()
@@ -27,15 +28,20 @@ connect_exchange = sqlite3.connect( "user_terminal/exchange.db" ,check_same_thre
 curs_exchange = connect_exchange.cursor()
 tile4 = st.container(height=180)
 tile4.title("Macro event")
-start, stop = tile4.columns([1, 1])
+start, stop ,reset= tile4.columns([1, 1,1])
 with start:
     if st.button("start market",use_container_width=True):
         print("running")
-
-        subprocess.run([r'C:\Users\dev26\Documents\SimulatedGame\venv\Scripts\python.exe',r"C:\Users\dev26\Documents\SimulatedGame\user_terminal\scheduler.py" ])
+        subprocess.run([compiler_location,"user_terminal/scheduler.py" ])
 with stop:
     if st.button("stop market",use_container_width=True):
         sys.exit(0)
+with reset:
+    if st.button("reset market", use_container_width=True):
+        print("reset")
+
+        subprocess.run([compiler_location,"user_terminal/reset.py"])
+
 col1, col2, col3, col4 = tile4.columns([1, 1, 1, 1])
 with col1:
     if st.button("macro 1",use_container_width=True):

@@ -1,6 +1,6 @@
 import sqlite3
 
-connect_stock = sqlite3.connect( "stock_prices.db" ,check_same_thread=False)
+connect_stock = sqlite3.connect( "user_terminal/stock_prices.db" ,check_same_thread=False)
 curs_stock = connect_stock.cursor()
 
 def tuple_to_array(tuple):

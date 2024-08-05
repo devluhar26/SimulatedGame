@@ -208,7 +208,7 @@ def check_funds(username,buy_sell,pps,quantity):
         conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0])<float(quantity*pps):
-            #print("insufficent funds",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0]))
+            print("insufficent funds",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0]))
             return False
         else:
             return True
