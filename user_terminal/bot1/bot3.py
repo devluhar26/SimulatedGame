@@ -29,7 +29,7 @@ def main2(username):
     else:
 
         buy_sell="sell"
-
+#
         mu = current_bid_price(stock)
 
         sigma = 3
