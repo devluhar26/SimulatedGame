@@ -1,7 +1,7 @@
 import sqlite3
 import threading
 
-from user_terminal.read_stock_price import get_stock_names
+from read_stock_price import get_stock_names
 
 connect_stock = sqlite3.connect( "stock_prices.db" )
 connect_stock.execute('PRAGMA journal_mode=WAL;')

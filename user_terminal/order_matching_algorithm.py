@@ -3,13 +3,13 @@ import time
 from datetime import datetime
 
 from time import gmtime, strftime
-from user_terminal.update_stock_price import main
+from update_stock_price import main
 connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )
 curs_stock = connect_stock.cursor()
 connect_stock.execute('PRAGMA journal_mode=WAL;')
 from multiprocessing import Process
 import threading
-connect_exchange = sqlite3.connect( "exchange.db",check_same_thread=False )
+connect_exchange = sqlite3.connect( "user_terminal/exchange.db",check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
 

@@ -12,7 +12,7 @@ def main2(username):
 
     names=get_stock_names()
 
-    stock = names[random.randint(0, len(names) - 1)]
+    stock = names[random.randint(0, len(names) )]
 
     choice=np.random.randint(2)
 

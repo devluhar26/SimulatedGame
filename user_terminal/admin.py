@@ -1,5 +1,7 @@
 import os
 import sqlite3
+import sys
+
 import matplotlib.pyplot as plt
 
 import altair
@@ -8,6 +10,7 @@ import pandas as pd
 import streamlit as st
 import read_stock_price
 from streamlit_autorefresh import st_autorefresh
+import subprocess
 
 st.session_state.user=st.session_state.user
 
@@ -22,6 +25,28 @@ curs_credentials = connect_credentials.cursor()
 
 connect_exchange = sqlite3.connect( "user_terminal/exchange.db" ,check_same_thread=False)
 curs_exchange = connect_exchange.cursor()
+tile4 = st.container(height=180)
+tile4.title("Macro event")
+start, stop = tile4.columns([1, 1])
+with start:
+    if st.button("start market",use_container_width=True):
+        p=subprocess.run([r'C:\Users\dev26\Documents\LiveGame\venv\Scripts\python.exe',r"C:\Users\dev26\Documents\SimulatedGame\user_terminal\scheduler.py" ])
+with stop:
+    if st.button("stop market",use_container_width=True):
+        sys.exit(0)
+col1, col2, col3, col4 = tile4.columns([1, 1, 1, 1])
+with col1:
+    if st.button("macro 1",use_container_width=True):
+        pass
+with col2:
+    if st.button("macro 2",use_container_width=True):
+        pass
+with col3:
+    if st.button("macro 3",use_container_width=True):
+        pass
+with col4:
+    if st.button("macro 4",use_container_width=True):
+        pass
 row1col1,row1col2 = st.columns([3,2])
 row2col1,row2col2 = st.columns([2,3])
 def tuple_to_array(tuple):
@@ -123,7 +148,7 @@ with row2col1:
     tile21.pyplot(fig)
 with row2col2:
     tile22 = row2col2.container(height=710)
-    tile22.title("22 view active orders")
+    tile22.title("Bid-Ask spread")
     tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
     with tab1:
