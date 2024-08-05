@@ -1,6 +1,6 @@
 import numpy as np
 
-from user_terminal.order_matching_algorithm import *
+from user_terminal.order_placement import *
 
 from user_terminal.read_stock_price import *
 from numpy import random
@@ -16,7 +16,7 @@ def main2(username):
 
     choice=np.random.randint(2)
 
-    if username=="bot1":
+    if choice==0:
 
         buy_sell="buy"
 

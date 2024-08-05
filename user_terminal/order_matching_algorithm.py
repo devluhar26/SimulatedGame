@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 from time import gmtime, strftime
-from update_stock_price import main
+from user_terminal.update_stock_price import main
 connect_stock = sqlite3.connect( "stock_prices.db",check_same_thread=False )
 curs_stock = connect_stock.cursor()
 connect_stock.execute('PRAGMA journal_mode=WAL;')
@@ -205,7 +205,6 @@ def check_database(username,buy_sell,pps,quantity,stock,ordernum):
 
 def check_funds(username,buy_sell,pps,quantity):
     if buy_sell=="buy":
-        print(pps)
         conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
         if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock='cash'").fetchone()[0])<float(quantity*pps):
@@ -220,7 +219,7 @@ def check_stock(username,buy_sell,stock,quantity):
     if buy_sell=="sell":
         conn_buyer = sqlite3.connect(username+"/"+username+".db",check_same_thread=False)
         curs_buyer = conn_buyer.cursor()
-        if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0])<float(quantity):
+        if float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock,)).fetchone()[0])<float(quantity):
             #print("insufficent stock to sell",float(curs_buyer.execute("SELECT quantity FROM portfolio WHERE stock=?",(stock)).fetchone()[0]))
             return False
         else:
