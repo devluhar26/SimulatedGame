@@ -34,14 +34,21 @@ def tuple_to_array(tuple):
     return array
 
 strat = []
+loc=[]
 for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
     try:
         print(user)
-        conn_user = sqlite3.connect( user + ".db")
+        conn_user = sqlite3.connect( user+"/"+user + ".db")
         curs_user = conn_user.cursor()
         strat.append(tuple_to_array(curs_user.execute("SELECT * from strategy").fetchall()))
     except:
         pass
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-print(BASE_DIR)
+for x in strat:
+    for y in x:
+        print(y)
+        try:
+            if y[2]==1:
+                loc.append(y[1])
+        except:
+            pass
+print(loc)
