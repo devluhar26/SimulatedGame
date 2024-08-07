@@ -3,10 +3,10 @@ import threading
 
 from read_stock_price import get_stock_names
 
-connect_stock = sqlite3.connect( "user_terminal/stock_prices.db" )
+connect_stock = sqlite3.connect( "user_terminal/stock_prices.db",check_same_thread=False  )
 connect_stock.execute('PRAGMA journal_mode=WAL;')
 curs_stock = connect_stock.cursor()
-connect_exchange = sqlite3.connect( "user_terminal/exchange.db" )
+connect_exchange = sqlite3.connect( "user_terminal/exchange.db" ,check_same_thread=False )
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
 
@@ -32,5 +32,6 @@ def main():
             connect_stock.commit()
         except:
              pass
+
 if __name__=="__main__":
     main()
