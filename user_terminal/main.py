@@ -116,6 +116,9 @@ def main():
             print("hello")
             pg = st.navigation([st.Page(login)])
             pg.run()
+    while True:
+        time.sleep(60)
+        st.rerun()
 if __name__=="__main__":
     main()
 #
