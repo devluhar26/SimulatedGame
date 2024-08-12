@@ -77,14 +77,24 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,ordernum):
     if trade_to_execute[4]<quantity:
         recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
-
+        new = open("recieptnum.txt", "w")
+        new.write(str(recieptnum + 1))
+        new.close()
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
         if buy_sell=="buy":
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2] ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             #print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         else:
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock,trade_to_execute[2],trade_to_execute[3] ,trade_to_execute[4] ,pps ,username ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
@@ -92,23 +102,29 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
 
         curs_exchange.execute("UPDATE active_orders SET (quantity)=(?)  WHERE (order_number)=(?)",(quantity-trade_to_execute[4],ordernum))
-        new = open("recieptnum.txt", "w")
-        new.write(str(recieptnum + 1))
-        new.close()
+
         check_database(username, buy_sell, pps, quantity-trade_to_execute[4], stock, ordernum)
 
 
         #add sellers quantity of stock to buyers portfolio then remove sellers stock from sellers portfolio, modify buyers active order by buyer quantity- sellers quantity
     if trade_to_execute[4]>quantity:
-        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
+
         execute_trade(username, buy_sell, pps, quantity, stock, trade_to_execute)
         if buy_sell == "buy":
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2],
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
             #print("executed order:",[recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
         else:
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username,
@@ -117,15 +133,12 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
 
         curs_exchange.execute("UPDATE active_orders SET(quantity)=(?) WHERE (order_number)=(?)",(trade_to_execute[4]-quantity, trade_to_execute[0]))
-        new = open("user_terminal/"+"recieptnum.txt", "w")
-        new.write(str(recieptnum + 1))
-        new.close()
+
         check_database(trade_to_execute[2], trade_to_execute[1], trade_to_execute[3], trade_to_execute[4]-quantity, trade_to_execute[5], trade_to_execute[0])
 
 
         #add buyers quantity of stock to buyers portfolio then remove buyer from active orders and keep seller on active order with reduced quantity
     if trade_to_execute[4]==quantity:
-        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
 
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
 
@@ -133,20 +146,26 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
 
         if buy_sell == "buy":
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock , username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2],
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum, username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2]])
+            print("executed order:",[recieptnum, username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2]])
         else:
+            recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
+            new = open("recieptnum.txt", "w")
+            new.write(str(recieptnum + 1))
+            new.close()
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock ,trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username,
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum, trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username])
-        new = open("user_terminal/"+"recieptnum.txt", "w")
-        new.write(str(recieptnum + 1))
-        new.close()
+            print("executed order:",[recieptnum, trade_to_execute[2], trade_to_execute[3], trade_to_execute[4], pps, username])
+
     connect_exchange.commit()
     connect_stock.commit()
 

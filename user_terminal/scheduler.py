@@ -64,7 +64,7 @@ def order_matching_runner():
         print("rechecking")
         process = multiprocessing.Process(target=recheck_all())
         process.start()
-        #time.sleep(1)
+        time.sleep(1)
 
 # Function to start the order matching algorithm in a separate process
 def start_order_matching():
