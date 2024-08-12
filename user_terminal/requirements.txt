@@ -6,3 +6,4 @@ PyGithub
 streamlit-authenticator
 st-files-connection
 streamlit-autorefresh
+matplotlib
