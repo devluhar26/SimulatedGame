@@ -62,8 +62,16 @@ def start_bot_scripts():
 def order_matching_runner():
     while True:
         print("rechecking")
-        process = multiprocessing.Process(target=recheck_all())
-        process.start()
+        process1 = multiprocessing.Process(target=recheck_all())
+        print("rechecking")
+
+        process2 = multiprocessing.Process(target=recheck_all())
+        print("rechecking")
+
+        process3 = multiprocessing.Process(target=recheck_all())
+        process1.start()
+        process2.start()
+        process3.start()
         time.sleep(1)
 
 # Function to start the order matching algorithm in a separate process
@@ -79,7 +87,7 @@ if __name__ == "__main__":
     start_order_matching()
 
     # Start the bot scripts
-    start_bot_scripts()
+    #start_bot_scripts()
 
     # Keep the main thread alive
     while True:

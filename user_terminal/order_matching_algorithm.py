@@ -76,14 +76,11 @@ def execute_trade(username,buy_sell,pps,quantity,stock,trade_to_execute):
 
 def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,ordernum):
     if trade_to_execute[4]<quantity:
-        recieptnum = int(open("user_terminal/"+"recieptnum.txt", "r").readline())
-        new = open("recieptnum.txt", "w")
-        new.write(str(recieptnum + 1))
-        new.close()
+
         execute_trade(username, buy_sell, pps, trade_to_execute[4], stock, trade_to_execute)
         if buy_sell=="buy":
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -92,7 +89,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
             #print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         else:
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -112,7 +109,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
         execute_trade(username, buy_sell, pps, quantity, stock, trade_to_execute)
         if buy_sell == "buy":
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -122,7 +119,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
             #print("executed order:",[recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
         else:
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -147,7 +144,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
 
         if buy_sell == "buy":
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -157,7 +154,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
             print("executed order:",[recieptnum, username, pps, trade_to_execute[4], trade_to_execute[3], trade_to_execute[2]])
         else:
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
-            new = open("recieptnum.txt", "w")
+            new = open("user_terminal/" + "recieptnum.txt", "w")
             new.write(str(recieptnum + 1))
             new.close()
             curs_exchange.execute(
@@ -207,6 +204,7 @@ def check_incomplete(username,time_frame):
 
 
 def check_database(username,buy_sell,pps,quantity,stock,ordernum):
+
     main()
     if buy_sell=="buy":
 
