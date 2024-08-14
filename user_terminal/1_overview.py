@@ -185,7 +185,7 @@ with tab2:
 
     if response_dict['type'] == "submit" and len(response_dict['text']) != 0:
         code = response_dict['text']
-
+        print(code)
         file=open("user_terminal/"+st.session_state.user+"/"+ new_name + ".py","w")
         file.write(code)
         file.close()

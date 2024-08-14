@@ -17,7 +17,7 @@ def main2(username):
 
     choice=random.uniform(0,1)
 
-    if choice<=(1/3):
+    if choice<=(1/2):
 
         buy_sell="buy"
 

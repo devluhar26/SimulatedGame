@@ -64,6 +64,7 @@ response_dict = code_editor("", height=height,   buttons=btns, info=info_bar)
 if response_dict['type'] == "submit" and len(response_dict['text']) != 0 and len(st.session_state.bot_name) != 0:
     try:
         code=response_dict['text']
+        print(code)
         file = open("user_terminal/" + st.session_state.user + "/" + st.session_state.bot_name + ".py", "w")
         file.write(code)
         curs_user.execute("INSERT INTO strategy(strategy_name, strategy_location,on_off) VALUES (?,?,?)", (
