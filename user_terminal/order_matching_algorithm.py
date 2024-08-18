@@ -245,6 +245,8 @@ def check_stock(username,buy_sell,stock,quantity):
     else:
         return True
 def recheck_all():
+    for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+        check_incomplete(user,10)
     orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
     for order in orders:
         check_database(order[2], order[1], order[3], order[4], order[5], order[0])
