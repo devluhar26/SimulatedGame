@@ -49,16 +49,16 @@ def run_bot_script():
                         all_locations.append(individual_strat[1])
                 except:
                     pass
-        print(all_locations)
+        #print(all_locations)
         for file_path in all_locations:
             file_path_2 = os.path.join(BASE_DIR, file_path[14:])
-            print("running"+file_path_2)
+            #print("running"+file_path_2)
             subprocess.run([compiler_location, file_path_2])
 
         # Simulate staggered start
 def start_bot_scripts():
     # Connect to the database and fetch bot script file paths
-    print("running bot script")
+    #print("running bot script")
 
     threading.Thread(target=run_bot_script, daemon=True).start()
 
@@ -67,13 +67,24 @@ def order_matching_runner():
         #print("rechecking")
         process1 = multiprocessing.Process(target=recheck_all())
         process1.start()
+        process2 = multiprocessing.Process(target=check_incomplete())
+        process2.start()
         #time.sleep(1)
 
 # Function to start the order matching algorithm in a separate process
 def start_order_matching():
     threading.Thread(target=order_matching_runner, daemon=True).start()
 
+def recheck_incomplete():
+    while True:
+        print("rechecking")
+        process1 = multiprocessing.Process(target=check_incomplete())
+        process1.start()
+        #time.sleep(100)
 
+# Function to start the order matching algorithm in a separate process
+def start_recheck_incomplete():
+    threading.Thread(target=recheck_incomplete, daemon=True).start()
 # Function to start all bot scripts using threading
 
 if __name__ == "__main__":
@@ -83,6 +94,7 @@ if __name__ == "__main__":
 
     start_order_matching()
 
+    #start_recheck_incomplete()
     # Start the bot scripts
 
     # Keep the main thread alive
