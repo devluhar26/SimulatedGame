@@ -15,7 +15,7 @@ new=open("user_terminal/compiler_location.txt")
 compiler_location=new.readline()
 st.session_state.user=st.session_state.user
 
-#st_autorefresh()
+st_autorefresh(1)
 
 connect_stock = sqlite3.connect("user_terminal/stock_prices.db",check_same_thread=False)
 curs_stock = connect_stock.cursor()
