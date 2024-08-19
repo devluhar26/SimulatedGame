@@ -15,9 +15,9 @@ def main2(username):
     stock = names[random.randint(0, len(names)-1 )]
     stock="AAPL"
 
-    choice=np.random.randint(2)
+    choice=random.uniform(0,1)
 
-    if choice==0:
+    if choice<=(1/2):
 
         buy_sell="buy"
 

@@ -115,7 +115,7 @@ with row1col1:
         chart_data.set_index('time', inplace=True)
         tile11.line_chart(chart_data, height=570,use_container_width=True)
     except:
-        st.warning("Loading....")
+        tile11.warning("Loading....")
 
 with row1col2:
     tile12 = row1col2.container(height=700)
@@ -131,7 +131,7 @@ with row1col2:
                 x.insert(0,user)
                 strat.append(x)
         except:
-            pass
+            tile12.warning("Loading....")
     df = pd.DataFrame(strat)
     tile12.dataframe(df, use_container_width=True )
 
@@ -156,29 +156,30 @@ with row2col1:
         ask_volumes = [row[4] for row in curs_exchange.execute(
             f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
     except sqlite3.Error as e:
-        st.error(f"An error occurred: {e}")
+        tile21.warning("Loading....")
 
     # Sorting and preparing the data is now handled by the SQL queries
+    try:
+        # Plotting the data
+        fig, ax = plt.subplots()
 
-    # Plotting the data
-    fig, ax = plt.subplots()
+        # Plot the bid data
+        ax.fill_between(bid_prices, bid_volumes, color='green', alpha=0.5, step='post', label='Bid')
 
-    # Plot the bid data
-    ax.fill_between(bid_prices, bid_volumes, color='green', alpha=0.5, step='post', label='Bid')
+        # Plot the ask data
+        ax.fill_between(ask_prices, ask_volumes, color='red', alpha=0.5, step='post', label='Ask')
 
-    # Plot the ask data
-    ax.fill_between(ask_prices, ask_volumes, color='red', alpha=0.5, step='post', label='Ask')
+        # Formatting the plot
+        ax.set_xlabel('Price')
+        ax.set_ylabel('Volume')
+        ax.set_title(f'Bid-Ask Spread for {selected_stock}')
+        ax.legend()
+        ax.grid(True)
 
-    # Formatting the plot
-    ax.set_xlabel('Price')
-    ax.set_ylabel('Volume')
-    ax.set_title(f'Bid-Ask Spread for {selected_stock}')
-    ax.legend()
-    ax.grid(True)
-
-    # Display the plot in Streamlit
-    tile21.pyplot(fig)
-
+        # Display the plot in Streamlit
+        tile21.pyplot(fig)
+    except:
+        tile21.warning("Loading....")
 try:
     buy_volume = curs_exchange.execute(
         "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='buy'"
@@ -232,7 +233,7 @@ try:
 
     st.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
 except sqlite3.Error as e:
-    st.error(f"An error occurred: {e}")
+    tile21.warning("Loading....")
 
 with row2col2:
     tile22 = row2col2.container(height=710)

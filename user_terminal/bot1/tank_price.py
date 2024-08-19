@@ -15,27 +15,14 @@ def main2(username):
     stock = names[random.randint(0, len(names)-1 )]
     stock="AAPL"
 
-    choice=random.uniform(0,1)
 
-    if choice<=(1/3):
+    buy_sell="sell"
 
-        buy_sell="buy"
+    mu = current_ask_price(stock)
 
-        mu = current_ask_price(stock)
+    sigma = 10
 
-        sigma = 3
-
-        pps = random.normal(loc=mu, scale=sigma)
-
-    else:
-
-        buy_sell="sell"
-
-        mu = current_bid_price(stock)
-
-        sigma = 3
-
-        pps = random.normal(loc=mu, scale=sigma)
+    pps = random.normal(loc=mu, scale=sigma)
 
     quantity = round(abs(pps-mu)*100,2)
 

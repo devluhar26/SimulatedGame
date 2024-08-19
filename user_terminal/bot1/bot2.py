@@ -14,9 +14,10 @@ def main2(username):
 
     stock = names[random.randint(0, len(names)-1 )]
     stock="AAPL"
-    choice=np.random.randint(2)
 
-    if choice==0:
+    choice=random.uniform(0,1)
+
+    if choice<=(1/3):
 
         buy_sell="buy"
 
@@ -29,7 +30,7 @@ def main2(username):
     else:
 
         buy_sell="sell"
-#
+
         mu = current_bid_price(stock)
 
         sigma = 3
