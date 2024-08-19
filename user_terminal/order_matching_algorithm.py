@@ -13,6 +13,9 @@ connect_exchange = sqlite3.connect( "user_terminal/exchange.db",check_same_threa
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
 
+connect_credentials = sqlite3.connect("user_terminal/credentials.db",check_same_thread=False)
+curs_credentials = connect_credentials.cursor()
+
 def tuple_to_array(tuple):
     array=[]
     for data in  tuple:
@@ -166,41 +169,37 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
     connect_exchange.commit()
     connect_stock.commit()
 
-def check_incomplete(username,time_frame):
-    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE (username)=(?)",(username,)).fetchall())
-    for order in orders:
-        difference=datetime.strptime(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),"%Y-%m-%d %H:%M:%S")- datetime.strptime(order[6], "%Y-%m-%d %H:%M:%S")
-        if difference.seconds>time_frame:
-            if order[1]=="buy":
-                try:
-                    new_price = curs_exchange.execute(
-                        "SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='sell') AND (username!=?) AND (username!='admin')",
-                        (order[5], order[2])).fetchone()
-                    cancel_order( order[0])
+def check_incomplete():
+    for username in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
 
-                    execute_order(username=username, buy_sell=order[1], pps=new_price[0], quantity=order[4],
-                                      stock=order[5])
+        orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE (username)=(?)",(username,)).fetchall())
+        for order in orders:
+            difference=datetime.strptime(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),"%Y-%m-%d %H:%M:%S")- datetime.strptime(order[6], "%Y-%m-%d %H:%M:%S")
+            if difference.seconds>60:
+                if order[1]=="buy":
+                    try:
+                        # new_price = curs_exchange.execute(
+                        #     "SELECT MIN(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='sell') AND (username!=?) AND (username!='admin')",
+                        #     (order[5], order[2])).fetchone()
+                        cancel_order( order[0])
 
-                except:
-                    pass
+                        # execute_order(username=username, buy_sell=order[1], pps=new_price[0], quantity=order[4],
+                        #                   stock=order[5])
 
-                #recheck_all()
-            if order[1]=="sell":
-                try:
-                    new_price = curs_exchange.execute(
-                        "SELECT MAX(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='buy') AND (username!=?)",
-                        (order[5], order[2])).fetchone()
-                    cancel_order( order[0])
+                    except:
+                        pass
 
-                    execute_order(username=username, buy_sell=order[1], pps=new_price[0], quantity=order[4], stock=order[5])
-                except:
-                    pass
+                if order[1]=="sell":
+                    try:
+                        # new_price = curs_exchange.execute(
+                        #     "SELECT MAX(ask_bid_price_per_share) FROM active_orders WHERE  (stock =?) AND (buy_or_sell='buy') AND (username!=?)",
+                        #     (order[5], order[2])).fetchone()
+                        cancel_order( order[0])
+                        # execute_order(username=username, buy_sell=order[1], pps=new_price[0], quantity=order[4], stock=order[5])
+                    except:
+                        pass
+            connect_exchange.commit()
 
-                #recheck_all()
-        # if (difference.seconds)>=500:
-        #     cancel_order(order[0])
-        connect_exchange.commit()
-    #print("READJUSTED PRICES")
 
 
 def check_database(username,buy_sell,pps,quantity,stock,ordernum):
