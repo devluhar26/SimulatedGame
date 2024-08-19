@@ -45,7 +45,6 @@ def add_credentials(username,password):
 # used to store all the usernames and passwords as a 2d array
 credentials = []
 def retrieve_credentials():
-    print(curs_credentials.execute("SELECT * from Credentials").fetchall())
     for data in  curs_credentials.execute("SELECT * from Credentials").fetchall():
         temp = []  # creates 2d array for all credentials
         for x in data:
@@ -113,7 +112,6 @@ def main():
             pg = st.navigation({"Account": [logout_page]} | {"Tools": [request_1, request_2]})
             pg.run()
         else:
-            print("hello")
             pg = st.navigation([st.Page(login)])
             pg.run()
     while True:
