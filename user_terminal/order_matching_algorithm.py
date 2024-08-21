@@ -89,7 +89,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2] ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
+            print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         else:
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
             new = open("user_terminal/" + "recieptnum.txt", "w")
@@ -98,7 +98,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
             curs_exchange.execute(
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock,trade_to_execute[2],trade_to_execute[3] ,trade_to_execute[4] ,pps ,username ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
+            print("executed order:",[recieptnum,username,pps ,trade_to_execute[4] ,trade_to_execute[3] ,trade_to_execute[2]])
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", ( trade_to_execute[0],))
 
         curs_exchange.execute("UPDATE active_orders SET (quantity)=(?)  WHERE (order_number)=(?)",(quantity-trade_to_execute[4],ordernum))
@@ -119,7 +119,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2],
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
+            print("executed order:",[recieptnum,stock, username, pps, quantity, trade_to_execute[3], trade_to_execute[2]])
         else:
             recieptnum = int(open("user_terminal/" + "recieptnum.txt", "r").readline())
             new = open("user_terminal/" + "recieptnum.txt", "w")
@@ -129,7 +129,7 @@ def quantity_adjustments(username,buy_sell,pps,quantity,stock,trade_to_execute,o
                 "INSERT INTO past_orders (reciept_number,stock,buyer_username,bid_pps,quantity,ask_pps,seller_username,time_of_execution) VALUES (?,?,?,?,?,?,?,?)",
                 (recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username,
                  time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
-            #print("executed order:",[recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username])
+            print("executed order:",[recieptnum,stock , trade_to_execute[2], trade_to_execute[3], quantity, pps, username])
         curs_exchange.execute("DELETE FROM active_orders WHERE order_number=?", (ordernum,))
 
         curs_exchange.execute("UPDATE active_orders SET(quantity)=(?) WHERE (order_number)=(?)",(trade_to_execute[4]-quantity, trade_to_execute[0]))
@@ -213,10 +213,10 @@ def check_database(username,buy_sell,pps,quantity,stock,ordernum):
         curs_exchange.execute(
             "SELECT * FROM active_orders WHERE (stock = ?) AND (username != ?) AND (ask_bid_price_per_share >= ?)  AND (buy_or_sell != ?) ORDER BY abs(ask_bid_price_per_share - ?), order_number",(stock, username, pps, buy_sell, pps))
     orders=tuple_to_array(curs_exchange.fetchall())
-    #print("potential stocks to buy:",orders)
+    print("potential stocks to buy:",orders)
     if len(orders)==0:
         pass
-        #print("currently no active orders to match current order")
+        print("currently no active orders to match current order")
     else:
         quantity_adjustments(username,buy_sell,pps,quantity,stock,orders[0],ordernum)
 
@@ -244,7 +244,12 @@ def check_stock(username,buy_sell,stock,quantity):
     else:
         return True
 def recheck_all():
-    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
+    print("running111")
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE buy_or_sell='buy' ORDER BY ask_bid_price_per_share DESC").fetchall())
+    for order in orders:
+        check_database(order[2], order[1], order[3], order[4], order[5], order[0])
+
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall())
     for order in orders:
         check_database(order[2], order[1], order[3], order[4], order[5], order[0])
 

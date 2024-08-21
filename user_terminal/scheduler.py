@@ -58,21 +58,17 @@ def order_matching_runner():
         #print("rechecking")
         process1 = multiprocessing.Process(target=recheck_all())
         process1.start()
-        process2 = multiprocessing.Process(target=check_incomplete())
+        process2 = multiprocessing.Process(target=recheck_all())
         process2.start()
+        process3 = multiprocessing.Process(target=recheck_all())
+        process3.start()
+        # process2 = multiprocessing.Process(target=check_incomplete())
+        # process2.start()
         #time.sleep(1)
 
 def start_order_matching():
     threading.Thread(target=order_matching_runner, daemon=True).start()
 
-def recheck_incomplete():
-    while True:
-        print("rechecking")
-        process1 = multiprocessing.Process(target=check_incomplete())
-        process1.start()
-
-def start_recheck_incomplete():
-    threading.Thread(target=recheck_incomplete, daemon=True).start()
 
 
 if __name__ == "__main__":
@@ -80,7 +76,7 @@ if __name__ == "__main__":
     # Start the order matching algorithm
     start_bot_scripts()
 
-    start_order_matching()
+    #start_order_matching()
 
     #start_recheck_incomplete()
     # Start the bot scripts

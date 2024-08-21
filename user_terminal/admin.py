@@ -117,12 +117,7 @@ with row1col1:
 
     except:
         tile11.warning("Loading....")
-    price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
-    time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    tile11.echart({
-        'xAxis': {'type': 'category', 'data': time},
-        'yAxis': {'type': 'value'},
-        'series': [{'type': 'line', 'data': price}], })
+
 with row1col2:
     tile12 = row1col2.container(height=700)
     tile12.title("12 view strategy")
