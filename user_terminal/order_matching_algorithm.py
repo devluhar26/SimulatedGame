@@ -213,10 +213,10 @@ def check_database(username,buy_sell,pps,quantity,stock,ordernum):
         curs_exchange.execute(
             "SELECT * FROM active_orders WHERE (stock = ?) AND (username != ?) AND (ask_bid_price_per_share >= ?)  AND (buy_or_sell != ?) ORDER BY abs(ask_bid_price_per_share - ?), order_number",(stock, username, pps, buy_sell, pps))
     orders=tuple_to_array(curs_exchange.fetchall())
-    print("potential stocks to buy:",orders)
+   #print("potential stocks to buy:",orders)
     if len(orders)==0:
         pass
-        print("currently no active orders to match current order")
+        #print("currently no active orders to match current order")
     else:
         quantity_adjustments(username,buy_sell,pps,quantity,stock,orders[0],ordernum)
 

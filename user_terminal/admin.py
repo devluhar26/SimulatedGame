@@ -230,7 +230,7 @@ try:
     combined_chart = alt.layer(buy_bar, sell_bar).resolve_scale(x='shared')
 
 
-    st.altair_chart(combined_chart , use_container_width=True)
+    #st.altair_chart(combined_chart , use_container_width=True)
 
     st.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
 except sqlite3.Error as e:

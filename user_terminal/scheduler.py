@@ -74,7 +74,7 @@ def start_order_matching():
 if __name__ == "__main__":
     # Path to the database file
     # Start the order matching algorithm
-    #start_bot_scripts()
+    start_bot_scripts()
 
     start_order_matching()
 
