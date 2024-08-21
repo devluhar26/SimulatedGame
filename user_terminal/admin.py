@@ -114,6 +114,12 @@ with row1col1:
         chart_data = pd.DataFrame( data)
         chart_data.set_index('time', inplace=True)
         tile11.line_chart(chart_data, height=570,use_container_width=True)
+        price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
+        time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
+        tile11.echart({
+            'xAxis': {'type': 'category', 'data': time},
+            'yAxis': {'type': 'value'},
+            'series': [{'type': 'line', 'data': price}],})
     except:
         tile11.warning("Loading....")
 
@@ -177,7 +183,6 @@ with row2col1:
 
         # Display the plot in Streamlit
         tile21.pyplot(fig)
-        tile21.write(bid_prices[0])
 
     except:
         tile21.warning("Loading....")
