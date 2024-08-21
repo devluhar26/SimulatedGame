@@ -15,7 +15,7 @@ new=open("user_terminal/compiler_location.txt")
 compiler_location=new.readline()
 st.session_state.user=st.session_state.user
 
-st_autorefresh(1)
+st_autorefresh()
 
 connect_stock = sqlite3.connect("user_terminal/stock_prices.db",check_same_thread=False)
 curs_stock = connect_stock.cursor()
@@ -157,7 +157,6 @@ with row2col1:
             f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
     except sqlite3.Error as e:
         tile21.warning("Loading....")
-
     # Sorting and preparing the data is now handled by the SQL queries
     try:
         # Plotting the data
@@ -178,6 +177,8 @@ with row2col1:
 
         # Display the plot in Streamlit
         tile21.pyplot(fig)
+        tile21.write(bid_prices[0])
+
     except:
         tile21.warning("Loading....")
 try:

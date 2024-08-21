@@ -58,8 +58,8 @@ def order_matching_runner():
         #print("rechecking")
         process1 = multiprocessing.Process(target=recheck_all())
         process1.start()
-        process2 = multiprocessing.Process(target=check_incomplete())
-        process2.start()
+        # process2 = multiprocessing.Process(target=check_incomplete())
+        # process2.start()
         #time.sleep(1)
 
 def start_order_matching():
