@@ -87,10 +87,10 @@ with col4:
     if st.button("macro 4",use_container_width=True):
         pass
 
-name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-stock = st.selectbox("Select which stock you would like to use the strategy on", name)
-nicegui_url = "http://localhost:808"+str(name.index(stock))
-components.iframe(nicegui_url, height=600, scrolling=False)
+# name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+# stock = st.selectbox("Select which stock you would like to use the strategy on", name)
+# nicegui_url = "http://localhost:808"+str(name.index(stock))
+# components.iframe(nicegui_url, height=600, scrolling=False)
 
 row1col1,row1col2 = st.columns([3,2])
 row2col1,row2col2 = st.columns([2,3])
