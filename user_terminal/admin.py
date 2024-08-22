@@ -302,5 +302,5 @@ def update_chart():
     st_echarts(options=options, height="600px")
 
 # Set up a periodic callback to update the chart
-if st.button('Update Chart'):
+while True:
     update_chart()
