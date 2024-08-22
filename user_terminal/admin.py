@@ -279,7 +279,7 @@ options = {
 }
 
 # Display the chart in Streamlit
-chart=st_echarts(options=options, height="600px")
+st_echarts(options=options, height="600px")
 
 # Function to update data and chart
 def update_chart():
@@ -298,7 +298,6 @@ def update_chart():
     options['series'][0]['data'] = bidprice
     options['series'][1]['data'] = askprice
     options['series'][2]['data'] = price
-    chart.update()
 
 # Set up a periodic callback to update the chart
 while True:
