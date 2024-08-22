@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import sys
+from streamlit_echarts import st_echarts
 
 import matplotlib.pyplot as plt
 import signal
@@ -250,3 +251,56 @@ with row2col2:
         df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
 
         st.dataframe(df,use_container_width=True, hide_index=True)
+# Stock symbol
+stock = "AAPL"
+
+# Fetch data from the database
+def fetch_data():
+    bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
+    askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
+    price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
+    time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
+    return bidprice, askprice, price, time
+
+bidprice, askprice, price, time = fetch_data()
+
+# ECharts options
+options = {
+    'title': {'text': 'Stock Prices'},
+    'tooltip': {'trigger': 'axis'},
+    'legend': {'data': ['Bid Price', 'Ask Price', 'Price']},
+    'xAxis': {'type': 'category', 'data': time},
+    'yAxis': {'type': 'value'},
+    'series': [
+        {'name': 'Bid Price', 'type': 'line', 'data': bidprice},
+        {'name': 'Ask Price', 'type': 'line', 'data': askprice},
+        {'name': 'Price', 'type': 'line', 'data': price},
+    ]
+}
+
+# Display the chart in Streamlit
+st_echarts(options=options, height="600px")
+
+# Function to update data and chart
+def update_chart():
+    new_bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()][-1]
+    new_askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()][-1]
+    new_price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1]
+    new_time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()][-1]
+
+    bidprice.append(new_bidprice)
+    askprice.append(new_askprice)
+    price.append(new_price)
+    time.append(new_time)
+
+    # Update the options with the new data
+    options['xAxis']['data'] = time
+    options['series'][0]['data'] = bidprice
+    options['series'][1]['data'] = askprice
+    options['series'][2]['data'] = price
+
+    st_echarts(options=options, height="600px")
+
+# Set up a periodic callback to update the chart
+if st.button('Update Chart'):
+    update_chart()
