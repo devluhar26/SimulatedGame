@@ -1,17 +1,21 @@
+import multiprocessing
 import os
 import sqlite3
 import sys
-import time
+import threading
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 from streamlit_echarts import st_echarts
-
+import time
 import matplotlib.pyplot as plt
 import signal
 import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 import read_stock_price
+from streamlit_echarts import st_echarts
 from streamlit_autorefresh import st_autorefresh
 import subprocess
 new=open("user_terminal/compiler_location.txt")
@@ -55,7 +59,7 @@ def stop_market():
     else:
         st.write("Market is not running.")
 
-tile4 = st.container(height=180)
+tile4 = st.container(height=220)
 tile4.title("Macro event")
 start, stop ,reset= tile4.columns([1, 1,1])
 with start:
@@ -68,6 +72,16 @@ with reset:
     if st.button("reset market", use_container_width=True):
         print("reset")
         subprocess.run([compiler_location,"user_terminal/reset.py"])
+
+
+        def run_script(script_path):
+            subprocess.run([compiler_location, script_path])
+
+
+        scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
+        with ProcessPoolExecutor() as executor:
+            executor.map(run_script, "streamlit run "+scripts)
+        st.success("All scripts have been executed.")
 
 col1, col2, col3, col4 = tile4.columns([1, 1, 1, 1])
 with col1:
@@ -82,6 +96,12 @@ with col3:
 with col4:
     if st.button("macro 4",use_container_width=True):
         pass
+
+name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+stock = st.selectbox("Select which stock you would like to use the strategy on", name)
+nicegui_url = "http://localhost:808"+str(name.index(stock))
+components.iframe(nicegui_url, height=600, scrolling=False)
+
 row1col1,row1col2 = st.columns([3,2])
 row2col1,row2col2 = st.columns([2,3])
 def tuple_to_array(tuple):
@@ -101,25 +121,28 @@ def tuple_to_array_str(tuple):
         array.append( temp )  #3D array
 
     return array
+
+
+
 with row1col1:
-    tile11 = row1col1.container(height=700)
-    tile11.title("11 view stock")
-    name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-    stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
-
-
+     tile11 = row1col1.container(height=700)
+    # tile11.title("11 view stock")
+    # name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+    # stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
     #
-    data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
-    try:
-        chart_data = pd.DataFrame( data)
-        chart_data.set_index('time', inplace=True)
-        #tile11.line_chart(chart_data, height=570,use_container_width=True)
-
-    except:
-        tile11.warning("Loading....")
+    #
+    # #
+    # data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+    #       "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+    #       "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+    #       "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
+    # try:
+    #     chart_data = pd.DataFrame( data)
+    #     chart_data.set_index('time', inplace=True)
+    #     #tile11.line_chart(chart_data, height=570,use_container_width=True)
+    #
+    # except:
+    #     tile11.warning("Loading....")
 
 with row1col2:
     tile12 = row1col2.container(height=700)
@@ -180,7 +203,7 @@ with row2col1:
         ax.grid(True)
 
         # Display the plot in Streamlit
-        #tile21.pyplot(fig)
+        tile21.pyplot(fig)
 
     except:
         tile21.warning("Loading....")
@@ -233,7 +256,7 @@ try:
     combined_chart = alt.layer(buy_bar, sell_bar).resolve_scale(x='shared')
 
 
-    #st.altair_chart(combined_chart , use_container_width=True)
+    st.altair_chart(combined_chart , use_container_width=True)
 
     st.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
 except sqlite3.Error as e:
@@ -253,62 +276,6 @@ with row2col2:
         df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
 
         st.dataframe(df,use_container_width=True, hide_index=True)
-# Stock symbol
-stock = "AAPL"
 
-# Function to fetch data from the database
-def fetch_data():
-    bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
-    askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
-    price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
-    time_ = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    return bidprice, askprice, price, time_
+# URL where NiceGUI is hosted
 
-# Initial data fetch
-bidprice, askprice, price, time_ = fetch_data()
-
-# Reserve space for the chart
-chart_placeholder = st.empty()
-
-# Function to update data and chart
-def update_chart():
-    global bidprice, askprice, price, time_
-
-    new_bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()][-1]
-    new_askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()][-1]
-    new_price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1]
-    new_time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()][-1]
-
-    bidprice.append(new_bidprice)
-    askprice.append(new_askprice)
-    price.append(new_price)
-    time_.append(new_time)
-
-    # Limit the data to the last 100 points (to prevent the chart from getting too cluttered)
-    if len(bidprice) > 100:
-        bidprice = bidprice[-100:]
-        askprice = askprice[-100:]
-        price = price[-100:]
-        time_ = time_[-100:]
-
-    # ECharts options
-    options = {
-        'title': {'text': 'Stock Prices'},
-        'tooltip': {'trigger': 'axis'},
-        'legend': {'data': ['Bid Price', 'Ask Price', 'Price']},
-        'xAxis': {'type': 'category', 'data': time_},
-        'yAxis': {'type': 'value'},
-        'series': [
-            {'name': 'Bid Price', 'type': 'line', 'data': bidprice},
-            {'name': 'Ask Price', 'type': 'line', 'data': askprice},
-            {'name': 'Price', 'type': 'line', 'data': price},
-        ]
-    }
-
-    # Update the chart
-    chart_placeholder.echarts(options=options, height="600px")
-
-# Main loop to update the chart periodically
-while True:
-    update_chart()
-    time.sleep(1)  # Update every second
