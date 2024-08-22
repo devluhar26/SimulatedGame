@@ -114,7 +114,7 @@ with row1col1:
     try:
         chart_data = pd.DataFrame( data)
         chart_data.set_index('time', inplace=True)
-        tile11.line_chart(chart_data, height=570,use_container_width=True)
+        #tile11.line_chart(chart_data, height=570,use_container_width=True)
 
     except:
         tile11.warning("Loading....")
@@ -178,7 +178,7 @@ with row2col1:
         ax.grid(True)
 
         # Display the plot in Streamlit
-        tile21.pyplot(fig)
+        #tile21.pyplot(fig)
 
     except:
         tile21.warning("Loading....")
@@ -279,7 +279,7 @@ options = {
 }
 
 # Display the chart in Streamlit
-st_echarts(options=options, height="600px")
+chart=st_echarts(options=options, height="600px")
 
 # Function to update data and chart
 def update_chart():
@@ -298,8 +298,7 @@ def update_chart():
     options['series'][0]['data'] = bidprice
     options['series'][1]['data'] = askprice
     options['series'][2]['data'] = price
-
-    st_echarts(options=options, height="600px")
+    chart.update()
 
 # Set up a periodic callback to update the chart
 while True:
