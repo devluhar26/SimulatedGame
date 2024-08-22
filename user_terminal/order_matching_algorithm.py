@@ -244,14 +244,20 @@ def check_stock(username,buy_sell,stock,quantity):
     else:
         return True
 def recheck_all():
-    print("running111")
-    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE buy_or_sell='buy' ORDER BY ask_bid_price_per_share DESC").fetchall())
+    #print("running111")
+
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
+    for order in orders:
+        print(order)
+        check_database(order[2], order[1], order[3], order[4], order[5], order[0])
+
+
+def recheck_all2():
+    print("running1112")
+    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders").fetchall())
     for order in orders:
         check_database(order[2], order[1], order[3], order[4], order[5], order[0])
 
-    orders=tuple_to_array(curs_exchange.execute("SELECT * FROM active_orders WHERE buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall())
-    for order in orders:
-        check_database(order[2], order[1], order[3], order[4], order[5], order[0])
 
 
 
