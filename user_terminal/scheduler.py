@@ -4,6 +4,8 @@ import threading
 import time
 import sqlite3
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
+
 from order_matching_algorithm import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -67,14 +69,17 @@ def order_matching_runner():
         #time.sleep(1)
 
 def start_order_matching():
-    threading.Thread(target=order_matching_runner, daemon=True).start()
+    with ThreadPoolExecutor() as executor:
+        while True:
+            executor.map(recheck_all, range(3))
+
 
 
 
 if __name__ == "__main__":
     # Path to the database file
     # Start the order matching algorithm
-    start_bot_scripts()
+    #start_bot_scripts()
 
     start_order_matching()
 
