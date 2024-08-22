@@ -145,21 +145,21 @@ ipo("admin")
 
 
 
-import multiprocessing
-import os
-import sqlite3
-
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-
-
-import subprocess
-new=open("user_terminal/compiler_location.txt")
-compiler_location=new.readline()
-
-def run_script(script_path):
-    subprocess.run([compiler_location, script_path])
-
-
-scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
-with ProcessPoolExecutor() as executor:
-    (run_script, scripts)
+# import multiprocessing
+# import os
+# import sqlite3
+#
+# from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+#
+#
+# import subprocess
+# new=open("user_terminal/compiler_location.txt")
+# compiler_location=new.readline()
+#
+# def run_script(script_path):
+#     subprocess.run([compiler_location, script_path])
+#
+#
+# scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
+# with ProcessPoolExecutor() as executor:
+#     (run_script, scripts)
