@@ -48,7 +48,6 @@ def run_bot_script():
                     pass
         for file_path in all_locations:
             file_path_2 = os.path.join(BASE_DIR, file_path[14:])
-
             subprocess.run([compiler_location, file_path_2])
 
         # Simulate staggered start

@@ -119,4 +119,8 @@ def main():
         st.rerun()
 if __name__=="__main__":
     main()
+    # for x in range(10):
+    #     graph = os.path.join(BASE_DIR, "test" + str(x) + ".py")
+    #     subprocess.run([compiler_location, graph])
+
 #
