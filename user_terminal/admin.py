@@ -75,12 +75,11 @@ with reset:
 
 
         def run_script(script_path):
-            subprocess.run([compiler_location, script_path])
-
+            subprocess.run(["streamlit", "run", script_path])
 
         scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
         with ProcessPoolExecutor() as executor:
-            executor.map(run_script, "streamlit run "+scripts)
+            executor.map(run_script, scripts)
         st.success("All scripts have been executed.")
 
 col1, col2, col3, col4 = tile4.columns([1, 1, 1, 1])
