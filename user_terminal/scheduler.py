@@ -71,19 +71,19 @@ def order_matching_runner():
 def start_order_matching():
     with ThreadPoolExecutor() as executor:
         while True:
-            executor.map(recheck_all, range(3))
+            executor.map(recheck_all(), range(10))
+            executor.map(check_incomplete(), range(1))
 
-
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":
     # Path to the database file
     # Start the order matching algorithm
-    #start_bot_scripts()
+    start_bot_scripts()
 
     start_order_matching()
 
-    #start_recheck_incomplete()
     # Start the bot scripts
 
     # Keep the main thread alive
