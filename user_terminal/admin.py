@@ -1,6 +1,8 @@
 import os
 import sqlite3
 import sys
+import time
+
 from streamlit_echarts import st_echarts
 
 import matplotlib.pyplot as plt
@@ -254,35 +256,24 @@ with row2col2:
 # Stock symbol
 stock = "AAPL"
 
-# Fetch data from the database
+# Function to fetch data from the database
 def fetch_data():
     bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()]
     askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
     price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
-    time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    return bidprice, askprice, price, time
+    time_ = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
+    return bidprice, askprice, price, time_
 
-bidprice, askprice, price, time = fetch_data()
+# Initial data fetch
+bidprice, askprice, price, time_ = fetch_data()
 
-# ECharts options
-options = {
-    'title': {'text': 'Stock Prices'},
-    'tooltip': {'trigger': 'axis'},
-    'legend': {'data': ['Bid Price', 'Ask Price', 'Price']},
-    'xAxis': {'type': 'category', 'data': time},
-    'yAxis': {'type': 'value'},
-    'series': [
-        {'name': 'Bid Price', 'type': 'line', 'data': bidprice},
-        {'name': 'Ask Price', 'type': 'line', 'data': askprice},
-        {'name': 'Price', 'type': 'line', 'data': price},
-    ]
-}
-
-# Display the chart in Streamlit
-st_echarts(options=options, height="600px")
+# Reserve space for the chart
+chart_placeholder = st.empty()
 
 # Function to update data and chart
 def update_chart():
+    global bidprice, askprice, price, time_
+
     new_bidprice = [row[0] for row in curs_stock.execute(f"SELECT bid FROM [{stock}]").fetchall()][-1]
     new_askprice = [row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()][-1]
     new_price = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1]
@@ -291,14 +282,33 @@ def update_chart():
     bidprice.append(new_bidprice)
     askprice.append(new_askprice)
     price.append(new_price)
-    time.append(new_time)
+    time_.append(new_time)
 
-    # Update the options with the new data
-    options['xAxis']['data'] = time
-    options['series'][0]['data'] = bidprice
-    options['series'][1]['data'] = askprice
-    options['series'][2]['data'] = price
+    # Limit the data to the last 100 points (to prevent the chart from getting too cluttered)
+    if len(bidprice) > 100:
+        bidprice = bidprice[-100:]
+        askprice = askprice[-100:]
+        price = price[-100:]
+        time_ = time_[-100:]
 
-# Set up a periodic callback to update the chart
+    # ECharts options
+    options = {
+        'title': {'text': 'Stock Prices'},
+        'tooltip': {'trigger': 'axis'},
+        'legend': {'data': ['Bid Price', 'Ask Price', 'Price']},
+        'xAxis': {'type': 'category', 'data': time_},
+        'yAxis': {'type': 'value'},
+        'series': [
+            {'name': 'Bid Price', 'type': 'line', 'data': bidprice},
+            {'name': 'Ask Price', 'type': 'line', 'data': askprice},
+            {'name': 'Price', 'type': 'line', 'data': price},
+        ]
+    }
+
+    # Update the chart
+    chart_placeholder.echarts(options=options, height="600px")
+
+# Main loop to update the chart periodically
 while True:
     update_chart()
+    time.sleep(1)  # Update every second
