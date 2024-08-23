@@ -91,8 +91,8 @@ name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHE
 stock = st.selectbox("Select which stock you would like to use the strategy on", name)
 if st.button("load"):
     subprocess.run([compiler_location, os.path.join(BASE_DIR, f"test{str(name.index(stock))}.py")])
-    nicegui_url = "http://localhost:808"+str(name.index(stock))
-
+    st.rerun()
+nicegui_url = "http://localhost:808"+str(name.index(stock))
 components.iframe(nicegui_url, height=600, scrolling=False)
 
 row1col1,row1col2 = st.columns([3,2])
