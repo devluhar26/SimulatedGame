@@ -119,14 +119,10 @@ def main():
     while True:
         time.sleep(60)
         st.rerun()
+
 if __name__=="__main__":
     main()
-    new = open(os.path.join(BASE_DIR, "compiler_location.txt"))
-    compiler_location = new.readline()
-    script_loc=os.path.join(BASE_DIR, "scratch.py")
-    subprocess.run([compiler_location, script_loc])
-    # for x in range(10):
-    #     graph = os.path.join(BASE_DIR, "test" + str(x) + ".py")
-    #     subprocess.run([compiler_location, graph])
+
+
 
 #

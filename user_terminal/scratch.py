@@ -44,13 +44,7 @@ def start_order_matching():
 if __name__ == "__main__":
     # Path to the database file
     # Start the order matching algorithm
+    print("running")
     scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
     for x in range(10):
         start_bot_scripts(scripts[x])
-    #start_order_matching()
-
-    # Start the bot scripts
-
-    # Keep the main thread alive
-    # while True:
-    #     time.sleep(0)

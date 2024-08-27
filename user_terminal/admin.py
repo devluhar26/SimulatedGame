@@ -46,6 +46,7 @@ def start_market():
         # Start the process and store the handle in session state
         st.session_state.process_handle = subprocess.Popen([compiler_location, "user_terminal/scheduler.py"])
         st.write("Market started.")
+
     else:
         st.write("Market is already running.")
 
@@ -90,13 +91,14 @@ with col4:
 name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 stock = st.selectbox("Select which stock you would like to use the strategy on", name)
 if st.button("load"):
-    subprocess.run([compiler_location, os.path.join(BASE_DIR, f"test{str(name.index(stock))}.py")])
-    st.rerun()
+    new = open(os.path.join(BASE_DIR, "compiler_location.txt"))
+    compiler_location = new.readline()
+    script_loc = os.path.join(BASE_DIR, "scratch.py")
+    subprocess.run([compiler_location, script_loc])
 nicegui_url = "http://localhost:808"+str(name.index(stock))
 components.iframe(nicegui_url, height=600, scrolling=False)
 
 row1col1,row1col2 = st.columns([3,2])
-row2col1,row2col2 = st.columns([2,3])
 def tuple_to_array(tuple):
     array=[]
     for data in  tuple:
@@ -118,7 +120,7 @@ def tuple_to_array_str(tuple):
 
 
 with row1col1:
-     tile11 = row1col1.container(height=700)
+    tile11 = row1col1.container(height=700)
     # tile11.title("11 view stock")
     # name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
     # stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
@@ -136,34 +138,11 @@ with row1col1:
     #
     # except:
     #     tile11.warning("Loading....")
-
-with row1col2:
-    tile12 = row1col2.container(height=700)
-    tile12.title("12 view strategy")
-
-    tile12.write()
-    strat=[]
-    for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-        try:
-            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
-            curs_user = conn_user.cursor()
-            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
-                x.insert(0,user)
-                strat.append(x)
-        except:
-            tile12.warning("Loading....")
-    df = pd.DataFrame(strat)
-    tile12.dataframe(df, use_container_width=True )
-
-with row2col1:
-    tile21 = row2col1.container(height=700)
-    tile21.title("21 add macro event")
-
     table_names = [row[0] for row in
                    curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 
     # User selects the stock table
-    selected_stock = tile21.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
+    selected_stock = tile11.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
 
     # Fetch data for each column
     try:
@@ -176,7 +155,7 @@ with row2col1:
         ask_volumes = [row[4] for row in curs_exchange.execute(
             f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
     except sqlite3.Error as e:
-        tile21.warning("Loading....")
+        tile11.warning("Loading....")
     # Sorting and preparing the data is now handled by the SQL queries
     try:
         # Plotting the data
@@ -196,10 +175,32 @@ with row2col1:
         ax.grid(True)
 
         # Display the plot in Streamlit
-        tile21.pyplot(fig)
+        tile11.pyplot(fig)
 
     except:
-        tile21.warning("Loading....")
+        tile11.warning("Loading....")
+
+with row1col2:
+    tile12 = row1col2.container(height=700)
+    tile12.title("12 view strategy")
+
+    tile12.write()
+    strat=[]
+    for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+        try:
+            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
+            curs_user = conn_user.cursor()
+            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
+                x.insert(0,user)
+                strat.append(x)
+        except:
+            tile12.warning("Loading....")
+    df = pd.DataFrame(strat)
+    tile12.dataframe(df, use_container_width=True )
+
+
+
+
 try:
     buy_volume = curs_exchange.execute(
         "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='buy'"
@@ -253,22 +254,21 @@ try:
 
     st.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
 except sqlite3.Error as e:
-    tile21.warning("Loading....")
+    st.warning("Loading....")
 
-with row2col2:
-    tile22 = row2col2.container(height=710)
-    tile22.title("Bid-Ask spread")
-    tab1, tab2 = tile22.tabs(["active orders", "past orders"])
+tile22 = st.container(height=710)
+tile22.title("Bid-Ask spread")
+tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
-    with tab1:
-        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
+with tab1:
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
 
-        st.dataframe(df,use_container_width=True, hide_index=True)
+    st.dataframe(df,use_container_width=True, hide_index=True)
 
-    with tab2:
-        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
+with tab2:
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
 
-        st.dataframe(df,use_container_width=True, hide_index=True)
+    st.dataframe(df,use_container_width=True, hide_index=True)
 
 # URL where NiceGUI is hosted
 
