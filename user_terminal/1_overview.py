@@ -63,7 +63,7 @@ with tab1:
     try:
         chart_data = pd.DataFrame(data)
         chart_data.set_index('time', inplace=True)
-        st.line_chart(chart_data, use_container_width=True)
+        st.line_chart(chart_data, use_container_width=True,color="#c4a466")
     except:
         st.warning("Loading....")
     col1, col2 = st.columns([2, 2])

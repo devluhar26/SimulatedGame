@@ -45,6 +45,6 @@ if __name__ == "__main__":
     # Path to the database file
     # Start the order matching algorithm
     print("running")
-    scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(10)]
-    for x in range(10):
+    scripts = [os.path.join(BASE_DIR, f"test{i}.py") for i in range(0,10)]
+    for x in range(0,10):
         start_bot_scripts(scripts[x])

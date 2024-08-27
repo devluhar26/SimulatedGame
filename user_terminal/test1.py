@@ -45,7 +45,6 @@ def update():
     askprice.append([row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()][-1])
     price.append([row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1])
     time.append([row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()][-1])
-
     echart.update()
 
 ui.timer(0.1, lambda: update())
