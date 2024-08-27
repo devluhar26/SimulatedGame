@@ -52,8 +52,8 @@ def update():
 def check_update():
 
     if [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1] != price[-1]:
-        print(price[-1])
-        print([row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1])
+        # print(price[-1])
+        # print([row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1])
         ui.timer(0.1, lambda: update())
     else:
         return
