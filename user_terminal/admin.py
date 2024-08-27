@@ -93,7 +93,6 @@ stock = st.selectbox("Select which stock you would like to use the strategy on",
 nicegui_url = "http://localhost:808"+str(name.index(stock))
 components.iframe(nicegui_url, height=600, scrolling=False)
 name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-stock = st.selectbox("Select which stock you would like to use the strategy on",name)
 
 
 #
