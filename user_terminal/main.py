@@ -106,6 +106,7 @@ def main():
 
     )
     st.title("Blackelm")
+    st.image("user_terminal/blackelm_logo.png")
     if st.session_state.user=="admin" :
         pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]}| {"Tools": [request_1, request_2]})
         pg.run()
