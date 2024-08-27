@@ -30,14 +30,14 @@ time = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetc
 # Create a NiceGUI app
 
 # Create an ECharts component with NiceGUI
-echart = ui.echart({'title': {'text': 'Stock Prices'},
+echart = ui.echart({'title': {'text': 'Stock Prices', 'textStyle': {'color': '#FFFFFF'}},
                     'tooltip': {'trigger': 'axis'},
-                    'legend': {'data': ['Bid Price', 'Ask Price', 'Price']},
+                    'legend': {'data': ['Bid Price', 'Ask Price', 'Price'], 'textStyle': {'color': '#FFFFFF'}},
                     'xAxis': {'type': 'category', 'data': time},
                     'yAxis': {'type': 'value'},
-                    'series': [{'name': 'Bid Price', 'type': 'line', 'data': bidprice},
-                               {'name': 'Ask Price', 'type': 'line', 'data': askprice},
-                               {'name': 'Price', 'type': 'line', 'data': price}]})
+                    'series': [{'name': 'Bid Price', 'type': 'line', 'data': bidprice,'lineStyle': {'color': "#ffffff"},'itemStyle': {'color': "#ffffff"}},
+                               {'name': 'Ask Price', 'type': 'line', 'data': askprice,'lineStyle': {'color': "#000000"},'itemStyle': {'color': "#000000"}},
+                               {'name': 'Price', 'type': 'line', 'data': price,'lineStyle': {'color': "#c4a466"},'itemStyle': {'color': "#c4a466"}}]})
 echart.style("width: 1500px; height: 600px;")
 
 def update():
@@ -48,7 +48,14 @@ def update():
 
     echart.update()
 
-ui.timer(0.1, lambda: update())
+
+def check_update():
+    if [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1] != price[-1]:
+        ui.timer(0.1, lambda: update())
+    else:
+        return
+ui.timer(0.1, lambda: check_update())
+
 
 # Start the NiceGUI server
 # Run NiceGUI on a different port

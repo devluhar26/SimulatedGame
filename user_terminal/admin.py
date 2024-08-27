@@ -1,23 +1,13 @@
-import multiprocessing
 import os
 import sqlite3
-import sys
-import threading
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import subprocess
 
-from streamlit_echarts import st_echarts
-import time
 import matplotlib.pyplot as plt
-import signal
-import altair as alt
-import numpy as np
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
-import read_stock_price
-from streamlit_echarts import st_echarts
 from streamlit_autorefresh import st_autorefresh
-import subprocess
+
 new=open("user_terminal/compiler_location.txt")
 compiler_location=new.readline()
 st.session_state.user=st.session_state.user
@@ -92,21 +82,18 @@ name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHE
 stock = st.selectbox("Select which stock you would like to use the strategy on", name)
 nicegui_url = "http://localhost:808"+str(name.index(stock))
 components.iframe(nicegui_url, height=600, scrolling=False)
-name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-
-
 #
-data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-      "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-      "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-      "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
-try:
-    chart_data = pd.DataFrame( data)
-    chart_data.set_index('time', inplace=True)
-    st.line_chart(chart_data, height=570,use_container_width=True,color="#c4a466")
-
-except:
-    st.warning("Loading....")
+# data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+#       "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+#       "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+#       "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
+# try:
+#     chart_data = pd.DataFrame( data)
+#     chart_data.set_index('time', inplace=True)
+#     st.line_chart(chart_data, height=570,use_container_width=True,color=["#ffffff","#000000","#c4a466"])
+#
+# except:
+#     st.warning("Loading....")
 row1col1,row1col2 = st.columns([3,2])
 def tuple_to_array(tuple):
     array=[]

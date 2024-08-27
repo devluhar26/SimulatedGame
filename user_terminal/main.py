@@ -89,7 +89,7 @@ def login():
 def logout():
     st.session_state.user = None
     st.rerun()
-st.logo("user_terminal/358697876_602357745373456_4818997367768002962_n.png",)
+st.logo(image="user_terminal/358697876_602357745373456_4818997367768002962_n.png")
 
 def main():
     logout_page = st.Page(logout, title="Log out")

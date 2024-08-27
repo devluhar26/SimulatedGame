@@ -106,17 +106,18 @@ def main():
                         time.append([row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()][-1])
 
                         echart.update()
-
-
-
-                    ui.timer(0.1, lambda: update())
+                    def check_update():
+                        if [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()][-1]!=price[-1]:
+                            ui.timer(0.1, lambda: update())
+                        else:
+                            return
                     def update_askbidspread():
                         generate_graph(ax)
                         fig.canvas.draw()
                         plot_container.source = fig.canvas.tostring_rgb()
 
 
-                    ui.timer(2, lambda: update_askbidspread())
+                    ui.timer(0.1, lambda: check_update())
                     ui.timer(0.001, lambda: label.set_text(f'{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}'))
                 with ui.tab_panel(inner_two):
                     ui.label("second page")
