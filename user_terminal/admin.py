@@ -104,7 +104,7 @@ data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").f
 try:
     chart_data = pd.DataFrame( data)
     chart_data.set_index('time', inplace=True)
-    #tile11.line_chart(chart_data, height=570,use_container_width=True)
+    st.line_chart(chart_data, height=570,use_container_width=True,color="#c4a466")
 
 except:
     st.warning("Loading....")
