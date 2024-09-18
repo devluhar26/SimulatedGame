@@ -46,3 +46,7 @@ def last_price_interval(stock, start, end):
 def get_stock_names():
     return [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 
+def open():
+    pass
+def close():
+    pass
