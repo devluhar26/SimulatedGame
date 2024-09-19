@@ -106,10 +106,13 @@ def main():
         "admin.py", title="Admin",
 
     )
+    admin_2 = st.Page(
+        "admin_2.py", title="Level 2 data",
 
+    )
     #st.title("Blackelm")
     if st.session_state.user=="admin" :
-        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]}| {"Tools": [request_1, request_2]})
+        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin,admin_2]}| {"Tools": [request_1, request_2]})
         pg.run()
     else:
         if (st.session_state.user != None) and (st.session_state.user != "admin"):

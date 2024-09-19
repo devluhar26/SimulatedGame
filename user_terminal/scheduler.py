@@ -70,6 +70,7 @@ def order_matching_runner():
 def start_order_matching():
     with ThreadPoolExecutor() as executor:
         while True:
+            executor.map(main(), range(10))
             executor.map(recheck_all(), range(10))
             executor.map(check_incomplete(), range(1))
 

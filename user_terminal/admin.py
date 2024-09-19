@@ -80,20 +80,23 @@ with col4:
 
 name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 stock = st.selectbox("Select which stock you would like to use the strategy on", name)
-nicegui_url = "http://localhost:808"+str(name.index(stock))
-components.iframe(nicegui_url, height=600, scrolling=False)
+# nicegui_url = "http://localhost:808"+str(name.index(stock))
+# components.iframe(nicegui_url, height=600, scrolling=False)
 #
-# data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-#       "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-#       "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-#       "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
-# try:
-#     chart_data = pd.DataFrame( data)
-#     chart_data.set_index('time', inplace=True)
-#     st.line_chart(chart_data, height=570,use_container_width=True,color=["#ffffff","#000000","#c4a466"])
-#
-# except:
-#     st.warning("Loading....")
+try:
+    data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()]}
+
+
+    chart_data = pd.DataFrame( data)
+    chart_data.set_index('time', inplace=True)
+    st.line_chart(chart_data, height=570,use_container_width=True,color=["#ffffff","#000000","#c4a466"])
+
+except:
+    st.spinner(text="In progress...")
+
 row1col1,row1col2 = st.columns([3,2])
 def tuple_to_array(tuple):
     array=[]
@@ -203,12 +206,12 @@ tile22.title("Bid-Ask spread")
 tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
 with tab1:
-    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY ROWID DESC").fetchall())
 
     st.dataframe(df,use_container_width=True, hide_index=True)
 
 with tab2:
-    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY ROWID DESC").fetchall())
 
     st.dataframe(df,use_container_width=True, hide_index=True)
 
