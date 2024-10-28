@@ -82,7 +82,7 @@ name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHE
 stock = st.selectbox("Select which stock you would like to use the strategy on", name)
 # nicegui_url = "http://localhost:808"+str(name.index(stock))
 # components.iframe(nicegui_url, height=600, scrolling=False)
-#
+
 try:
     data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
           "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
@@ -95,7 +95,8 @@ try:
     st.line_chart(chart_data, height=570,use_container_width=True,color=["#ffffff","#000000","#c4a466"])
 
 except:
-    st.spinner(text="In progress...")
+    space_fill=st.container(height=570)
+    space_fill.title("Loading...")
 
 row1col1,row1col2 = st.columns([3,2])
 def tuple_to_array(tuple):
@@ -119,7 +120,7 @@ def tuple_to_array_str(tuple):
 
 
 with row1col1:
-    tile11 = row1col1.container(height=700)
+    tile11 = row1col1.container(height=750)
 
     table_names = [row[0] for row in
                    curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
@@ -155,6 +156,7 @@ with row1col1:
         ax.set_ylabel('Volume')
         ax.set_title(f'Bid-Ask Spread for {selected_stock}')
         ax.legend()
+
         ax.grid(True)
 
         # Display the plot in Streamlit
@@ -179,7 +181,7 @@ with row1col1:
         st.warning("Loading....")
 
 with row1col2:
-    tile12 = row1col2.container(height=700)
+    tile12 = row1col2.container(height=750)
     tile12.title("12 view strategy")
 
     tile12.write()

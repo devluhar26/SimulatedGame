@@ -89,7 +89,7 @@ def login():
 def logout():
     st.session_state.user = None
     st.rerun()
-st.logo(image="user_terminal/358697876_602357745373456_4818997367768002962_n.png")
+st.logo(image="user_terminal/blackelm_logo.png", size="large")
 
 def main():
     logout_page = st.Page(logout, title="Log out")
@@ -112,7 +112,7 @@ def main():
     )
     #st.title("Blackelm")
     if st.session_state.user=="admin" :
-        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin,admin_2]}| {"Tools": [request_1, request_2]})
+        pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]}| {"Tools": [request_1, request_2]})
         pg.run()
     else:
         if (st.session_state.user != None) and (st.session_state.user != "admin"):

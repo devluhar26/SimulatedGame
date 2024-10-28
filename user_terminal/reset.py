@@ -61,33 +61,33 @@ for user in [row[0] for row in curs_credentials.execute("SELECT username From Cr
             curs_user.execute(
                 "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
                 ("AAPL", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("AMZN", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("BABA", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("FB", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("GOOGL", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("MSFT", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("NFLX", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("NVDA", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("ORCL", 1000, 1, "long"))
-            curs_user.execute(
-                "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
-                ("TSLA", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("AMZN", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("BABA", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("FB", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("GOOGL", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("MSFT", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("NFLX", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("NVDA", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("ORCL", 1000, 1, "long"))
+            # curs_user.execute(
+            #     "INSERT INTO  portfolio (stock,quantity,initial_price_per_share,long_or_short) VALUES (?,?,?,?)",
+            #     ("TSLA", 1000, 1, "long"))
 
         conn_user.commit()
         conn_user.close()
