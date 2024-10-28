@@ -1,5 +1,7 @@
 import sqlite3
 import os.path
+import subprocess
+
 from github import Github
 import glob
 import shutil
@@ -87,6 +89,7 @@ def login():
 def logout():
     st.session_state.user = None
     st.rerun()
+st.logo(image="user_terminal/blackelm_logo.png", size="large")
 
 def main():
     logout_page = st.Page(logout, title="Log out")
@@ -103,7 +106,11 @@ def main():
         "admin.py", title="Admin",
 
     )
-    st.title("Blackelm")
+    admin_2 = st.Page(
+        "admin_2.py", title="Level 2 data",
+
+    )
+    #st.title("Blackelm")
     if st.session_state.user=="admin" :
         pg = st.navigation( {"Account": [logout_page]} |{"Admin": [admin]}| {"Tools": [request_1, request_2]})
         pg.run()
@@ -117,6 +124,10 @@ def main():
     while True:
         time.sleep(60)
         st.rerun()
+
 if __name__=="__main__":
     main()
+
+
+
 #

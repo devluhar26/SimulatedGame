@@ -10,7 +10,6 @@ connect_exchange = sqlite3.connect( "user_terminal/exchange.db",check_same_threa
 curs_exchange = connect_exchange.cursor()
 connect_exchange.execute('PRAGMA journal_mode=WAL;')
 
-
 def check_funds(username,buy_sell,pps,quantity):
     if buy_sell=="buy":
         conn_buyer = sqlite3.connect("user_terminal/"+username+"/"+username+".db",check_same_thread=False)
@@ -41,14 +40,15 @@ def check_stock(username,buy_sell,stock,quantity):
     #except:
      #   pass
 
-def execute_order(username,buy_sell,pps,quantity,stock):
+def execute_order(username,buy_sell,pps,quantity,stock,key):
     #if check_funds(username,buy_sell,pps,quantity)==True:
     #    if check_stock(username, buy_sell, stock, quantity) == True:
 
             ordernum=int(open("user_terminal/ordernum.txt","r").readline())
-            print("current user:",[buy_sell,username,pps,quantity,stock])
+            ordernum_new=str(key)+str(ordernum)
+            #print("current user:",[buy_sell,username,pps,quantity,stock])
             curs_exchange.execute("INSERT INTO  active_orders (order_number,buy_or_sell, username, ask_bid_price_per_share,quantity, stock, time_of_execution) VALUES (?,?,?,?,?,?,?)",
-                                     (ordernum,buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
+                                     (str(ordernum_new),buy_sell,username,pps,quantity, stock ,time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())))
 
             connect_exchange.commit()
             new = open("user_terminal/ordernum.txt", "w")

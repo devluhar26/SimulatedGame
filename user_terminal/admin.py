@@ -1,21 +1,18 @@
 import os
 import sqlite3
-import sys
+import subprocess
 
 import matplotlib.pyplot as plt
-import signal
-import altair as alt
-import numpy as np
 import pandas as pd
 import streamlit as st
-import read_stock_price
+import streamlit.components.v1 as components
 from streamlit_autorefresh import st_autorefresh
-import subprocess
+
 new=open("user_terminal/compiler_location.txt")
 compiler_location=new.readline()
 st.session_state.user=st.session_state.user
 
-st_autorefresh(1)
+st_autorefresh()
 
 connect_stock = sqlite3.connect("user_terminal/stock_prices.db",check_same_thread=False)
 curs_stock = connect_stock.cursor()
@@ -39,6 +36,7 @@ def start_market():
         # Start the process and store the handle in session state
         st.session_state.process_handle = subprocess.Popen([compiler_location, "user_terminal/scheduler.py"])
         st.write("Market started.")
+
     else:
         st.write("Market is already running.")
 
@@ -52,7 +50,7 @@ def stop_market():
     else:
         st.write("Market is not running.")
 
-tile4 = st.container(height=180)
+tile4 = st.container(height=220)
 tile4.title("Macro event")
 start, stop ,reset= tile4.columns([1, 1,1])
 with start:
@@ -79,8 +77,28 @@ with col3:
 with col4:
     if st.button("macro 4",use_container_width=True):
         pass
+
+name = [row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+stock = st.selectbox("Select which stock you would like to use the strategy on", name)
+# nicegui_url = "http://localhost:808"+str(name.index(stock))
+# components.iframe(nicegui_url, height=600, scrolling=False)
+
+try:
+    data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
+          "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()]}
+
+
+    chart_data = pd.DataFrame( data)
+    chart_data.set_index('time', inplace=True)
+    st.line_chart(chart_data, height=570,use_container_width=True,color=["#ffffff","#000000","#c4a466"])
+
+except:
+    space_fill=st.container(height=570)
+    space_fill.title("Loading...")
+
 row1col1,row1col2 = st.columns([3,2])
-row2col1,row2col2 = st.columns([2,3])
 def tuple_to_array(tuple):
     array=[]
     for data in  tuple:
@@ -98,52 +116,17 @@ def tuple_to_array_str(tuple):
         array.append( temp )  #3D array
 
     return array
+
+
+
 with row1col1:
-    tile11 = row1col1.container(height=700)
-    tile11.title("11 view stock")
-    name=[row[0] for row in curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
-    stock = tile11.selectbox("Select which stock you would like to use the strategy on",name)
-
-
-    #
-    data={"bid": [row[0] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "ask":[row[1] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "last trade price":[row[2] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],
-          "time":[row[3] for row in curs_stock.execute(f"SELECT * FROM [{stock}]").fetchall()],}
-    try:
-        chart_data = pd.DataFrame( data)
-        chart_data.set_index('time', inplace=True)
-        tile11.line_chart(chart_data, height=570,use_container_width=True)
-    except:
-        tile11.warning("Loading....")
-
-with row1col2:
-    tile12 = row1col2.container(height=700)
-    tile12.title("12 view strategy")
-
-    tile12.write()
-    strat=[]
-    for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
-        try:
-            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
-            curs_user = conn_user.cursor()
-            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
-                x.insert(0,user)
-                strat.append(x)
-        except:
-            tile12.warning("Loading....")
-    df = pd.DataFrame(strat)
-    tile12.dataframe(df, use_container_width=True )
-
-with row2col1:
-    tile21 = row2col1.container(height=700)
-    tile21.title("21 add macro event")
+    tile11 = row1col1.container(height=750)
 
     table_names = [row[0] for row in
                    curs_stock.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
 
     # User selects the stock table
-    selected_stock = tile21.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
+    selected_stock = tile11.selectbox("Select which stock you would like to use the strategy on", table_names, key="50")
 
     # Fetch data for each column
     try:
@@ -156,8 +139,7 @@ with row2col1:
         ask_volumes = [row[4] for row in curs_exchange.execute(
             f"SELECT * FROM active_orders WHERE stock='{selected_stock}' AND buy_or_sell='sell' ORDER BY ask_bid_price_per_share ASC").fetchall()]
     except sqlite3.Error as e:
-        tile21.warning("Loading....")
-
+        tile11.warning("Loading....")
     # Sorting and preparing the data is now handled by the SQL queries
     try:
         # Plotting the data
@@ -174,78 +156,66 @@ with row2col1:
         ax.set_ylabel('Volume')
         ax.set_title(f'Bid-Ask Spread for {selected_stock}')
         ax.legend()
+
         ax.grid(True)
 
         # Display the plot in Streamlit
-        tile21.pyplot(fig)
+        tile11.pyplot(fig)
+
     except:
-        tile21.warning("Loading....")
-try:
-    buy_volume = curs_exchange.execute(
-        "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='buy'"
-    ).fetchone()[0] or 0
+        tile11.warning("Loading....")
+    try:
+        buy_volume = curs_exchange.execute(
+            "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='buy'"
+        ).fetchone()[0] or 0
 
-    sell_volume = curs_exchange.execute(
-        "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='sell'"
-    ).fetchone()[0] or 0
+        sell_volume = curs_exchange.execute(
+            "SELECT SUM(quantity) FROM active_orders WHERE buy_or_sell='sell'"
+        ).fetchone()[0] or 0
 
-    total_volume = buy_volume + sell_volume
-    buy_percentage = (buy_volume / total_volume) * 100 if total_volume != 0 else 0
-    sell_percentage = (sell_volume / total_volume) * 100 if total_volume != 0 else 0
+        total_volume = buy_volume + sell_volume
+        buy_percentage = (buy_volume / total_volume) * 100 if total_volume != 0 else 0
+        sell_percentage = (sell_volume / total_volume) * 100 if total_volume != 0 else 0
+        tile11.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
+    except sqlite3.Error as e:
+        st.warning("Loading....")
 
-    ratio_data = pd.DataFrame({
-        'Type': ['Buy Volume', 'Sell Volume'],
-        'Percentage': [buy_percentage, sell_percentage]
-    })
+with row1col2:
+    tile12 = row1col2.container(height=750)
+    tile12.title("12 view strategy")
 
-    # Create a base chart for buyers
-    buy_bar = alt.Chart(ratio_data[ratio_data['Type'] == 'Buy Volume']).mark_bar().encode(
-        x=alt.X('Percentage:Q', axis=None, scale=alt.Scale(domain=[0, 100])),
-        y=alt.value(1),
-        color=alt.value('#32CD32')
-    ).properties(
-        height=50,
-        width=500
-    )
-
-    # Create a base chart for sellers
-    sell_bar = alt.Chart(ratio_data[ratio_data['Type'] == 'Sell Volume']).mark_bar().encode(
-        x=alt.X('Percentage:Q', axis=None, scale=alt.Scale(domain=[0, 100])),
-        y=alt.value(1),
-        color=alt.value('#FF6347')
-    ).properties(
-        height=50,
-        width=500
-    )
-
-    # Position the sell bar to the right
-    sell_bar = sell_bar.transform_calculate(
-        Percentage='-datum.Percentage'
-    ).encode(
-        x=alt.X('Percentage:Q', axis=None, scale=alt.Scale(domain=[-100, 0]))
-    )
-
-    # Combine the charts
-    combined_chart = alt.layer(buy_bar, sell_bar).resolve_scale(x='shared')
+    tile12.write()
+    strat=[]
+    for user in [row[0] for row in curs_credentials.execute("SELECT username From Credentials").fetchall()]:
+        try:
+            conn_user=sqlite3.connect("user_terminal/"+user+"/"+user+".db")
+            curs_user = conn_user.cursor()
+            for x in (tuple_to_array_str(curs_user.execute("SELECT * from strategy").fetchall())):
+                x.insert(0,user)
+                strat.append(x)
+        except:
+            tile12.warning("Loading....")
+    df = pd.DataFrame(strat)
+    tile12.dataframe(df, use_container_width=True )
 
 
-    st.altair_chart(combined_chart , use_container_width=True)
 
-    st.write(f"Buyers to Sellers Ratio: {buy_volume / sell_volume if sell_volume != 0 else float('inf'):.10f}")
-except sqlite3.Error as e:
-    tile21.warning("Loading....")
 
-with row2col2:
-    tile22 = row2col2.container(height=710)
-    tile22.title("Bid-Ask spread")
-    tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
-    with tab1:
-        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY order_number DESC").fetchall())
 
-        st.dataframe(df,use_container_width=True, hide_index=True)
+tile22 = st.container(height=710)
+tile22.title("Bid-Ask spread")
+tab1, tab2 = tile22.tabs(["active orders", "past orders"])
 
-    with tab2:
-        df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY reciept_number DESC").fetchall())
+with tab1:
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM active_orders ORDER BY ROWID DESC").fetchall())
 
-        st.dataframe(df,use_container_width=True, hide_index=True)
+    st.dataframe(df,use_container_width=True, hide_index=True)
+
+with tab2:
+    df = pd.DataFrame(curs_exchange.execute("SELECT * FROM past_orders ORDER BY ROWID DESC").fetchall())
+
+    st.dataframe(df,use_container_width=True, hide_index=True)
+
+# URL where NiceGUI is hosted
+

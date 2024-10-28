@@ -4,6 +4,8 @@ import threading
 import time
 import sqlite3
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
+
 from order_matching_algorithm import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -46,7 +48,6 @@ def run_bot_script():
                     pass
         for file_path in all_locations:
             file_path_2 = os.path.join(BASE_DIR, file_path[14:])
-
             subprocess.run([compiler_location, file_path_2])
 
         # Simulate staggered start
@@ -58,21 +59,22 @@ def order_matching_runner():
         #print("rechecking")
         process1 = multiprocessing.Process(target=recheck_all())
         process1.start()
-        process2 = multiprocessing.Process(target=check_incomplete())
+        process2 = multiprocessing.Process(target=recheck_all())
         process2.start()
+        process3 = multiprocessing.Process(target=recheck_all())
+        process3.start()
+        # process2 = multiprocessing.Process(target=check_incomplete())
+        # process2.start()
         #time.sleep(1)
 
 def start_order_matching():
-    threading.Thread(target=order_matching_runner, daemon=True).start()
+    with ThreadPoolExecutor() as executor:
+        while True:
+            executor.map(main(), range(10))
+            executor.map(recheck_all(), range(10))
+            executor.map(check_incomplete(), range(1))
 
-def recheck_incomplete():
-    while True:
-        print("rechecking")
-        process1 = multiprocessing.Process(target=check_incomplete())
-        process1.start()
-
-def start_recheck_incomplete():
-    threading.Thread(target=recheck_incomplete, daemon=True).start()
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":
@@ -82,7 +84,6 @@ if __name__ == "__main__":
 
     start_order_matching()
 
-    #start_recheck_incomplete()
     # Start the bot scripts
 
     # Keep the main thread alive

@@ -37,6 +37,7 @@ section div.block-container {
 }  
 
 </style>'''
+
 st.markdown(html_style_string, unsafe_allow_html=True)
 st_autorefresh()
 def tuple_to_array_str(tuple):
@@ -58,14 +59,15 @@ with tab1:
     # row1=[row[0] for row in curs_stock.execute(f"SELECT ask FROM [{stock}]").fetchall()]
     row2 = [row[0] for row in curs_stock.execute(f"SELECT last_trade_price FROM [{stock}]").fetchall()]
     row3 = [row[0] for row in curs_stock.execute(f"SELECT time FROM [{stock}]").fetchall()]
-    # "bid": row0,"ask":row1,
-    data = {"last trade price": row2, "time": row3}
+
     try:
+        data = {"last trade price": row2, "time": row3}
         chart_data = pd.DataFrame(data)
         chart_data.set_index('time', inplace=True)
-        st.line_chart(chart_data, use_container_width=True)
+        st.line_chart(chart_data, use_container_width=True,color="#c4a466")
     except:
-        st.warning("Loading....")
+         st.warning("Loading....")
+
     col1, col2 = st.columns([2, 2])
     tile4 = st.container(height=490)
     tile4.title("Current portfolio")
