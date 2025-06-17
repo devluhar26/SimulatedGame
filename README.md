@@ -15,13 +15,13 @@ Originally developed as a tool for **recruitment**, **strategy testing**, and **
 ## 🔑 Key Features
 
 - **True Market Mechanics**  
-  Price discovery is driven by order flow and liquidity interaction—no random walk models.
+  Price discovery is driven by order flow and liquidity interaction, no random walk models.
 
 - **Simulated Market Participants**  
-  Bots act as institutional investors, market makers, and retail traders—each with unique behaviors and timing.
+  Bots act as institutional investors, market makers, and retail traders, each with unique behaviors and timing.
 
 - **FIX Protocol Integration**  
-  Supports FIX messaging for orders, execution reports, and more—just like a real-world electronic exchange.
+  Supports FIX messaging for orders, execution reports, and more, just like a real-world electronic exchange.
 
 - **Open API for Strategy Deployment**  
   Plug in your own Python strategies or connect external platforms for testing and analytics.
