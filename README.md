@@ -50,4 +50,4 @@ cd SimulatedGame
 pip install -r requirements.txt
 
 # Start the server
-python run_exchange.py
+python main.py
